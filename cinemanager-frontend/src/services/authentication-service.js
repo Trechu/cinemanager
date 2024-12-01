@@ -1,11 +1,10 @@
 import axios from "axios";
 
-const AUTHENTICATION_API = "";
+const AUTHENTICATION_API = " http://localhost:8080/api/";
 
 export function login(email, password){
-    return axios.post(AUTHENTICATION_API + "login", {
-        email,
-        password
+    return axios.post(AUTHENTICATION_API + "token", {
+        Authorization: "Basic " + base64(email + ":" + password)
     })
     .then(res => {
         if (res.data.accessToken) {
