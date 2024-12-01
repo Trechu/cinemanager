@@ -1,0 +1,8 @@
+2024-12-01 15:23:55.427153+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "[*]USERS"; oczekiwano "UPDATE"
+Syntax error in SQL statement "[*]USERS"; expected "UPDATE"; SQL statement:
+USERS [42001-232]
+2024-12-01 15:24:01.619855+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "[*]USERS CINEMA_ROOMS"; oczekiwano "UPDATE"
+Syntax error in SQL statement "[*]USERS CINEMA_ROOMS"; expected "UPDATE"; SQL statement:
+USERS CINEMA_ROOMS [42001-232]

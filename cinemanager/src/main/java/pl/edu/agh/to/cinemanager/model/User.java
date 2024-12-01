@@ -2,6 +2,9 @@ package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name="users")
 public class User {
@@ -10,14 +13,22 @@ public class User {
     @GeneratedValue
     private long id;
 
+    @Column(length = 64)
     private String firstName;
+    @Column(length = 64)
     private String lastName;
-
+    @Column(length = 128)
     private String email;
+    @Column(length = 256)
     private String password;
-
+    @Column(length = 32)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Review> reviewSet = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Ticket> ticketSet = new HashSet<>();
 
     public User() {}
 
@@ -71,5 +82,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Set<Review> getReviewSet() {
+        return reviewSet;
+    }
+
+    public Set<Ticket> getTicketSet() {
+        return ticketSet;
     }
 }
