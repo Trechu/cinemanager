@@ -7,7 +7,7 @@ import pl.edu.agh.to.cinemanager.service.GenreService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "genres")
+@RequestMapping(path = "api/genres")
 public class GenreController {
 
     private final GenreService genreService;

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("api")
+@RequestMapping("api/users")
 public class UserController {
 
     private final UserService userService;
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @GetMapping("/users")
+    @GetMapping("")
     public List<User> getAllUsers() {
         return userService.getUsers();
     }

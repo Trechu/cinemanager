@@ -7,7 +7,7 @@ import pl.edu.agh.to.cinemanager.service.ReviewService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "reviews")
+@RequestMapping(path = "api/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;

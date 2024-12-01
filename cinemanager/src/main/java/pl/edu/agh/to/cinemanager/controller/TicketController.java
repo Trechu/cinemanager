@@ -7,7 +7,7 @@ import pl.edu.agh.to.cinemanager.service.TicketService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "tickets")
+@RequestMapping(path = "api/tickets")
 public class TicketController {
 
     private final TicketService ticketService;
