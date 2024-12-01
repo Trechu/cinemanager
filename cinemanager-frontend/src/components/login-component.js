@@ -2,10 +2,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import { login } from "../services/authentication-service";
+import { getCurrentUser, login } from "../services/authentication-service";
 
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 
 const required = value => {
@@ -50,7 +49,7 @@ export default function Login() {
         if (checkBtn.context._errors.length === 0) {
             login(email, password).then(
                 () => {
-                    alert("Zalogowano.")
+                    alert("Zalogowano.");
                     window.location.reload();
                 },
                 error => {
@@ -61,10 +60,11 @@ export default function Login() {
     }
 
     return (
-        <div className="col-md-12">
+        ( !getCurrentUser() ? 
+        (<div className="col-md-12">
             <div className="card card-container">
                 <img
-                    style={{ "align-self": "center" }}
+                    style={{ "alignSelf": "center" }}
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                     alt="profile-img"
                     className="profile-img-card"
@@ -117,6 +117,10 @@ export default function Login() {
                     />
                 </Form>
             </div>
-        </div>
+        </div>)
+        : (<div>
+            Jesteś już zalogowany
+        </div>)
+        )
     );
 }

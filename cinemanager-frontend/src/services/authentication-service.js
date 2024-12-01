@@ -9,7 +9,7 @@ export function login(email, password){
     
         }
     }).then(res => {
-        if (res.data.accessToken) {
+        if (res.data) {
             // SAVE USER INFO TO LOCALSTORAGE FIELD
             localStorage.setItem("user", JSON.stringify(res.data));
         }

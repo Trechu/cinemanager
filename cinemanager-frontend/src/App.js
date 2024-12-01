@@ -1,24 +1,43 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/login-component";
+import { logout } from "./services/authentication-service";
 import { Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 
+function userHasRole(user){
+  return user.scope === "ROLE_ADMINISTRATOR";
+}
+
 function App() {
 
   const user = getCurrentUser();
-  const [currentUser, setCurrentUser] = useState();
-  let showEmployeeOption = false;
-  let showManagerOption = false;
-  let showAdminOption = false;
+  const [currentUser, setCurrentUser] = useState( user ? JSON.parse(atob(user.split('.')[1])) : null);
 
-  if (user) {
-    setCurrentUser(user);
-    showEmployeeOption = user.roles.includes("EMPLOYEE");
-    showManagerOption = user.roles.includes("MANAGER");
-    showAdminOption = user.roles.includes("ADMINISTRATOR");
+  const userHasRole = role => {
+    switch(role){
+      case "ADMIN":
+        if (currentUser.scope == "ROLE_ADMINISTRATOR"){
+          return true;
+        }
+        break;
+      case "MANAGER":
+        if (currentUser.scope == "ROLE_MANAGER" || currentUser.scope == "ROLE_ADMINISTRATOR"){
+          return true;
+        }
+        break;
+      case "EMPLOYEE":
+        if (currentUser.scope == "ROLE_EMPLOYEE" || currentUser.scope == "ROLE_ADMINISTRATOR" || currentUser.scope == "ROLE_MANAGER" ){
+          return true;
+        }
+        break;
+      default:
+        return true;
+    }
+    return false;
   }
+
 
   return (
     <div>
@@ -33,24 +52,24 @@ function App() {
             </Link>
           </li>
 
-          {(showEmployeeOption || showAdminOption || showManagerOption) && (
+          {currentUser && userHasRole("EMPLOYEE") && (
             <li className="nav-item">
               <Link to={"/employee"} className="nav-link">
-                Moderator Board
+                Employee Board
               </Link>
             </li>
           )}
 
 
-          {(showManagerOption || showAdminOption) && (
+          {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
               <Link to={"/manager"} className="nav-link">
-                Moderator Board
+                Manager Board
               </Link>
             </li>
           )}
 
-          {showAdminOption && (
+          {currentUser && userHasRole("ADMIN") && (
             <li className="nav-item">
               <Link to={"/admin"} className="nav-link">
                 Admin Board
@@ -71,11 +90,11 @@ function App() {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
+                {currentUser.sub}
               </Link>
             </li>
             <li className="nav-item">
-              <a href="/login" className="nav-link" onClick={this.logOut}>
+              <a href="/login" className="nav-link" onClick={logout}>
                 LogOut
               </a>
             </li>

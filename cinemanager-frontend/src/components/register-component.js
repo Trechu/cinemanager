@@ -2,7 +2,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import { register } from "../services/authentication-service";
+import { getCurrentUser, register } from "../services/authentication-service";
 
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
@@ -70,10 +70,11 @@ export default function Register() {
     }
 
     return (
-        <div className="col-md-12">
+        ( !getCurrentUser() ? 
+        (<div className="col-md-12">
             <div className="card card-container">
                 <img
-                    style={{ "align-self": "center" }}
+                    style={{ "alignSelf": "center" }}
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                     alt="profile-img"
                     className="profile-img-card"
@@ -150,6 +151,8 @@ export default function Register() {
                     />
                 </Form>
             </div>
-        </div>
+        </div>)
+        :
+        (<div>Jesteś już zalogowany</div>))
     );
 }
