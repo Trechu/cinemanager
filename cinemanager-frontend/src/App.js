@@ -3,6 +3,7 @@ import Login from "./components/login-component";
 import { Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 import { getCurrentUser } from "./services/authentication-service";
+import Register from "./components/register-component";
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
             </Link>
           </li>
 
-          {(showEmployeeOption || showAdminOption) && (
+          {(showEmployeeOption || showAdminOption || showManagerOption) && (
             <li className="nav-item">
               <Link to={"/employee"} className="nav-link">
                 Moderator Board
@@ -98,6 +99,7 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </div>

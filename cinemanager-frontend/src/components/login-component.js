@@ -6,18 +6,29 @@ import { login } from "../services/authentication-service";
 
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import isEmail from "validator/lib/isEmail";
 
 const required = value => {
-    if(!value){
+    if (!value) {
         return (
             <div className="alert alert-danger" role="alert">
-              This field is required!
+                To pole jest wymagane
             </div>
-          );
+        );
     }
 }
 
-export default function Login(){
+const email_valid = value => {
+    if (!isEmail(value)) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Podany email jest nieprawidłowy
+            </div>
+        );
+    }
+}
+
+export default function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,15 +41,16 @@ export default function Login(){
     function onChangePassword(e) {
         setPassword(e.target.value);
     }
-    function handleLogin(e){
+
+    function handleLogin(e) {
         e.preventDefault();
 
         form.validateAll();
 
-        if(checkBtn.context._errors.length === 0){
+        if (checkBtn.context._errors.length === 0) {
             login(email, password).then(
                 () => {
-                    Navigate("/successfullLogin")
+                    Navigate("/home")
                     window.location.reload();
                 },
                 error => {
@@ -50,61 +62,61 @@ export default function Login(){
 
     return (
         <div className="col-md-12">
-          <div className="card card-container">
-            <img
-                style={{"align-self": "center"}}
-                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                alt="profile-img"
-                className="profile-img-card"
-                width="300"
-                height="300"
-            />
-  
-            <Form
-              onSubmit={handleLogin}
-              ref={c => {
-                setForm(c);
-              }}
-            >
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={onChangeEmail}
-                  validations={[required]}
+            <div className="card card-container">
+                <img
+                    style={{ "align-self": "center" }}
+                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    alt="profile-img"
+                    className="profile-img-card"
+                    width="300"
+                    height="300"
                 />
-              </div>
-  
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <Input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={onChangePassword}
-                  validations={[required]}
-                />
-              </div>
-  
-              <div className="form-group">
-                <button
-                  className="btn btn-primary btn-block"
+
+                <Form
+                    onSubmit={handleLogin}
+                    ref={c => {
+                        setForm(c);
+                    }}
                 >
-                  <span>Login</span>
-                </button>
-              </div>
-              <CheckButton
-                style={{ display: "none" }}
-                ref={c => {
-                    setCheckBtn(c)
-                }}
-              />
-            </Form>
-          </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <Input
+                            type="text"
+                            className="form-control"
+                            name="email"
+                            value={email}
+                            onChange={onChangeEmail}
+                            validations={[required, email_valid]}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Hasło</label>
+                        <Input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            value={password}
+                            onChange={onChangePassword}
+                            validations={[required]}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                        >
+                            <span>Zaloguj</span>
+                        </button>
+                    </div>
+                    <CheckButton
+                        style={{ display: "none" }}
+                        ref={c => {
+                            setCheckBtn(c)
+                        }}
+                    />
+                </Form>
+            </div>
         </div>
-      );
+    );
 }
