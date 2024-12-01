@@ -13,8 +13,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.configuration.SecurityConfig;
 import pl.edu.agh.to.cinemanager.dto.RequestUserDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseUserDto;
+import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.service.AuthService;
 import pl.edu.agh.to.cinemanager.service.TokenService;
+import pl.edu.agh.to.cinemanager.service.UserService;
 
 import java.net.URI;
 import java.net.URL;
@@ -26,11 +28,11 @@ public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     private final TokenService tokenService;
-    private final AuthService authService;
+    private final UserService userService;
 
-    public AuthController(TokenService tokenService, AuthService authService) {
+    public AuthController(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
-        this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/token")
@@ -45,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> register(Authentication authentication, @RequestBody RequestUserDto requestUserDto) {
-        ResponseUserDto responseUserDto = authService.registerUser(requestUserDto, authentication);
+        ResponseUserDto responseUserDto = userService.registerUser(requestUserDto, authentication);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
