@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class SecurityUser implements UserDetails {
-    private static final String ROLE_PREFIX = "ROLE_";
+    public static final String ROLE_PREFIX = "ROLE_";
     private User user;
 
     public SecurityUser(User user) {

@@ -17,7 +17,7 @@ public class User {
     private String firstName;
     @Column(length = 64)
     private String lastName;
-    @Column(length = 128)
+    @Column(length = 128, unique = true)
     private String email;
     @Column(length = 256)
     private String password;
