@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const AUTHENTICATION_API = " http://localhost:8080/api/";
+const API_URL = " http://localhost:8080/api/";
 
 export function login(email, password){
-    return axios.post(AUTHENTICATION_API + "token", {}, {
+    return axios.post(API_URL + "token", {}, {
         headers: {
             Authorization: "Basic " + btoa(email + ":" + password)
     
@@ -22,12 +22,23 @@ export function logout(){
 }
 
 export function register(email, firstName, lastName, password){
-    return axios.post(AUTHENTICATION_API + "register", {
-        email,
-        firstName,
-        lastName,
-        password
-    });
+    return axios.post(API_URL + "register", {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        role: "CUSTOMER"
+    },
+    {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("user")
+    
+        }
+    }).then(res => {
+        console.log(res)
+    }).catch(error => {
+        console.log(error)
+    })
 }
 
 export function getCurrentUser(){

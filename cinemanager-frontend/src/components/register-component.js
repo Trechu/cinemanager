@@ -59,7 +59,6 @@ export default function Register() {
             register(email, firstName, lastName, password).then(
                 () => {
                     alert("Rejestracja powiodła się");
-                    Navigate("/login")
                     window.location.reload();
                 },
                 error => {
