@@ -37,7 +37,7 @@ public class UserService {
                 requestUserDto.email(), requestUserDto.password(), requestUserDto.role());
     }
 
-    public ResponseUserDto getResponseUserDto(User user) {
+    public static ResponseUserDto getResponseUserDto(User user) {
         return new ResponseUserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
     }
 

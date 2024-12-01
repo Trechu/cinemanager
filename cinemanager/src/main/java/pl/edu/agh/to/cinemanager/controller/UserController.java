@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.to.cinemanager.dto.ResponseUserDto;
 import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.service.UserService;
 
@@ -20,10 +21,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @GetMapping("")
-    public List<User> getAllUsers() {
-        return userService.getUsers();
+    public List<ResponseUserDto> getAllUsers() {
+        return userService.getUsers().stream().map(UserService::getResponseUserDto).toList();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
