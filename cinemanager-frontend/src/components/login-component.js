@@ -50,7 +50,7 @@ export default function Login() {
         if (checkBtn.context._errors.length === 0) {
             login(email, password).then(
                 () => {
-                    Navigate("/home")
+                    alert("Zalogowano.")
                     window.location.reload();
                 },
                 error => {
