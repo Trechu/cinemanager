@@ -38,3 +38,5 @@ out/
 
 gradlew
 gradlew.bat
+
+*.db
