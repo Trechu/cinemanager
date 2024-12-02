@@ -31,7 +31,7 @@ export function register(email, firstName, lastName, password){
     },
     {
         headers: {
-            Authorization: "Bearer " + localStorage.getItem("user")
+            'Content-Type': 'application/json',
     
         }
     }).then(res => {

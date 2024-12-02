@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.service;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestUserDto;
@@ -19,10 +20,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, AuthService authService) {
+    public UserService(UserRepository userRepository, AuthService authService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.authService = authService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<ResponseUserDto> getUsers() {
@@ -54,6 +57,7 @@ public class UserService {
     public User addUser(RequestUserDto requestUserDto) {
         try {
             User user = getUserFromDto(requestUserDto);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         } catch (Exception e) {
             if (e.getCause().getCause() instanceof ConstraintViolationException) {
@@ -62,6 +66,7 @@ public class UserService {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
             }
         }
+
     }
 
     public ResponseUserDto registerUser(RequestUserDto requestUserDto, Authentication authentication) {
