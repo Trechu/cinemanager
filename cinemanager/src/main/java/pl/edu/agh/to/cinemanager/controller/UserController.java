@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping("")
     public List<ResponseUserDto> getAllUsers() {
         return userService.getUsers().stream().map(UserService::getResponseUserDto).toList();
