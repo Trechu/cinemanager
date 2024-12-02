@@ -84,7 +84,7 @@ public class UserService {
 
     public void deleteUser(User user, Authentication authentication) {
         if (!user.getEmail().equals(authentication.getName())
-                || !authService.hasRole(user.getRole(), authentication.getAuthorities())) {
+                && !authService.hasRole(user.getRole(), authentication.getAuthorities())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 

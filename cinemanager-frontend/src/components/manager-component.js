@@ -3,7 +3,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import { useEffect, useState } from "react";
-import { fetch_users } from "../services/user-service";
+import { delete_user, fetch_users } from "../services/user-service";
 import { getCurrentUser, add_user } from "../services/authentication-service";
 import isEmail from "validator/lib/isEmail";
 
@@ -83,6 +83,16 @@ export default function Manager() {
 
     function handleRemoveUser(e){
         e.preventDefault();
+
+        delete_user(id).then(
+            () => {
+                alert("Usunięcie użytkownika powiodło się");
+                window.location.reload();
+            },
+            error => {
+                alert("Usunięcie użytkownika nie powiodło się");
+            }
+        )
     }
 
     useEffect(() => {
