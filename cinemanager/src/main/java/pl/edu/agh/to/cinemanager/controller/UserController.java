@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,12 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping("")
     public List<ResponseUserDto> getAllUsers() {
-        return userService.getUsers().stream().map(UserService::getResponseUserDto).toList();
+        return userService.getUsers();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseUserDto getUserById(@PathVariable("id") User user, Authentication authentication) {
+        return userService.getUser(user, authentication);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

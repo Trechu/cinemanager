@@ -24,8 +24,17 @@ public class UserService {
         this.authService = authService;
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<ResponseUserDto> getUsers() {
+        return userRepository.findAll().stream().map(UserService::getResponseUserDto).toList();
+    }
+
+    public ResponseUserDto getUser(User user, Authentication authentication) {
+        if (!user.getEmail().equals(authentication.getName())
+                && !authService.hasRole(UserRole.MANAGER, authentication.getAuthorities())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        return getResponseUserDto(user);
     }
 
     public Optional<User> findUserByEmail(String email) {
