@@ -56,7 +56,7 @@ export default function Register() {
         form.validateAll();
 
         if (checkBtn.context._errors.length === 0) {
-            register(email, firstName, lastName, password).then(
+            register(email, firstName, lastName, password, "CUSTOMER").then(
                 () => {
                     alert("Rejestracja powiodła się");
                     window.location.reload();
@@ -126,7 +126,7 @@ export default function Register() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Hasło</label>
                             <Input
                                 type="password"
                                 className="form-control"

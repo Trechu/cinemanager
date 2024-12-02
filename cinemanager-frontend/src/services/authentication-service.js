@@ -21,17 +21,38 @@ export function logout(){
     localStorage.removeItem("user");
 }
 
-export function register(email, firstName, lastName, password){
+export function register(email, firstName, lastName, password, role){
     return axios.post(API_URL + "register", {
         email: email,
         firstName: firstName,
         lastName: lastName,
         password: password,
-        role: "CUSTOMER"
+        role: role
     },
     {
         headers: {
             'Content-Type': 'application/json',
+    
+        }
+    }).then(res => {
+        console.log(res)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+export function add_user(email, firstName, lastName, password, role){
+    return axios.post(API_URL + "register", {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        role: role
+    },
+    {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem("user"))
     
         }
     }).then(res => {
