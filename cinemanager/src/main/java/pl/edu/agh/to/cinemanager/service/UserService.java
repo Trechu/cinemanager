@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.service;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,16 @@ public class UserService {
     }
 
     public User addUser(RequestUserDto requestUserDto) {
-        User user = getUserFromDto(requestUserDto);
-        return userRepository.save(user);
+        try {
+            User user = getUserFromDto(requestUserDto);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            if (e.getCause().getCause() instanceof ConstraintViolationException) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            }
+        }
     }
 
     public ResponseUserDto registerUser(RequestUserDto requestUserDto, Authentication authentication) {

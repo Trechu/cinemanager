@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> register(Authentication authentication, @RequestBody RequestUserDto requestUserDto) {
         ResponseUserDto responseUserDto = userService.registerUser(requestUserDto, authentication);
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .replacePath("/api/users/{id}")

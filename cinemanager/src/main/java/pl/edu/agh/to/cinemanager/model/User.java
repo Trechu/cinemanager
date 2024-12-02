@@ -1,6 +1,8 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,12 +15,16 @@ public class User {
     @GeneratedValue
     private long id;
 
+    @NotBlank
     @Column(length = 64)
     private String firstName;
+    @NotBlank
     @Column(length = 64)
     private String lastName;
+    @Email
     @Column(length = 128, unique = true)
     private String email;
+    @NotBlank
     @Column(length = 256)
     private String password;
     @Column(length = 32)
