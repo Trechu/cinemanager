@@ -2,7 +2,7 @@
 
 ## Model bazodanowy
 ### Schemat
-![](./img/Database.png)
+![](./img/Database2.png)
 
 ### Tabele
 - `Users` - dane o użytkownikach
