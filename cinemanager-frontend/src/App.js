@@ -1,0 +1,130 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import Login from "./components/login-component";
+import { logout } from "./services/authentication-service";
+import { Routes, Route, Link } from "react-router-dom";
+import { useState } from "react";
+import { getCurrentUser } from "./services/authentication-service";
+import Register from "./components/register-component";
+import Manager from "./components/manager-component";
+
+function userHasRole(user){
+  return user.scope === "ROLE_ADMINISTRATOR";
+}
+
+function App() {
+
+  const user = getCurrentUser();
+  const [currentUser, setCurrentUser] = useState( user ? JSON.parse(atob(user.split('.')[1])) : null);
+
+  const userHasRole = role => {
+    switch(role){
+      case "ADMIN":
+        if (currentUser.scope == "ROLE_ADMINISTRATOR"){
+          return true;
+        }
+        break;
+      case "MANAGER":
+        if (currentUser.scope == "ROLE_MANAGER" || currentUser.scope == "ROLE_ADMINISTRATOR"){
+          return true;
+        }
+        break;
+      case "EMPLOYEE":
+        if (currentUser.scope == "ROLE_EMPLOYEE" || currentUser.scope == "ROLE_ADMINISTRATOR" || currentUser.scope == "ROLE_MANAGER" ){
+          return true;
+        }
+        break;
+      default:
+        return true;
+    }
+    return false;
+  }
+
+
+  return (
+    <div>
+      <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <Link to={"/"} className="navbar-brand">
+          CineManager
+        </Link>
+        <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/home"} className="nav-link">
+              Home
+            </Link>
+          </li>
+
+          {currentUser && userHasRole("EMPLOYEE") && (
+            <li className="nav-item">
+              <Link to={"/employee"} className="nav-link">
+                Employee Board
+              </Link>
+            </li>
+          )}
+
+
+          {currentUser && userHasRole("MANAGER") && (
+            <li className="nav-item">
+              <Link to={"/manager"} className="nav-link">
+                Manager Board
+              </Link>
+            </li>
+          )}
+
+          {currentUser && userHasRole("ADMIN") && (
+            <li className="nav-item">
+              <Link to={"/admin"} className="nav-link">
+                Admin Board
+              </Link>
+            </li>
+          )}
+
+          {currentUser && (
+            <li className="nav-item">
+              <Link to={"/user"} className="nav-link">
+                User
+              </Link>
+            </li>
+          )}
+        </div>
+
+        {currentUser ? (
+          <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to={"/profile"} className="nav-link">
+                {currentUser.sub}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <a href="/login" className="nav-link" onClick={logout}>
+                LogOut
+              </a>
+            </li>
+          </div>
+        ) : (
+          <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to={"/login"} className="nav-link">
+                Login
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to={"/register"} className="nav-link">
+                Sign Up
+              </Link>
+            </li>
+          </div>
+        )}
+      </nav>
+      <div className="container mt-3">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/manager" element={<Manager />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
+export default App;
