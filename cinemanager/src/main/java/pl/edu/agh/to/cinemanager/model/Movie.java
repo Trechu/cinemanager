@@ -93,4 +93,8 @@ public class Movie {
     public Set<Review> getReviewSet() {
         return reviewSet;
     }
+
+    public void addReview(Review review) {
+        reviewSet.add(review);
+    }
 }

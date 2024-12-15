@@ -7,7 +7,7 @@ import pl.edu.agh.to.cinemanager.service.CinemaRoomService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "api/cinemaRooms")
+@RequestMapping(path = "api/cinema-rooms")
 public class CinemaRoomController {
 
     private final CinemaRoomService cinemaRoomService;

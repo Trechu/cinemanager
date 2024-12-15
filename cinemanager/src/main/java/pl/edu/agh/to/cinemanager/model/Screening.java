@@ -18,13 +18,16 @@ public class Screening {
     private Movie movie;
     @ManyToOne
     private CinemaRoom cinemaRoom;
+    @ManyToOne
+    private ScreeningType screeningType;
 
     public Screening() {}
 
-    public Screening(LocalDate startDate, Movie movie, CinemaRoom cinemaRoom) {
+    public Screening(LocalDate startDate, Movie movie, CinemaRoom cinemaRoom, ScreeningType screeningType) {
         this.startDate = startDate;
         this.movie = movie;
         this.cinemaRoom = cinemaRoom;
+        this.screeningType = screeningType;
     }
 
     public long getId() {
@@ -53,5 +56,13 @@ public class Screening {
 
     public void setCinemaRoom(CinemaRoom cinemaRoom) {
         this.cinemaRoom = cinemaRoom;
+    }
+
+    public ScreeningType getScreeningType() {
+        return screeningType;
+    }
+
+    public void setScreeningType(ScreeningType screeningType) {
+        this.screeningType = screeningType;
     }
 }

@@ -40,4 +40,8 @@ public class Genre {
     public Set<Movie> getMovieSet() {
         return movieSet;
     }
+
+    public void addMovie(Movie movie) {
+        movieSet.add(movie);
+    }
 }

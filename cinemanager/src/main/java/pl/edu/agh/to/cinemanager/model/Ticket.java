@@ -12,12 +12,15 @@ public class Ticket {
 
     private int seatRow;
     private int seatPosition;
-    private boolean valid = true;
+    private boolean used = false;
+    private boolean discounted = false;
 
     @ManyToOne
     private Screening screening;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Order order;
 
     public Ticket() {}
 
@@ -46,12 +49,20 @@ public class Ticket {
         this.seatPosition = seatPosition;
     }
 
-    public boolean isValid() {
-        return valid;
+    public boolean isUsed() {
+        return used;
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isDiscounted() {
+        return discounted;
+    }
+
+    public void setDiscounted(boolean discounted) {
+        this.discounted = discounted;
     }
 
     public Screening getScreening() {
@@ -68,5 +79,13 @@ public class Ticket {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
