@@ -2,6 +2,7 @@ package pl.edu.agh.to.cinemanager.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,8 @@ public class MovieController {
     }
 
     @GetMapping("")
-    public List<ResponseMovieDto> getAllMovies() {
-        return movieService.getAllMovies();
+    public List<ResponseMovieDto> getAllMovies(Pageable pageable) {
+        return movieService.getAllMovies(pageable);
     }
 
     @GetMapping("/{id}")

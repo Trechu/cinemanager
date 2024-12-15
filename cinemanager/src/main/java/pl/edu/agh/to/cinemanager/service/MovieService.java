@@ -1,5 +1,8 @@
 package pl.edu.agh.to.cinemanager.service;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
 import pl.edu.agh.to.cinemanager.model.Movie;
@@ -23,7 +26,12 @@ public class MovieService {
                 movie.getPosterUrl(), movie.getLength(), genreService.genreToResponseDto(movie.getGenre()));
     }
 
-    public List<ResponseMovieDto> getAllMovies() {
-        return movieRepository.findAll().stream().map(this::movieToReponseDto).toList();
+    public List<ResponseMovieDto> getAllMovies(Pageable pageable) {
+        return movieRepository.findAll(
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))))
+                .stream().map(this::movieToReponseDto).toList();
     }
 }
