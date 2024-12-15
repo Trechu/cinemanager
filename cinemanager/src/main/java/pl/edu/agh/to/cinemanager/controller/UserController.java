@@ -28,11 +28,13 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public ResponseUserDto getUserById(@PathVariable("id") User user, Authentication authentication) {
         return userService.getUser(user, authentication);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") User user, Authentication authentication) {
