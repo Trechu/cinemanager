@@ -64,7 +64,7 @@
 
 W projekcie zastosowano Hibernate jako framework do mapowania obiektowo-relacyjnego (`ORM`). Każda tabela w bazie danych została odwzorowana na odpowiednią klasę encji w Javie, co pozwala na wygodne operowanie danymi w kodzie przy użyciu obiektów.
 
-Poniżej znajduje sie przykład mapowania tabeli `Users`
+Poniżej znajduje się przykład mapowania tabeli `Users`
 
 ```java
 @Entity
@@ -122,7 +122,7 @@ Pozostałe elementy systemu są zbudowane analogicznie - klasa modelowa, repozyt
 ### Autentykacja
 Dostęp do API jest zabezpieczony za pomocą Spring Security. Autentykacja użytkowników odbywa się za pośrednictwem tokenów JWT. 
 
-Użytkownik wysyła zapytanie POST o token na `/api/token`, podając w nagłówku Authentication zakodowane za pomocą Base64 `email:haslo`.
+Użytkownik wysyła zapytanie POST o token na `/api/token`, podając w nagłówku Authorization zakodowane za pomocą Base64 `email:haslo`.
 
 ```
 Base64("jan@mail.com:password") -> amFuQG1haWwuY29tOnBhc3N3b3Jk
@@ -162,7 +162,7 @@ Przykładowa zawartość tokenu:
 
 Jeżeli dane są niepoprawne, użytkownik otrzyma odpowiedź 401 Unauthorized.
 
-Aby uzyskać dostęp do zabezpieczonych endpointów, należy dodać do zapytania token w nagłówku Authentication.
+Aby uzyskać dostęp do zabezpieczonych endpointów, należy dodać do zapytania token w nagłówku Authorization.
 
 Przykładowe zapytanie:
 ```
@@ -187,7 +187,6 @@ Dzięki podziałowi na role, różni użytkownicy posiadają różne uprawnienia
 Główna klasa Spring Security, pozwalająca na zabezpieczenie systemu. W metodzie 
 `securityFilterChain(HttpSecurity http)` ustawiane są główne ustawienia:
 - ustawienia CORS i CSRF,
-- wymaganie autentykacji oprócz ścieżek `/api/token` i `/api/register`
 - stworzenie serwera zasobów OAuth2, do autentykacji przez JWT
 - tryb STATELESS.
 
@@ -213,74 +212,178 @@ Serwis pozwalający w prosty sposób za pomocą metody `hasRole(userRole, author
 
 ## REST API
 
-### POST /api/token
+### Autentykacja
+#### POST /api/token
 
-#### Body: 
+##### Body: 
 puste
 
-#### Nagłówki:
-Authentication: 'Basic ' + Base64(email + ':' + password)
+##### Nagłówki:
+Authorization: 'Basic ' + Base64(email + ':' + password)
 
-#### Zwraca:
+##### Zwraca:
 200 OK - Logowanie powiodło się. W polu danych zwracany jest wygenerowany token.
 
 401 UNAUTHORIZED - Logowanie nie powiodło się z powodu błędnego hasła lub emailu.
 
 
-### POST /api/register
+#### POST /api/register
 
-#### Body: 
+##### Body: 
 firstName, lastName, email, password (plaintext), role (ADMINISTRATOR, MANAGER, EMPLOYEE, CUSTOMER)
 
-#### Nagłówki:
-`Opcjonalnie` Authentication: 'Bearer ' + Token
+##### Nagłówki:
+`Opcjonalnie` Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Niezalogowana osoba może stworzyć tylko 
 użytkownika o roli Customer. Administrator oraz Manager mogą tworzyć użytkowników o roli swojej lub niższej.
 
-#### Zwraca:
+##### Zwraca:
 201 CREATED - Dodatkowo header Location z URL /api/users/{id} oraz w body id, firstname, lastname, email, role.
 
 403 FORBIDDEN - Nie ma prawa do stworzenia osoby tej rangi.
 
 409 CONFLICT - Jeśli istnieje już użytkownik z takim adresem email. 
 
-### GET /api/users
+### Użytkownicy
+#### GET /api/users
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Ponadto jego rola musi być równa co najmniej Managerowi.
 
-#### Zwraca
+##### Zwraca:
 200 OK - W polu data zwracana jest lista użytkowników zarejestrowanych w systemie.
 
 403 FORBIDDEN - Nie ma prawa do otrzymania listy użytkowników.
 
-### GET /api/users/{id}
+#### GET /api/users/{id}
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Użytkownik może podejrzeć sam siebie lub jego ranga musi być równa co najmniej managerowi.
 
-#### Zwraca
+##### Zwraca:
 200 OK - W polu data zwracane są dane o użytkowniku.
 
 403 FORBIDDEN - Nie ma prawa do otrzymania danych o użytkowniku.
 
-### DELETE /api/users/{id}
+#### DELETE /api/users/{id}
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Ponadto jego rola musi być równa co najmniej Managerowi. Pozwala na usunięcie siebie lub użytkownika co najwyżej tej samej rangi.
 
-#### Zwraca
+##### Zwraca:
 204 NO CONTENT - Usunięcie powiodło się.
 
 403 FORBIDDEN - Nie można usunąć użytkownika takiej rangi.
+
+### Gatunki
+#### GET /api/genres
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich gatunków filmowych, do których należą filmy w bazie kina.
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name`.
+
+### Gatunki
+#### GET /api/genres/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie gatunku filmowego.
+
+##### Zwraca:
+200 OK - Gatunek postaci `id, name`.
+
+#### POST /api/genres
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać gatunek filmowy. Należy podać jedynie pole `name`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie gatunku powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/genres/{id}` oraz w body znajduje się `id, name`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/genres/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+
+### Filmy
+#### GET /api/movies
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich filmów w bazie kina.
+
+##### Zwraca:
+200 OK - Lista filmów postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+
+#### GET /api/movies/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych filmu.
+
+##### Zwraca:
+200 OK - Film postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+
+#### POST /api/movies
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać film. Należy podać pola `title, descrption, director, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` oraz w body znajduje się `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/movies/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić film. W body należy podać pola `title, descrption, director, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
