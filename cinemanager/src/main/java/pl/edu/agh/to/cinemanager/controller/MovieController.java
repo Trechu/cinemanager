@@ -1,8 +1,12 @@
 package pl.edu.agh.to.cinemanager.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
+import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.service.MovieService;
 
 @RestController
@@ -14,5 +18,15 @@ public class MovieController {
 
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
+    }
+
+    @GetMapping("")
+    public List<ResponseMovieDto> getAllMovies() {
+        return movieService.getAllMovies();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseMovieDto getMovieById(@PathVariable("id") Movie movie) {
+        return movieService.movieToReponseDto(movie);
     }
 }

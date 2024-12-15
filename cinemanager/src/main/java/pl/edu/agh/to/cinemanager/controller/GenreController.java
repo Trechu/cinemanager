@@ -1,9 +1,11 @@
 package pl.edu.agh.to.cinemanager.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.to.cinemanager.dto.ResponseGenreDto;
+import pl.edu.agh.to.cinemanager.model.Genre;
 import pl.edu.agh.to.cinemanager.service.GenreService;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -14,5 +16,15 @@ public class GenreController {
 
     public GenreController(GenreService genreService) {
         this.genreService = genreService;
+    }
+
+    @GetMapping("")
+    public List<ResponseGenreDto> getAllGenres() {
+        return genreService.getAllGenres();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseGenreDto getGenreById(@PathVariable("id") Genre genre) {
+        return genreService.genreToResponseDto(genre);
     }
 }

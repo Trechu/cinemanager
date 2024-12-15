@@ -15,7 +15,7 @@ public class Movie {
 
     @Column(length = 128)
     private String title;
-    private String text;
+    private String description;
     @Column(length = 256)
     private String director;
     @Column(length = 256)
@@ -30,10 +30,11 @@ public class Movie {
 
     public Movie() {}
 
-    public Movie(String title, String text, String director, String posterUrl, int length, Genre genre) {
+    public Movie(String title, String description, String director, String posterUrl, int length, Genre genre) {
         this.title = title;
-        this.text = text;
+        this.description = description;
         this.director = director;
+        this.posterUrl = posterUrl;
         this.length = length;
         this.genre = genre;
     }
@@ -50,12 +51,12 @@ public class Movie {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String text) {
+        this.description = text;
     }
 
     public String getDirector() {
