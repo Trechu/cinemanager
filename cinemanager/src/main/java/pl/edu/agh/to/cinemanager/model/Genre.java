@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +14,8 @@ public class Genre {
     @GeneratedValue
     private long id;
 
-    @Column(length = 64)
+    @NotBlank
+    @Column(length = 64, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "genre")

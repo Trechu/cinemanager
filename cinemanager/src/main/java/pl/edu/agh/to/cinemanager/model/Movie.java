@@ -1,6 +1,8 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,15 +15,21 @@ public class Movie {
     @GeneratedValue
     private long id;
 
+    @NotBlank
     @Column(length = 128)
     private String title;
+    @NotBlank
     private String description;
+    @NotBlank
     @Column(length = 256)
     private String director;
+    @NotBlank
     @Column(length = 256)
     private String posterUrl;
+    @NotNull
     private int length;
 
+    @NotNull
     @ManyToOne
     private Genre genre;
 
