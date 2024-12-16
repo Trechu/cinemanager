@@ -10,6 +10,7 @@ import pl.edu.agh.to.cinemanager.model.CinemaRoom;
 import pl.edu.agh.to.cinemanager.repository.CinemaRoomRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CinemaRoomService {
@@ -22,6 +23,10 @@ public class CinemaRoomService {
 
     public List<ResponseCinemaRoomDto> getAllRooms(){
         return cinemaRoomRepository.findAll().stream().map(this::cinemaRoomToCinemaRoomResponseDto).toList();
+    }
+
+    public Optional<CinemaRoom> getCinemaRoomById(Long id){
+        return cinemaRoomRepository.findById(id);
     }
 
     public ResponseCinemaRoomDto cinemaRoomToCinemaRoomResponseDto(CinemaRoom cinemaRoom){

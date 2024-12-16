@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestScreeningTypeDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseScreeningTypeDto;
-import pl.edu.agh.to.cinemanager.model.CinemaRoom;
 import pl.edu.agh.to.cinemanager.model.ScreeningType;
 import pl.edu.agh.to.cinemanager.repository.ScreeningTypeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScreeningTypeService {
@@ -23,6 +23,10 @@ public class ScreeningTypeService {
 
     public List<ResponseScreeningTypeDto> getAllScreeningTypes(){
         return screeningTypeRepository.findAll().stream().map(this::screeningTypeToScreeningTypeDto).toList();
+    }
+
+    public Optional<ScreeningType> getScreeningTypeById(Long id){
+        return screeningTypeRepository.findById(id);
     }
 
     public ResponseScreeningTypeDto screeningTypeToScreeningTypeDto(ScreeningType screeningType){
