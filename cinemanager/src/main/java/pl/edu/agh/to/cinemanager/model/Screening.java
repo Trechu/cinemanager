@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "screenings")
@@ -12,7 +13,7 @@ public class Screening {
     @GeneratedValue
     private long id;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @ManyToOne
     private Movie movie;
@@ -23,7 +24,7 @@ public class Screening {
 
     public Screening() {}
 
-    public Screening(LocalDate startDate, Movie movie, CinemaRoom cinemaRoom, ScreeningType screeningType) {
+    public Screening(LocalDateTime startDate, Movie movie, CinemaRoom cinemaRoom, ScreeningType screeningType) {
         this.startDate = startDate;
         this.movie = movie;
         this.cinemaRoom = cinemaRoom;
@@ -34,11 +35,11 @@ public class Screening {
         return id;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
