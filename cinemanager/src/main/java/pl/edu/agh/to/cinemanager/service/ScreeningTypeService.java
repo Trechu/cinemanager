@@ -36,8 +36,8 @@ public class ScreeningTypeService {
     public ResponseScreeningTypeDto createScreeningType(RequestScreeningTypeDto requestScreeningTypeDto){
         ScreeningType screeningType = new ScreeningType(
                 requestScreeningTypeDto.name(),
-                requestScreeningTypeDto.base_price(),
-                requestScreeningTypeDto.discount_price()
+                requestScreeningTypeDto.basePrice(),
+                requestScreeningTypeDto.discountPrice()
         );
         save(screeningType);
 
@@ -46,8 +46,8 @@ public class ScreeningTypeService {
 
     public void updateScreeningType(ScreeningType screeningType, RequestScreeningTypeDto updatedScreeningType){
         screeningType.setName(updatedScreeningType.name());
-        screeningType.setBasePrice(updatedScreeningType.base_price());
-        screeningType.setDiscountPrice(updatedScreeningType.discount_price());
+        screeningType.setBasePrice(updatedScreeningType.basePrice());
+        screeningType.setDiscountPrice(updatedScreeningType.discountPrice());
 
         save(screeningType);
     }

@@ -51,7 +51,7 @@ public class ScreeningService {
     }
 
     public ResponseScreeningDto createScreening(RequestScreeningDto screeningDto){
-        Screening screening = new Screening(screeningDto.start_date(), getMovieFromRequestDto(screeningDto) , getCinemaRoomFromRequestDto(screeningDto), getScreeningTypeFromRequestDto(screeningDto));
+        Screening screening = new Screening(screeningDto.startDate(), getMovieFromRequestDto(screeningDto) , getCinemaRoomFromRequestDto(screeningDto), getScreeningTypeFromRequestDto(screeningDto));
 
         save(screening);
 
@@ -62,23 +62,23 @@ public class ScreeningService {
         screening.setScreeningType(getScreeningTypeFromRequestDto(screeningDto));
         screening.setMovie(getMovieFromRequestDto(screeningDto));
         screening.setCinemaRoom(getCinemaRoomFromRequestDto(screeningDto));
-        screening.setStartDate(screeningDto.start_date());
+        screening.setStartDate(screeningDto.startDate());
 
         save(screening);
     }
 
     private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto){
-        return movieService.getMovieById(screeningDto.movie_id())
+        return movieService.getMovieById(screeningDto.movieId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This movie does not exist"));
     }
 
     private CinemaRoom getCinemaRoomFromRequestDto(RequestScreeningDto screeningDto){
-        return cinemaRoomService.getCinemaRoomById(screeningDto.room_id())
+        return cinemaRoomService.getCinemaRoomById(screeningDto.roomId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room does not exist"));
     }
 
     private ScreeningType getScreeningTypeFromRequestDto(RequestScreeningDto screeningDto){
-        return screeningTypeService.getScreeningTypeById(screeningDto.screening_type_id())
+        return screeningTypeService.getScreeningTypeById(screeningDto.screeningTypeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening type does not exist"));
     }
 

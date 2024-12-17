@@ -34,7 +34,7 @@ public class CinemaRoomService {
     }
 
     public ResponseCinemaRoomDto createCinemaRoom(RequestCinemaRoomDto requestCinemaRoomDto){
-        CinemaRoom cinemaRoom = new CinemaRoom(requestCinemaRoomDto.name(), requestCinemaRoomDto.rows(), requestCinemaRoomDto.seats_per_row());
+        CinemaRoom cinemaRoom = new CinemaRoom(requestCinemaRoomDto.name(), requestCinemaRoomDto.rows(), requestCinemaRoomDto.seatsPerRow());
         save(cinemaRoom);
 
         return cinemaRoomToCinemaRoomResponseDto(cinemaRoom);
@@ -43,7 +43,7 @@ public class CinemaRoomService {
     public void updateCinemaRoom(CinemaRoom cinemaRoom, RequestCinemaRoomDto requestCinemaRoomDto) {
         cinemaRoom.setName(requestCinemaRoomDto.name());
         cinemaRoom.setRows(requestCinemaRoomDto.rows());
-        cinemaRoom.setSeatsPerRow(requestCinemaRoomDto.seats_per_row());
+        cinemaRoom.setSeatsPerRow(requestCinemaRoomDto.seatsPerRow());
 
         save(cinemaRoom);
     }
