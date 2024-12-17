@@ -23,7 +23,7 @@ public class Order {
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "order")
-    private Set<Ticket> ticketSet = new HashSet<>();
+    private final Set<Ticket> ticketSet = new HashSet<>();
 
     public Order() {}
 

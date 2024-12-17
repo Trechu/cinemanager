@@ -34,7 +34,7 @@ public class Movie {
     private Genre genre;
 
     @OneToMany(mappedBy = "movie")
-    private Set<Review> reviewSet = new HashSet<>();
+    private final Set<Review> reviewSet = new HashSet<>();
 
     public Movie() {}
 

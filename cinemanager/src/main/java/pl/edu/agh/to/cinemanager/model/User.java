@@ -3,7 +3,6 @@ package pl.edu.agh.to.cinemanager.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.aspectj.weaver.ast.Or;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,11 +32,11 @@ public class User {
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
-    private Set<Review> reviewSet = new HashSet<>();
+    private final Set<Review> reviewSet = new HashSet<>();
     @OneToMany(mappedBy = "user")
-    private Set<Ticket> ticketSet = new HashSet<>();
+    private final Set<Ticket> ticketSet = new HashSet<>();
     @OneToMany(mappedBy = "user")
-    private Set<Order> orderSet = new HashSet<>();
+    private final Set<Order> orderSet = new HashSet<>();
 
     public User() {}
 

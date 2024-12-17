@@ -19,7 +19,7 @@ public class Genre {
     private String name;
 
     @OneToMany(mappedBy = "genre")
-    private Set<Movie> movieSet = new HashSet<>();
+    private final Set<Movie> movieSet = new HashSet<>();
 
     public Genre() {}
 

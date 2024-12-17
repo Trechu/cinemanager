@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SecurityUser implements UserDetails {
     public static final String ROLE_PREFIX = "ROLE_";
-    private User user;
+    private final User user;
 
     public SecurityUser(User user) {
         this.user = user;
