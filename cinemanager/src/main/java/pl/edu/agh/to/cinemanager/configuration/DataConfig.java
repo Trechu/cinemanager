@@ -4,20 +4,21 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.edu.agh.to.cinemanager.model.Genre;
-import pl.edu.agh.to.cinemanager.model.Movie;
-import pl.edu.agh.to.cinemanager.model.User;
-import pl.edu.agh.to.cinemanager.model.UserRole;
-import pl.edu.agh.to.cinemanager.repository.GenreRepository;
-import pl.edu.agh.to.cinemanager.repository.MovieRepository;
-import pl.edu.agh.to.cinemanager.repository.UserRepository;
+import pl.edu.agh.to.cinemanager.model.*;
+import pl.edu.agh.to.cinemanager.repository.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
 public class DataConfig {
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder, MovieRepository movieRepository, GenreRepository genreRepository) {
+    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                                        MovieRepository movieRepository, GenreRepository genreRepository,
+                                        ScreeningTypeRepository screeningTypeRepository,
+                                        ScreeningRepository screeningRepository,
+                                        CinemaRoomRepository cinemaRoomRepository) {
         return args -> {
             if (userRepository.count() == 0) {
                 User user1 = new User("Jan", "Kowalski", "jan@mail.com",
@@ -227,6 +228,147 @@ public class DataConfig {
                         movie11, movie12, movie13, movie14, movie15,
                         movie16, movie17, movie18, movie19, movie20
                 ));
+
+                ScreeningType type2D = new ScreeningType("2D", new BigDecimal("20.00"), new BigDecimal("15.00"));
+                ScreeningType type3D = new ScreeningType("3D", new BigDecimal("25.00"), new BigDecimal("20.00"));
+
+                screeningTypeRepository.saveAll(List.of(type2D, type3D));
+
+                CinemaRoom roomShire = new CinemaRoom("Shire", 10, 20);
+                CinemaRoom roomMordor = new CinemaRoom("Mordor", 15, 25);
+                CinemaRoom roomMatrix = new CinemaRoom("Matrix", 12, 22);
+                CinemaRoom roomTitanic = new CinemaRoom("Titanic", 8, 18);
+                CinemaRoom roomPandora = new CinemaRoom("Pandora", 14, 30);
+
+                cinemaRoomRepository.saveAll(List.of(roomShire, roomMordor, roomMatrix, roomTitanic, roomPandora));
+
+                List<Screening> screenings = List.of(
+                        // Week 1-2 (01.12.2024 - 14.12.2024) - Movies 1, 2, 3, 4, 5
+                        new Screening(LocalDateTime.of(2024, 12, 1, 12, 0), movie1, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 1, 15, 0), movie2, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 2, 18, 0), movie3, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 3, 12, 0), movie4, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 4, 15, 0), movie5, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 5, 15, 0), movie2, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 6, 12, 0), movie1, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 6, 18, 0), movie3, roomMatrix, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 6, 21, 0), movie3, roomMatrix, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 7, 15, 0), movie2, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 7, 15, 0), movie4, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 8, 15, 0), movie5, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 9, 12, 0), movie4, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 10, 15, 0), movie5, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 10, 12, 0), movie1, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 11, 15, 0), movie2, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 11, 15, 0), movie3, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 12, 12, 0), movie1, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 13, 12, 0), movie4, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 13, 18, 0), movie3, roomMatrix, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 14, 15, 0), movie5, roomPandora, type3D),
+
+
+                        // Week 3-4 (15.12.2024 - 28.12.2024) - Movies 4, 5, 6, 7, 8
+                        new Screening(LocalDateTime.of(2024, 12, 15, 12, 0), movie4, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 15, 15, 0), movie6, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 16, 18, 0), movie7, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 17, 12, 0), movie8, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 18, 15, 0), movie5, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 20, 12, 0), movie6, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 22, 15, 0), movie7, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 24, 12, 0), movie4, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 25, 15, 0), movie6, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 25, 18, 0), movie7, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 26, 12, 0), movie8, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 27, 15, 0), movie5, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 27, 12, 0), movie6, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 28, 15, 0), movie7, roomMatrix, type2D),
+
+                        // Week 5-6 (29.12.2024 - 11.01.2025) - Movies 9, 10, 11, 12, 1
+                        new Screening(LocalDateTime.of(2024, 12, 29, 12, 0), movie9, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2024, 12, 29, 15, 0), movie10, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2024, 12, 30, 18, 0), movie11, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 1, 12, 0), movie12, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 2, 15, 0), movie1, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 3, 18, 0), movie10, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 3, 12, 0), movie9, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 4, 12, 0), movie12, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 4, 15, 0), movie1, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 5, 18, 0), movie10, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 5, 18, 0), movie12, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 5, 18, 0), movie9, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 6, 12, 0), movie9, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 7, 12, 0), movie12, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 7, 15, 0), movie1, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 8, 18, 0), movie10, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 9, 12, 0), movie9, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 10, 15, 0), movie1, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 11, 18, 0), movie10, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 11, 12, 0), movie9, roomShire, type3D),
+
+                        // Week 7-8 (12.01.2025 - 25.01.2025) - Movies 13, 14, 15, 16, 17
+                        new Screening(LocalDateTime.of(2025, 1, 12, 12, 0), movie13, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 12, 12, 0), movie15, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 13, 15, 0), movie14, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 13, 18, 0), movie17, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 13, 15, 0), movie16, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 14, 18, 0), movie15, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 15, 12, 0), movie16, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 15, 14, 0), movie13, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 16, 15, 0), movie14, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 16, 15, 0), movie17, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 17, 12, 0), movie13, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 17, 12, 0), movie15, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 18, 15, 0), movie14, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 18, 18, 0), movie17, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 18, 15, 0), movie16, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 20, 18, 0), movie15, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 21, 12, 0), movie16, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 21, 14, 0), movie13, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 22, 15, 0), movie14, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 23, 15, 0), movie17, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 24, 15, 0), movie14, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 24, 15, 0), movie17, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 25, 12, 0), movie13, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 25, 12, 0), movie15, roomMatrix, type2D),
+
+
+                        // Week 9 (26.01.2025 - 01.02.2025) - Movies 18, 19, 20
+                        new Screening(LocalDateTime.of(2025, 1, 26, 12, 0), movie18, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 26, 12, 0), movie19, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 26, 15, 0), movie20, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 26, 18, 0), movie18, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 26, 20, 0), movie19, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 27, 12, 0), movie20, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 27, 15, 0), movie19, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 27, 15, 0), movie18, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 27, 18, 0), movie20, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 27, 20, 0), movie18, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 28, 12, 0), movie19, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 28, 15, 0), movie18, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 28, 15, 0), movie20, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 28, 18, 0), movie19, roomMatrix, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 28, 20, 0), movie20, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 29, 12, 0), movie18, roomShire, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 29, 15, 0), movie19, roomMordor, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 29, 18, 0), movie20, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 29, 18, 0), movie18, roomTitanic, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 29, 20, 0), movie19, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 30, 12, 0), movie18, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 30, 12, 0), movie19, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 30, 15, 0), movie20, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 30, 18, 0), movie18, roomMatrix, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 30, 20, 0), movie19, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 31, 12, 0), movie19, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 31, 15, 0), movie19, roomPandora, type3D),
+                        new Screening(LocalDateTime.of(2025, 1, 31, 18, 0), movie20, roomTitanic, type2D),
+                        new Screening(LocalDateTime.of(2025, 1, 31, 20, 0), movie18, roomMatrix, type2D),
+                        new Screening(LocalDateTime.of(2025, 2, 1, 12, 0), movie20, roomShire, type3D),
+                        new Screening(LocalDateTime.of(2025, 2, 1, 15, 0), movie19, roomMordor, type2D),
+                        new Screening(LocalDateTime.of(2025, 2, 1, 18, 0), movie18, roomPandora, type2D),
+                        new Screening(LocalDateTime.of(2025, 2, 1, 20, 0), movie20, roomTitanic, type3D)
+                );
+
+                screeningRepository.saveAll(screenings);
             }
         };
     }
