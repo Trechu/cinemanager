@@ -1,5 +1,7 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +15,7 @@ import pl.edu.agh.to.cinemanager.service.ScreeningService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/screenings")
@@ -25,18 +28,17 @@ public class ScreeningController {
     }
 
     @GetMapping("")
-    public List<ResponseScreeningDto> getAllScreenings() {
-        return screeningService.getAllScreenings();
-    }
-
-    @GetMapping("/by-movie/{id}")
-    public List<ResponseScreeningDto> getAllScreeningsByMovie(@PathVariable("id") Movie movie) {
-        return screeningService.getAllScreeningByMovie(movie);
+    public Page<ResponseScreeningDto> getAllScreenings(Pageable pageable, @RequestParam("movieId") Optional<Movie> movie) {
+        if (movie.isPresent()) {
+            return screeningService.getAllScreeningByMovie(movie.get(), pageable);
+        } else {
+            return screeningService.getAllScreenings(pageable);
+        }
     }
 
     @GetMapping("{id}")
     public ResponseScreeningDto getScreeningById(@PathVariable("id") Screening screening) {
-        return screeningService.screeningToScreeningDto(screening, true, true);
+        return screeningService.screeningToScreeningDto(screening);
     }
 
     @PostMapping("")

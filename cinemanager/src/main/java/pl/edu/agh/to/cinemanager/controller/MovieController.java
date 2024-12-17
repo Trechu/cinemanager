@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.controller;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class MovieController {
     }
 
     @GetMapping("")
-    public List<ResponseMovieDto> getAllMovies(Pageable pageable) {
+    public Page<ResponseMovieDto> getAllMovies(Pageable pageable) {
         return movieService.getAllMovies(pageable);
     }
 

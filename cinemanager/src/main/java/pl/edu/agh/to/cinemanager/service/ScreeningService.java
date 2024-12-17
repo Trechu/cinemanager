@@ -1,6 +1,10 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,31 +35,44 @@ public class ScreeningService {
         this.cinemaRoomService = cinemaRoomService;
     }
 
-    public List<ResponseScreeningDto> getAllScreenings() {
-        return screeningRepository.findAll().stream().map(screening -> screeningToScreeningDto(screening, true, true)).toList();
+    public Page<ResponseScreeningDto> getAllScreenings(Pageable pageable) {
+        return screeningRepository.findAll(
+                        PageRequest.of(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id")))
+                )
+                .map(this::screeningToScreeningDto);
     }
 
-    public List<ResponseScreeningDto> getAllScreeningByMovie(Movie movie) {
+    public Page<ResponseScreeningDto> getAllScreeningByMovie(Movie movie, Pageable pageable) {
         return screeningRepository
-                .findAllByMovie(movie)
-                .stream()
-                .map(screening -> screeningToScreeningDto(screening, false, false)).toList();
+                .findAllByMovie(movie,
+                        PageRequest.of(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id")))
+                )
+                .map(this::screeningToScreeningDto);
     }
 
 
-    public ResponseScreeningDto screeningToScreeningDto(Screening screening, Boolean includeMovie, Boolean includeRoom) {
+    public ResponseScreeningDto screeningToScreeningDto(Screening screening) {
         return new ResponseScreeningDto(screening.getId(), screening.getStartDate(),
                 screeningTypeService.screeningTypeToScreeningTypeDto(screening.getScreeningType()),
-                Optional.ofNullable(includeMovie ? movieService.movieToResponseDto(screening.getMovie()) : null),
-                Optional.ofNullable(includeRoom ? cinemaRoomService.cinemaRoomToCinemaRoomResponseDto(screening.getCinemaRoom()) : null));
+                movieService.movieToResponseDto(screening.getMovie()),
+                cinemaRoomService.cinemaRoomToCinemaRoomResponseDto(screening.getCinemaRoom()));
     }
 
     public ResponseScreeningDto createScreening(RequestScreeningDto screeningDto) {
-        Screening screening = new Screening(screeningDto.startDate(), getMovieFromRequestDto(screeningDto), getCinemaRoomFromRequestDto(screeningDto), getScreeningTypeFromRequestDto(screeningDto));
+        Screening screening = new Screening(screeningDto.startDate(),
+                getMovieFromRequestDto(screeningDto),
+                getCinemaRoomFromRequestDto(screeningDto),
+                getScreeningTypeFromRequestDto(screeningDto));
 
         save(screening);
 
-        return screeningToScreeningDto(screening, true, true);
+        return screeningToScreeningDto(screening);
     }
 
     public void updateScreening(Screening screening, RequestScreeningDto screeningDto) {

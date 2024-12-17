@@ -4,5 +4,5 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public record ResponseScreeningDto(long id, LocalDateTime startDate, ResponseScreeningTypeDto screeningType,
-                                   Optional<ResponseMovieDto> movie, Optional<ResponseCinemaRoomDto> cinemaRoom) {
+                                   ResponseMovieDto movie, ResponseCinemaRoomDto cinemaRoom) {
 }
