@@ -21,7 +21,8 @@ public class Genre {
     @OneToMany(mappedBy = "genre")
     private final Set<Movie> movieSet = new HashSet<>();
 
-    public Genre() {}
+    public Genre() {
+    }
 
     public Genre(String name) {
         this.name = name;

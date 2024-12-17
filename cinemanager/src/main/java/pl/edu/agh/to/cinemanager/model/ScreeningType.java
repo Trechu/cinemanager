@@ -24,7 +24,8 @@ public class ScreeningType {
     @NotNull
     private BigDecimal discountPrice;
 
-    public ScreeningType() {}
+    public ScreeningType() {
+    }
 
     public ScreeningType(String name, BigDecimal basePrice, BigDecimal discountPrice) {
         this.name = name;

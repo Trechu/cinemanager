@@ -33,7 +33,8 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private final Set<Ticket> ticketSet = new HashSet<>();
 
-    public Order() {}
+    public Order() {
+    }
 
     public Order(LocalDateTime date, BigDecimal totalPrice, User user) {
         this.date = date;

@@ -25,7 +25,8 @@ public class Screening {
     @ManyToOne
     private ScreeningType screeningType;
 
-    public Screening() {}
+    public Screening() {
+    }
 
     public Screening(LocalDateTime startDate, Movie movie, CinemaRoom cinemaRoom, ScreeningType screeningType) {
         this.startDate = startDate;

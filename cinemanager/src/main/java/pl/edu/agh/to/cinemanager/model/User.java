@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -46,7 +46,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private final Set<Order> orderSet = new HashSet<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, String email, String password, UserRole role) {
         this.firstName = firstName;

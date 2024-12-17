@@ -10,8 +10,8 @@ import pl.edu.agh.to.cinemanager.configuration.RsaKeyProperties;
 @SpringBootApplication
 public class CinemanagerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CinemanagerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CinemanagerApplication.class, args);
+    }
 
 }

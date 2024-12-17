@@ -29,14 +29,14 @@ public class MovieService {
 
     public List<ResponseMovieDto> getAllMovies(Pageable pageable) {
         return movieRepository.findAll(
-                PageRequest.of(
-                        pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))))
+                        PageRequest.of(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))))
                 .stream().map(this::movieToResponseDto).toList();
     }
 
-    public Optional<Movie> getMovieById(Long id){
+    public Optional<Movie> getMovieById(Long id) {
         return movieRepository.findById(id);
     }
 

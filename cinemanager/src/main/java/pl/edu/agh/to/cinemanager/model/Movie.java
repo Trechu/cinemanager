@@ -39,7 +39,8 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private final Set<Review> reviewSet = new HashSet<>();
 
-    public Movie() {}
+    public Movie() {
+    }
 
     public Movie(String title, String description, String director, String posterUrl, int length, Genre genre) {
         this.title = title;

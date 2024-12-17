@@ -21,19 +21,19 @@ public class CinemaRoomService {
         this.cinemaRoomRepository = cinemaRoomRepository;
     }
 
-    public List<ResponseCinemaRoomDto> getAllRooms(){
+    public List<ResponseCinemaRoomDto> getAllRooms() {
         return cinemaRoomRepository.findAll().stream().map(this::cinemaRoomToCinemaRoomResponseDto).toList();
     }
 
-    public Optional<CinemaRoom> getCinemaRoomById(Long id){
+    public Optional<CinemaRoom> getCinemaRoomById(Long id) {
         return cinemaRoomRepository.findById(id);
     }
 
-    public ResponseCinemaRoomDto cinemaRoomToCinemaRoomResponseDto(CinemaRoom cinemaRoom){
+    public ResponseCinemaRoomDto cinemaRoomToCinemaRoomResponseDto(CinemaRoom cinemaRoom) {
         return new ResponseCinemaRoomDto(cinemaRoom.getId(), cinemaRoom.getName(), cinemaRoom.getRows(), cinemaRoom.getSeatsPerRow());
     }
 
-    public ResponseCinemaRoomDto createCinemaRoom(RequestCinemaRoomDto requestCinemaRoomDto){
+    public ResponseCinemaRoomDto createCinemaRoom(RequestCinemaRoomDto requestCinemaRoomDto) {
         CinemaRoom cinemaRoom = new CinemaRoom(requestCinemaRoomDto.name(), requestCinemaRoomDto.rows(), requestCinemaRoomDto.seatsPerRow());
         save(cinemaRoom);
 

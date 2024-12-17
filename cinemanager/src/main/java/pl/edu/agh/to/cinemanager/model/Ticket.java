@@ -27,7 +27,8 @@ public class Ticket {
     @ManyToOne
     private Order order;
 
-    public Ticket() {}
+    public Ticket() {
+    }
 
     public Ticket(int seatRow, int seatPosition) {
         this.seatRow = seatRow;

@@ -24,18 +24,18 @@ public class CinemaRoomController {
     }
 
     @GetMapping("")
-    public List<ResponseCinemaRoomDto> getAllCinemaRooms(){
+    public List<ResponseCinemaRoomDto> getAllCinemaRooms() {
         return cinemaRoomService.getAllRooms();
     }
 
     @GetMapping("/{id}")
-    public ResponseCinemaRoomDto getCinemaRoomById(@PathVariable("id") CinemaRoom cinemaRoom){
+    public ResponseCinemaRoomDto getCinemaRoomById(@PathVariable("id") CinemaRoom cinemaRoom) {
         return cinemaRoomService.cinemaRoomToCinemaRoomResponseDto(cinemaRoom);
     }
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public ResponseEntity<ResponseCinemaRoomDto> createCinemaRoom(@RequestBody RequestCinemaRoomDto requestCinemaRoomDto){
+    public ResponseEntity<ResponseCinemaRoomDto> createCinemaRoom(@RequestBody RequestCinemaRoomDto requestCinemaRoomDto) {
         ResponseCinemaRoomDto responseCinemaRoomDto = cinemaRoomService.createCinemaRoom(requestCinemaRoomDto);
 
         URI location = ServletUriComponentsBuilder
@@ -49,7 +49,7 @@ public class CinemaRoomController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCinemaRoom(@PathVariable("id") CinemaRoom cinemaRoom, @RequestBody RequestCinemaRoomDto updatedCinemaRoomDto){
+    public void updateCinemaRoom(@PathVariable("id") CinemaRoom cinemaRoom, @RequestBody RequestCinemaRoomDto updatedCinemaRoomDto) {
         cinemaRoomService.updateCinemaRoom(cinemaRoom, updatedCinemaRoomDto);
     }
 }

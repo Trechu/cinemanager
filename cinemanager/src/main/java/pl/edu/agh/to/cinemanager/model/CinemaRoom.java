@@ -19,7 +19,8 @@ public class CinemaRoom {
 
     private int seatsPerRow;
 
-    public CinemaRoom() {}
+    public CinemaRoom() {
+    }
 
     public CinemaRoom(String name, int rows, int seatsPerRow) {
         this.name = name;

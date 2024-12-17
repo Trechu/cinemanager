@@ -27,7 +27,8 @@ public class Review {
     @ManyToOne
     private Movie movie;
 
-    public Review() {}
+    public Review() {
+    }
 
     public Review(BigDecimal rating, String content, User user, Movie movie) {
         this.rating = rating;

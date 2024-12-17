@@ -24,12 +24,12 @@ public class ScreeningTypeController {
     }
 
     @GetMapping("")
-    public List<ResponseScreeningTypeDto> getAllScreeningTypes(){
+    public List<ResponseScreeningTypeDto> getAllScreeningTypes() {
         return screeningTypeService.getAllScreeningTypes();
     }
 
     @GetMapping("/{id}")
-    public ResponseScreeningTypeDto getScreeningTypeById(@PathVariable("id") ScreeningType screeningType){
+    public ResponseScreeningTypeDto getScreeningTypeById(@PathVariable("id") ScreeningType screeningType) {
         return screeningTypeService.screeningTypeToScreeningTypeDto(screeningType);
     }
 
@@ -49,7 +49,7 @@ public class ScreeningTypeController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateScreeningType(@PathVariable("id") ScreeningType screeningType, @RequestBody RequestScreeningTypeDto requestScreeningTypeDto){
+    public void updateScreeningType(@PathVariable("id") ScreeningType screeningType, @RequestBody RequestScreeningTypeDto requestScreeningTypeDto) {
         screeningTypeService.updateScreeningType(screeningType, requestScreeningTypeDto);
     }
 

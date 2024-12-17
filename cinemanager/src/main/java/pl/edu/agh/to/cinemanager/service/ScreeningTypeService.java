@@ -21,19 +21,19 @@ public class ScreeningTypeService {
         this.screeningTypeRepository = screeningTypeRepository;
     }
 
-    public List<ResponseScreeningTypeDto> getAllScreeningTypes(){
+    public List<ResponseScreeningTypeDto> getAllScreeningTypes() {
         return screeningTypeRepository.findAll().stream().map(this::screeningTypeToScreeningTypeDto).toList();
     }
 
-    public Optional<ScreeningType> getScreeningTypeById(Long id){
+    public Optional<ScreeningType> getScreeningTypeById(Long id) {
         return screeningTypeRepository.findById(id);
     }
 
-    public ResponseScreeningTypeDto screeningTypeToScreeningTypeDto(ScreeningType screeningType){
+    public ResponseScreeningTypeDto screeningTypeToScreeningTypeDto(ScreeningType screeningType) {
         return new ResponseScreeningTypeDto(screeningType.getId(), screeningType.getName(), screeningType.getBasePrice(), screeningType.getDiscountPrice());
     }
 
-    public ResponseScreeningTypeDto createScreeningType(RequestScreeningTypeDto requestScreeningTypeDto){
+    public ResponseScreeningTypeDto createScreeningType(RequestScreeningTypeDto requestScreeningTypeDto) {
         ScreeningType screeningType = new ScreeningType(
                 requestScreeningTypeDto.name(),
                 requestScreeningTypeDto.basePrice(),
@@ -44,7 +44,7 @@ public class ScreeningTypeService {
         return screeningTypeToScreeningTypeDto(screeningType);
     }
 
-    public void updateScreeningType(ScreeningType screeningType, RequestScreeningTypeDto updatedScreeningType){
+    public void updateScreeningType(ScreeningType screeningType, RequestScreeningTypeDto updatedScreeningType) {
         screeningType.setName(updatedScreeningType.name());
         screeningType.setBasePrice(updatedScreeningType.basePrice());
         screeningType.setDiscountPrice(updatedScreeningType.discountPrice());

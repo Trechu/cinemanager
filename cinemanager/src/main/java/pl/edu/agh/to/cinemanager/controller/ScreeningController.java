@@ -25,23 +25,23 @@ public class ScreeningController {
     }
 
     @GetMapping("")
-    public List<ResponseScreeningDto> getAllScreenings(){
+    public List<ResponseScreeningDto> getAllScreenings() {
         return screeningService.getAllScreenings();
     }
 
     @GetMapping("/by-movie/{id}")
-    public List<ResponseScreeningDto> getAllScreeningsByMovie(@PathVariable("id") Movie movie){
+    public List<ResponseScreeningDto> getAllScreeningsByMovie(@PathVariable("id") Movie movie) {
         return screeningService.getAllScreeningByMovie(movie);
     }
 
     @GetMapping("{id}")
-    public ResponseScreeningDto getScreeningById(@PathVariable("id") Screening screening){
+    public ResponseScreeningDto getScreeningById(@PathVariable("id") Screening screening) {
         return screeningService.screeningToScreeningDto(screening, true, true);
     }
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public ResponseEntity<ResponseScreeningDto> createScreening(@RequestBody RequestScreeningDto screeningDto){
+    public ResponseEntity<ResponseScreeningDto> createScreening(@RequestBody RequestScreeningDto screeningDto) {
         ResponseScreeningDto responseScreeningDto = screeningService.createScreening(screeningDto);
 
         URI location = ServletUriComponentsBuilder
@@ -55,7 +55,7 @@ public class ScreeningController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateScreening(@PathVariable("id") Screening screening, @RequestBody RequestScreeningDto screeningDto){
+    public void updateScreening(@PathVariable("id") Screening screening, @RequestBody RequestScreeningDto screeningDto) {
         screeningService.updateScreening(screening, screeningDto);
     }
 }

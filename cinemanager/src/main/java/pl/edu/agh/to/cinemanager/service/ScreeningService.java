@@ -31,11 +31,11 @@ public class ScreeningService {
         this.cinemaRoomService = cinemaRoomService;
     }
 
-    public List<ResponseScreeningDto> getAllScreenings(){
+    public List<ResponseScreeningDto> getAllScreenings() {
         return screeningRepository.findAll().stream().map(screening -> screeningToScreeningDto(screening, true, true)).toList();
     }
 
-    public List<ResponseScreeningDto> getAllScreeningByMovie(Movie movie){
+    public List<ResponseScreeningDto> getAllScreeningByMovie(Movie movie) {
         return screeningRepository
                 .findAllByMovie(movie)
                 .stream()
@@ -43,22 +43,22 @@ public class ScreeningService {
     }
 
 
-    public ResponseScreeningDto screeningToScreeningDto(Screening screening, Boolean includeMovie, Boolean includeRoom){
+    public ResponseScreeningDto screeningToScreeningDto(Screening screening, Boolean includeMovie, Boolean includeRoom) {
         return new ResponseScreeningDto(screening.getId(), screening.getStartDate(),
                 screeningTypeService.screeningTypeToScreeningTypeDto(screening.getScreeningType()),
                 Optional.ofNullable(includeMovie ? movieService.movieToResponseDto(screening.getMovie()) : null),
                 Optional.ofNullable(includeRoom ? cinemaRoomService.cinemaRoomToCinemaRoomResponseDto(screening.getCinemaRoom()) : null));
     }
 
-    public ResponseScreeningDto createScreening(RequestScreeningDto screeningDto){
-        Screening screening = new Screening(screeningDto.startDate(), getMovieFromRequestDto(screeningDto) , getCinemaRoomFromRequestDto(screeningDto), getScreeningTypeFromRequestDto(screeningDto));
+    public ResponseScreeningDto createScreening(RequestScreeningDto screeningDto) {
+        Screening screening = new Screening(screeningDto.startDate(), getMovieFromRequestDto(screeningDto), getCinemaRoomFromRequestDto(screeningDto), getScreeningTypeFromRequestDto(screeningDto));
 
         save(screening);
 
         return screeningToScreeningDto(screening, true, true);
     }
 
-    public void updateScreening(Screening screening, RequestScreeningDto screeningDto){
+    public void updateScreening(Screening screening, RequestScreeningDto screeningDto) {
         screening.setScreeningType(getScreeningTypeFromRequestDto(screeningDto));
         screening.setMovie(getMovieFromRequestDto(screeningDto));
         screening.setCinemaRoom(getCinemaRoomFromRequestDto(screeningDto));
@@ -67,17 +67,17 @@ public class ScreeningService {
         save(screening);
     }
 
-    private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto){
+    private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto) {
         return movieService.getMovieById(screeningDto.movieId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This movie does not exist"));
     }
 
-    private CinemaRoom getCinemaRoomFromRequestDto(RequestScreeningDto screeningDto){
+    private CinemaRoom getCinemaRoomFromRequestDto(RequestScreeningDto screeningDto) {
         return cinemaRoomService.getCinemaRoomById(screeningDto.roomId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room does not exist"));
     }
 
-    private ScreeningType getScreeningTypeFromRequestDto(RequestScreeningDto screeningDto){
+    private ScreeningType getScreeningTypeFromRequestDto(RequestScreeningDto screeningDto) {
         return screeningTypeService.getScreeningTypeById(screeningDto.screeningTypeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening type does not exist"));
     }
