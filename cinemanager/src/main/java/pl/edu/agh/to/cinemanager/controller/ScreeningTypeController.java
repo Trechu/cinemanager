@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/screening-type")
+@RequestMapping(path = "api/screening-types")
 public class ScreeningTypeController {
 
     private final ScreeningTypeService screeningTypeService;
