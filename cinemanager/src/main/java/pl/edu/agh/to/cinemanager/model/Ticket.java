@@ -11,14 +11,19 @@ public class Ticket {
     private long id;
 
     private int seatRow;
+
     private int seatPosition;
+
     private boolean used = false;
+
     private boolean discounted = false;
 
     @ManyToOne
     private Screening screening;
+
     @ManyToOne
     private User user;
+
     @ManyToOne
     private Order order;
 

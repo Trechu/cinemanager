@@ -18,15 +18,18 @@ public class Movie {
     @NotBlank
     @Column(length = 128)
     private String title;
+
     @NotBlank
     private String description;
+
     @NotBlank
     @Column(length = 256)
     private String director;
+
     @NotBlank
     @Column(length = 256)
     private String posterUrl;
-    @NotNull
+
     private int length;
 
     @NotNull

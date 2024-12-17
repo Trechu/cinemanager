@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -12,12 +13,15 @@ public class Screening {
     @GeneratedValue
     private long id;
 
+    @NotNull
     private LocalDateTime startDate;
 
     @ManyToOne
     private Movie movie;
+
     @ManyToOne
     private CinemaRoom cinemaRoom;
+
     @ManyToOne
     private ScreeningType screeningType;
 

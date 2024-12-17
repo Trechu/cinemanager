@@ -1,9 +1,11 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,19 +17,25 @@ public class Order {
     @GeneratedValue
     private long id;
 
-    private LocalDate date;
+    @NotNull
+    private LocalDateTime date;
+
+    @NotNull
     private BigDecimal totalPrice;
+
     private boolean paid = false;
+
     private boolean cancelled = false;
 
     @ManyToOne
     private User user;
+
     @OneToMany(mappedBy = "order")
     private final Set<Ticket> ticketSet = new HashSet<>();
 
     public Order() {}
 
-    public Order(LocalDate date, BigDecimal totalPrice, User user) {
+    public Order(LocalDateTime date, BigDecimal totalPrice, User user) {
         this.date = date;
         this.totalPrice = totalPrice;
         this.user = user;
@@ -37,11 +45,11 @@ public class Order {
         return id;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

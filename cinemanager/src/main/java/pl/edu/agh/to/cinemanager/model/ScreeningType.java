@@ -1,6 +1,8 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
@@ -12,9 +14,14 @@ public class ScreeningType {
     @GeneratedValue
     private long id;
 
-    @Column(length = 32)
+    @NotBlank
+    @Column(length = 32, unique = true)
     private String name;
+
+    @NotNull
     private BigDecimal basePrice;
+
+    @NotNull
     private BigDecimal discountPrice;
 
     public ScreeningType() {}

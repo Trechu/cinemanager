@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,23 +19,30 @@ public class User {
     @NotBlank
     @Column(length = 64)
     private String firstName;
+
     @NotBlank
     @Column(length = 64)
     private String lastName;
+
     @Email
     @Column(length = 128, unique = true)
     private String email;
+
     @NotBlank
     @Column(length = 256)
     private String password;
+
+    @NotNull
     @Column(length = 32)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
     private final Set<Review> reviewSet = new HashSet<>();
+
     @OneToMany(mappedBy = "user")
     private final Set<Ticket> ticketSet = new HashSet<>();
+
     @OneToMany(mappedBy = "user")
     private final Set<Order> orderSet = new HashSet<>();
 

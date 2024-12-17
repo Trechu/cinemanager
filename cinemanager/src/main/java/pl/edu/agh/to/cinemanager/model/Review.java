@@ -1,6 +1,8 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
@@ -12,12 +14,16 @@ public class Review {
     @GeneratedValue
     private long id;
 
+    @NotNull
     @Column(precision = 2, scale = 1)
     private BigDecimal rating;
+
+    @NotNull
     private String content;
 
     @ManyToOne
     private User user;
+
     @ManyToOne
     private Movie movie;
 
