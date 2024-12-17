@@ -342,10 +342,11 @@ Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. 
 #### GET /api/movies
 
 ##### Specyfikacja:
-Pozwala na wylistowanie wszystkich filmów w bazie kina.
+Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie.
 
 ##### Zwraca:
-200 OK - Lista filmów postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+200 OK - Lista filmów postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
 
 #### GET /api/movies/{id}
 
