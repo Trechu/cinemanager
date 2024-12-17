@@ -14,7 +14,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/screening-type")
 public class ScreeningTypeController {
 

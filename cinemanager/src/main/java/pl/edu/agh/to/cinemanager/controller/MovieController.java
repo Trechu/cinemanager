@@ -16,7 +16,6 @@ import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.service.MovieService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/movies")
 public class MovieController {
 

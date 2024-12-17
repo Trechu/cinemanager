@@ -16,7 +16,6 @@ import pl.edu.agh.to.cinemanager.service.UserService;
 import java.net.URI;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api")
 public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);

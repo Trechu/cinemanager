@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.to.cinemanager.service.OrderService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/orders")
 public class OrderController {
 

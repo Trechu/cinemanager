@@ -30,9 +30,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.edu.agh.to.cinemanager.model.UserRole;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -41,10 +45,13 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final RsaKeyProperties rsaKeyProperties;
+    private final CorsProperties corsProperties;
 
-    public SecurityConfig(UserDetailsService userDetailsService, RsaKeyProperties rsaKeyProperties) {
+    public SecurityConfig(UserDetailsService userDetailsService, RsaKeyProperties rsaKeyProperties,
+                          CorsProperties corsProperties) {
         this.userDetailsService = userDetailsService;
         this.rsaKeyProperties = rsaKeyProperties;
+        this.corsProperties = corsProperties;
     }
 
     @Bean
@@ -104,5 +111,16 @@ public class SecurityConfig {
         JWK jwk = new RSAKey.Builder(rsaKeyProperties.rsaPublicKey()).privateKey(rsaKeyProperties.rsaPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(corsProperties.allowedOrigins());
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+        return source;
     }
 }
