@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getCurrentUser } from "./authentication-service";
+import { API_URL_BASE } from "./api-url-config";
 
-const API_URL = " http://localhost:8080/api/users";
+const API_URL = API_URL_BASE + "users";
 
 export function delete_user(id){
     return axios.delete(API_URL + "/" + id, {
