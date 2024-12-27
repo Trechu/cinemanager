@@ -6,6 +6,7 @@ import { useState } from "react";
 import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 import Manager from "./components/manager-component";
+import Admin from "./components/admin-component";
 
 function userHasRole(user){
   return user.scope === "ROLE_ADMINISTRATOR";
@@ -121,6 +122,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/manager" element={<Manager />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </div>

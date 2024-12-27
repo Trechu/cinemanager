@@ -557,3 +557,15 @@ Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
 200 OK - Lista zajętych siedzeń na dany seans postaci: `row, position`
 
 400 BAD REQUEST - Podany seans nie istnieje.
+
+#### POST /api/orders
+##### Specyfikacja:
+Wymaga podania tokenu JWT na podstawie którego wystawiane są bilety (wyciąga z niego email)
+W body przesyłamy:
+ - id seansu
+ - listy rzędów siedzeń, ich numerów w rzędach oraz typów
+
+##### Zwraca:
+200 OK - Zamówienie oraz przekierowanie na podstronę z odpowiednim zamówieniem
+
+400 BAD REQUEST - w przypadku podania złego użytkownika, złego seansu lub kiedy któreś miejsce zostało już zajęte

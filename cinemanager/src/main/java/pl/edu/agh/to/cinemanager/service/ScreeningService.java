@@ -18,6 +18,7 @@ import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScreeningService {
@@ -79,6 +80,10 @@ public class ScreeningService {
         return ticketRepository.findAllByScreening(screening).stream()
                 .map(this::getTakenSeatDtoFromTicket)
                 .toList();
+    }
+
+    public Optional<Screening> getScreeningById(Long id){
+        return screeningRepository.findById(id);
     }
 
     private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto) {
