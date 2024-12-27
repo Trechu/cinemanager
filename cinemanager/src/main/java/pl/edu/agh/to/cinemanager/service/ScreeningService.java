@@ -16,9 +16,6 @@ import pl.edu.agh.to.cinemanager.model.Screening;
 import pl.edu.agh.to.cinemanager.model.ScreeningType;
 import pl.edu.agh.to.cinemanager.repository.ScreeningRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ScreeningService {
 
@@ -90,7 +87,7 @@ public class ScreeningService {
     }
 
     private CinemaRoom getCinemaRoomFromRequestDto(RequestScreeningDto screeningDto) {
-        return cinemaRoomService.getCinemaRoomById(screeningDto.roomId())
+        return cinemaRoomService.getCinemaRoomById(screeningDto.cinemaRoomId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room does not exist"));
     }
 

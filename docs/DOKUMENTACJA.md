@@ -295,7 +295,6 @@ Pozwala na wylistowanie wszystkich gatunków filmowych, do których należą fil
 ##### Zwraca:
 200 OK - Lista gatunków postaci `id, name`.
 
-### Gatunki
 #### GET /api/genres/{id}
 
 ##### Specyfikacja:
@@ -342,7 +341,7 @@ Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. 
 #### GET /api/movies
 
 ##### Specyfikacja:
-Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie.
+Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=length,desc`).
 
 ##### Zwraca:
 200 OK - Lista filmów postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
@@ -379,6 +378,158 @@ Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
 Pozwala uaktualnić film. W body należy podać pola `title, descrption, director, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Sale kinowe
+#### GET /api/cinema-rooms
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich sal kinowych.
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name, rows, seatsPerRow`.
+
+#### GET /api/cinema-rooms/{id}
+##### Specyfikacja:
+Pozwala na wylistowanie danych konkretnej sali kinowej
+
+##### Zwraca:
+200 OK - Dane w postaci `id, name, rows, seatsPerRow`.
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+#### POST /api/cinema-rooms
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać nową salę kinową. Wymaga rangi co najmniej managera. W body należy podać `name, rows, seatsPerRow`.
+
+##### Zwraca:
+201 CREATED - Dodanie sali powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/cinema-rooms/{id}` oraz w body znajduje się `id, name, rows, seatsPerRow`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/cinema-rooms/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić salę kinową. W body należy podać pola `name, rows, seatsPerRow`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Typy seansów
+#### GET /api/screening-types
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich rodzajów seansów (np. 2D, 3D).
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name, basePrice, discountPrice`.
+
+#### GET /api/screening-types/{id}
+##### Specyfikacja:
+Pozwala na wylistowanie danych konkretnego typu seansu.
+
+##### Zwraca:
+200 OK - Dane w postaci `id, name, basePrice, discountPrice`.
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+#### POST /api/screening-types
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać nowy typ seansu. Wymaga rangi co najmniej managera. W body należy podać `name, basePrice, discountPrice`.
+
+##### Zwraca:
+201 CREATED - Dodanie typu seansu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/screening-types/{id}` oraz w body znajduje się `id, name, basePrice, discountPrice`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/cinema-rooms/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić typ seansu. W body należy podać pola `name, basePrice, discountPrice`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Seanse
+#### GET /api/screenings
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich seansów. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=startDate,desc`). Dodatkowo, można filtrować listę po `movieId`, np. `?movieId=1`.
+
+##### Zwraca:
+200 OK - Lista seansów postaci `id, startDate, screeningType, movie, cinemaRoom`, znajdujące się pod kluczem `content`. 
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+#### GET /api/screenings/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych seansu.
+
+##### Zwraca:
+200 OK - Seans postaci `id, startDate, screeningType, movie, cinemaRoom`.
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+
+#### POST /api/screenings
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać seans. Należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie seansu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/screenings/{id}` oraz w body znajduje się `id, startDate, screeningType, movie, cinemaRoom`.
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/screenings/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić seans. W body należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. Wymaga uprawnień co najmniej managera.
 
 ##### Zwraca:
 204 NO CONTENT - Uaktualnienie powiodło się.
