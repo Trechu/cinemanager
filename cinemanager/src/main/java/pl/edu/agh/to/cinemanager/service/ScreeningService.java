@@ -17,6 +17,9 @@ import pl.edu.agh.to.cinemanager.model.Screening;
 import pl.edu.agh.to.cinemanager.model.ScreeningType;
 import pl.edu.agh.to.cinemanager.repository.ScreeningRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class ScreeningService {
 
@@ -57,7 +60,7 @@ public class ScreeningService {
                 getCinemaRoomFromRequestDto(screeningDto),
                 getScreeningTypeFromRequestDto(screeningDto));
 
-        save(screening);
+        validateAndSave(screening);
 
         return screeningToScreeningDto(screening);
     }
@@ -68,7 +71,7 @@ public class ScreeningService {
         screening.setCinemaRoom(getCinemaRoomFromRequestDto(screeningDto));
         screening.setStartDate(screeningDto.startDate());
 
-        save(screening);
+        validateAndSave(screening);
     }
 
     private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto) {
@@ -86,9 +89,34 @@ public class ScreeningService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening type does not exist"));
     }
 
-    private void save(Screening screening) {
+    private boolean isValidScreening(Screening screeningToValidate) {
+        LocalDateTime startDate = screeningToValidate.getStartDate();
+        LocalDateTime endDate = startDate.plusMinutes(screeningToValidate.getMovie().getLength());
+
+        List<Screening> possibleInterferenceScreenings = screeningRepository
+                .findScreeningsInCinemaRoomAtMostOneDayAway(screeningToValidate.getCinemaRoom(),
+                        screeningToValidate.getStartDate());
+
+        return possibleInterferenceScreenings.stream().noneMatch(innerScreening -> {
+            LocalDateTime innerStartDate = innerScreening.getStartDate();
+            LocalDateTime innerEndDate = innerStartDate.plusMinutes(innerScreening.getMovie().getLength());
+
+            boolean differentId = innerScreening.getId() != screeningToValidate.getId();
+            boolean startsAndEndsBefore = innerStartDate.isBefore(startDate) && innerEndDate.isBefore(startDate);
+            boolean startsAndEndsAfter = innerStartDate.isAfter(endDate) && innerEndDate.isAfter(endDate);
+
+            return differentId && !startsAndEndsBefore && !startsAndEndsAfter;
+        });
+    }
+
+    private void validateAndSave(Screening screening) {
         try {
+            if (!isValidScreening(screening)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening overlaps with another screening");
+            }
             screeningRepository.save(screening);
+        } catch (ResponseStatusException e) {
+            throw e;
         } catch (Exception e) {
             if (e.getCause().getCause() instanceof ConstraintViolationException) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

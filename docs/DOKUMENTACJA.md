@@ -517,13 +517,15 @@ Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET ty
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala dodać seans. Należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. Wymaga uprawnień co najmniej managera.
+Pozwala dodać seans. Należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. 
+Wymaga uprawnień co najmniej managera.
+Zostaje sprawdzone, czy dany seans nie pokrywa się z jakimś innym seansem odbywającym się w tym samym czasie w tej samej sali.
 
 ##### Zwraca:
 201 CREATED - Dodanie seansu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/screenings/{id}` oraz w body znajduje się `id, startDate, screeningType, movie, cinemaRoom`.
 Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
 
-400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne (w tym gdy istnieje inny seans w tym samym czasie i w tej samej sali).
 
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
@@ -534,12 +536,14 @@ Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET ty
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala uaktualnić seans. W body należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. Wymaga uprawnień co najmniej managera.
+Pozwala uaktualnić seans. W body należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. 
+Wymaga uprawnień co najmniej managera.
+Zostaje sprawdzone, czy dany seans nie pokrywa się z jakimś innym seansem odbywającym się w tym samym czasie w tej samej sali.
 
 ##### Zwraca:
 204 NO CONTENT - Uaktualnienie powiodło się.
 
-400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne (w tym gdy istnieje inny seans w tym samym czasie i w tej samej sali).
 
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
