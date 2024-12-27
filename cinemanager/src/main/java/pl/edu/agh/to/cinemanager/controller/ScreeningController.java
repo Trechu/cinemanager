@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestScreeningDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseScreeningDto;
+import pl.edu.agh.to.cinemanager.dto.ResponseTakenSeatDto;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.model.Screening;
 import pl.edu.agh.to.cinemanager.repository.specification.ScreeningSpecification;
@@ -62,5 +63,10 @@ public class ScreeningController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateScreening(@PathVariable("id") Screening screening, @RequestBody RequestScreeningDto screeningDto) {
         screeningService.updateScreening(screening, screeningDto);
+    }
+
+    @GetMapping("{id}/seats")
+    public List<ResponseTakenSeatDto> getTakenSeats(@PathVariable("id") Screening screening) {
+        return screeningService.getTakenSeats(screening);
     }
 }

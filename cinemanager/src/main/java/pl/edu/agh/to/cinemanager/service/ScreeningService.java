@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestScreeningDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseScreeningDto;
-import pl.edu.agh.to.cinemanager.model.CinemaRoom;
-import pl.edu.agh.to.cinemanager.model.Movie;
-import pl.edu.agh.to.cinemanager.model.Screening;
-import pl.edu.agh.to.cinemanager.model.ScreeningType;
+import pl.edu.agh.to.cinemanager.dto.ResponseTakenSeatDto;
+import pl.edu.agh.to.cinemanager.model.*;
 import pl.edu.agh.to.cinemanager.repository.ScreeningRepository;
+import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,13 +26,15 @@ public class ScreeningService {
     private final ScreeningTypeService screeningTypeService;
     private final MovieService movieService;
     private final CinemaRoomService cinemaRoomService;
+    private final TicketRepository ticketRepository;
 
     public ScreeningService(ScreeningRepository screeningRepository, ScreeningTypeService screeningTypeService,
-                            MovieService movieService, CinemaRoomService cinemaRoomService) {
+                            MovieService movieService, CinemaRoomService cinemaRoomService, TicketRepository ticketRepository) {
         this.screeningRepository = screeningRepository;
         this.screeningTypeService = screeningTypeService;
         this.movieService = movieService;
         this.cinemaRoomService = cinemaRoomService;
+        this.ticketRepository = ticketRepository;
     }
 
     public Page<ResponseScreeningDto> getAllScreenings(Specification<Screening> specification, Pageable pageable) {
@@ -74,6 +75,12 @@ public class ScreeningService {
         validateAndSave(screening);
     }
 
+    public List<ResponseTakenSeatDto> getTakenSeats(Screening screening) {
+        return ticketRepository.findAllByScreening(screening).stream()
+                .map(this::getTakenSeatDtoFromTicket)
+                .toList();
+    }
+
     private Movie getMovieFromRequestDto(RequestScreeningDto screeningDto) {
         return movieService.getMovieById(screeningDto.movieId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This movie does not exist"));
@@ -87,6 +94,10 @@ public class ScreeningService {
     private ScreeningType getScreeningTypeFromRequestDto(RequestScreeningDto screeningDto) {
         return screeningTypeService.getScreeningTypeById(screeningDto.screeningTypeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening type does not exist"));
+    }
+
+    private ResponseTakenSeatDto getTakenSeatDtoFromTicket(Ticket ticket) {
+        return new ResponseTakenSeatDto(ticket.getSeatRow(), ticket.getSeatPosition());
     }
 
     private boolean isValidScreening(Screening screeningToValidate) {

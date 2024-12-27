@@ -548,3 +548,12 @@ Zostaje sprawdzone, czy dany seans nie pokrywa się z jakimś innym seansem odby
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### GET /api/screenings/{id}/seats
+##### Specyfikacja:
+Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
+
+##### Zwraca:
+200 OK - Lista zajętych siedzeń na dany seans postaci: `row, position`
+
+400 BAD REQUEST - Podany seans nie istnieje.
