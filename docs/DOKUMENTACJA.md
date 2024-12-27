@@ -490,12 +490,17 @@ Pozwala uaktualnić typ seansu. W body należy podać pola `name, basePrice, dis
 #### GET /api/screenings
 
 ##### Specyfikacja:
-Pozwala na wylistowanie wszystkich seansów. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=startDate,desc`). Dodatkowo, można filtrować listę po `movieId`, np. `?movieId=1`.
+Pozwala na wylistowanie wszystkich seansów. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=startDate,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `movieId` - listuje tylko seanse dla danego filmu,
+- `after` - listuje tylko seanse odbywające się po (`>=`) danej dacie (przekazanej w formacie ISO-8601, np. `2025-01-01T12:00:00`).
 
 ##### Zwraca:
 200 OK - Lista seansów postaci `id, startDate, screeningType, movie, cinemaRoom`, znajdujące się pod kluczem `content`. 
 Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
 Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
 
 #### GET /api/screenings/{id}
 
