@@ -24,7 +24,7 @@ public class TicketService {
     }
 
     @Transactional
-    public List<Ticket> createTicketsFromOrderInformation(List<Integer> rows, List<Integer> seatNumbers, List<String> types, Order order, Screening screening, User user){
+    public void createTicketsFromOrderInformation(List<Integer> rows, List<Integer> seatNumbers, List<String> types, Order order, Screening screening, User user){
         Iterator<Integer> rowIterator = rows.iterator();
         Iterator<Integer> seatNumberIterator = seatNumbers.iterator();
         Iterator<String> typeIterator = types.iterator();
@@ -42,6 +42,5 @@ public class TicketService {
             tickets.add(ticket);
         }
         ticketRepository.saveAll(tickets);
-        return tickets;
     }
 }
