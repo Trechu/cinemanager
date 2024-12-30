@@ -18,9 +18,6 @@ public class Genre {
     @Column(length = 64, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "genre")
-    private final Set<Movie> movieSet = new HashSet<>();
-
     public Genre() {
     }
 
@@ -38,13 +35,5 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Movie> getMovieSet() {
-        return movieSet;
-    }
-
-    public void addMovie(Movie movie) {
-        movieSet.add(movie);
     }
 }

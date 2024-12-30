@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -29,9 +26,6 @@ public class Order {
 
     @ManyToOne
     private User user;
-
-    @OneToMany(mappedBy = "order")
-    private final Set<Ticket> ticketSet = new HashSet<>();
 
     public Order() {
     }
@@ -84,13 +78,5 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Ticket> getTicketSet() {
-        return ticketSet;
-    }
-
-    public void addTicket(Ticket ticket) {
-        ticketSet.add(ticket);
     }
 }

@@ -36,9 +36,6 @@ public class Movie {
     @ManyToOne
     private Genre genre;
 
-    @OneToMany(mappedBy = "movie")
-    private final Set<Review> reviewSet = new HashSet<>();
-
     public Movie() {
     }
 
@@ -101,13 +98,5 @@ public class Movie {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public Set<Review> getReviewSet() {
-        return reviewSet;
-    }
-
-    public void addReview(Review review) {
-        reviewSet.add(review);
     }
 }

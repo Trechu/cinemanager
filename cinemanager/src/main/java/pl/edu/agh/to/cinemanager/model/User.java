@@ -5,9 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -36,15 +33,6 @@ public class User {
     @Column(length = 32)
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    @OneToMany(mappedBy = "user")
-    private final Set<Review> reviewSet = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private final Set<Ticket> ticketSet = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private final Set<Order> orderSet = new HashSet<>();
 
     public User() {
     }
@@ -99,29 +87,5 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    public Set<Review> getReviewSet() {
-        return reviewSet;
-    }
-
-    public void addReview(Review review) {
-        reviewSet.add(review);
-    }
-
-    public Set<Ticket> getTicketSet() {
-        return ticketSet;
-    }
-
-    public void addTicket(Ticket ticket) {
-        ticketSet.add(ticket);
-    }
-
-    public Set<Order> getOrderSet() {
-        return orderSet;
-    }
-
-    public void addOrder(Order order) {
-        orderSet.add(order);
     }
 }
