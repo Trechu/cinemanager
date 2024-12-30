@@ -584,6 +584,18 @@ W body przesyłamy:
  - listy rzędów siedzeń, ich numerów w rzędach oraz typów
 
 ##### Zwraca:
-201 OK - Zamówienie oraz nagłówek Location
+201 CREATED - Zamówienie oraz nagłówek Location
 
 400 BAD REQUEST - w przypadku podania złego użytkownika, złego seansu lub kiedy któreś miejsce zostało już zajęte
+
+#### POST /api/orders/{id}/payment
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Symuluje otrzymanie informacji o płatności od zewnętrznego systemu płatności. Wymaga roli administratora.
+
+##### Zwraca:
+204 NO CONTENT - Zapisano infromację o udanej płatności.
+
+400 BAD REQUEST - Zamówienie nie istnieje lub jest już opłacone.

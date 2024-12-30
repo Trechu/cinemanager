@@ -66,4 +66,13 @@ public class OrderService {
         return new ResponseOrderDto(order.getId(), order.getDate(), order.getTotalPrice(),
                 order.isPaid(), order.isCancelled(), tickets, userId);
     }
+
+    public void updatePayment(Order order) {
+        if (order.isPaid()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order is already paid");
+        } else {
+            order.setPaid(true);
+            orderRepository.save(order);
+        }
+    }
 }

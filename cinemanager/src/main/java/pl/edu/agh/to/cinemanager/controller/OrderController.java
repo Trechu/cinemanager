@@ -54,4 +54,11 @@ public class OrderController {
 
         return ResponseEntity.created(location).body(response);
     }
+
+    @PostMapping("/{id}/payment")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePayment(@PathVariable("id") Order order) {
+        orderService.updatePayment(order);
+    }
 }
