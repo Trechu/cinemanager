@@ -559,6 +559,29 @@ Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
 400 BAD REQUEST - Podany seans nie istnieje.
 
 ### Zamówienia
+#### GET /api/orders
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich zamówień. 
+Dla roli przynajmniej managera wylistowuje wszystkie zamówienia, w przeciwnym przypadku jedynie zamówienia użytkownika, którego token został przesłany.
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=date,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `userId` - listuje tylko zamówienia dla danego użytkownika (lecz zwykły użytkownik dalej ma dostęp jedynie do swoich danych),
+- `after` - listuje tylko zamówienia dokonane po (`>=`) danej dacie (przekazanej w formacie ISO-8601, np. `2025-01-01T12:00:00`),
+- `before` - listuje tylko zamówienia dokonane przed (`<=`) daną datą (przekazaną w formacie ISO-8601, np. `2025-01-01T12:00:00`),
+- `paid` - listuje tylko zamówienia zapłacone,
+- `cancelled` - listuje tylko zamówienia anulowane.
+
+##### Zwraca:
+200 OK - Lista zamówień w postaci analogicznej do endpointu dla zamówienia o danym id, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
 #### GET /api/orders/{id}
 ##### Nagłówki:
 Authorization: 'Bearer ' + Token
@@ -567,11 +590,14 @@ Authorization: 'Bearer ' + Token
 Zwraca dane dotyczące danego zamówienia: `id, date, cancelled, paid, totalPrice, userId, tickets`. 
 `tickets` to lista biletów w analogicznym formacie jak zwracany przez endpoint dla biletów.
 Wymaga, aby zamówienie należało do użytkownika, którego token jest przesłany lub rangi przynajmniej managera.
+`userId` jest dodawane w przypadku posiadania roli co najmniej managera.
 
 ##### Zwraca:
 200 OK - Dane zamówienia
 
 400 BAD REQUEST - Zamówienie nie istnieje lub użytkownik nie ma uprawnień, aby je zobaczyć.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
 #### POST /api/orders
 ##### Nagłówki:
@@ -599,3 +625,5 @@ Symuluje otrzymanie informacji o płatności od zewnętrznego systemu płatnośc
 204 NO CONTENT - Zapisano infromację o udanej płatności.
 
 400 BAD REQUEST - Zamówienie nie istnieje lub jest już opłacone.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.

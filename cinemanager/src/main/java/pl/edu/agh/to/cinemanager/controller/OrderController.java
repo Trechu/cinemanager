@@ -1,5 +1,8 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,13 +12,17 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestOrderDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseOrderDto;
+import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.model.Order;
 import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.model.UserRole;
+import pl.edu.agh.to.cinemanager.repository.specification.OrderSpecification;
 import pl.edu.agh.to.cinemanager.service.AuthService;
 import pl.edu.agh.to.cinemanager.service.OrderService;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -28,6 +35,27 @@ public class OrderController {
     public OrderController(OrderService orderService, AuthService authService) {
         this.orderService = orderService;
         this.authService = authService;
+    }
+
+    @GetMapping("")
+    @PreAuthorize("isAuthenticated()")
+    public Page<ResponseOrderDto> getAllOrders(Authentication authentication, Pageable pageable,
+                                               @RequestParam(value = "userId", required = false) User user,
+                                               @RequestParam(value = "paid", required = false) Boolean paid,
+                                               @RequestParam(value = "cancelled", required = false) Boolean cancelled,
+                                               @RequestParam(value = "after", required = false) LocalDateTime after,
+                                               @RequestParam(value = "before", required = false) LocalDateTime before) {
+        Specification<Order> orderSpecification = OrderSpecification.user(user)
+                .and(OrderSpecification.paid(paid))
+                .and(OrderSpecification.cancelled(cancelled))
+                .and(OrderSpecification.afterDate(after))
+                .and(OrderSpecification.beforeDate(before));
+
+        if (authService.hasRole(UserRole.MANAGER, authentication.getAuthorities())) {
+            return orderService.getAllOrders(orderSpecification, pageable);
+        } else {
+            return orderService.getOrdersForCustomer(orderSpecification, pageable, authentication.getName());
+        }
     }
 
     @GetMapping("/{id}")
