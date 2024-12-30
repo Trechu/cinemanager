@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tickets")
@@ -18,21 +19,27 @@ public class Ticket {
 
     private boolean discounted = false;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Screening screening;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Order order;
 
     public Ticket() {
     }
 
-    public Ticket(int seatRow, int seatPosition) {
+    public Ticket(int seatRow, int seatPosition, Screening screening, User user, Order order) {
         this.seatRow = seatRow;
         this.seatPosition = seatPosition;
+        this.screening = screening;
+        this.user = user;
+        this.order = order;
     }
 
     public long getId() {

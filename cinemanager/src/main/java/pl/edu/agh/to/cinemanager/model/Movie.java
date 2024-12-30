@@ -33,7 +33,7 @@ public class Movie {
     private int length;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Genre genre;
 
     public Movie() {

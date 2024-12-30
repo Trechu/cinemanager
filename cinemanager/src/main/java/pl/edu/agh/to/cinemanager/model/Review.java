@@ -23,10 +23,12 @@ public class Review {
     @NotNull
     private String content;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Movie movie;
 
     public Review() {

@@ -16,13 +16,16 @@ public class Screening {
     @NotNull
     private LocalDateTime startDate;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Movie movie;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private CinemaRoom cinemaRoom;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private ScreeningType screeningType;
 
     public Screening() {

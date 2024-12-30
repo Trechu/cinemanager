@@ -24,7 +24,8 @@ public class Order {
 
     private boolean cancelled = false;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private User user;
 
     public Order() {

@@ -11,6 +11,7 @@ import pl.edu.agh.to.cinemanager.model.Screening;
 import pl.edu.agh.to.cinemanager.model.ScreeningType;
 import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.repository.OrderRepository;
+import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,12 +25,15 @@ public class OrderService {
     private final TicketService ticketService;
     private final ScreeningService screeningService;
     private final UserService userService;
+    private final TicketRepository ticketRepository;
 
-    public OrderService(OrderRepository orderRepository, TicketService ticketService, ScreeningService screeningService, UserService userService) {
+    public OrderService(OrderRepository orderRepository, TicketService ticketService, ScreeningService screeningService,
+                        UserService userService, TicketRepository ticketRepository) {
         this.orderRepository = orderRepository;
         this.ticketService = ticketService;
         this.screeningService = screeningService;
         this.userService = userService;
+        this.ticketRepository = ticketRepository;
     }
 
     @Transactional
@@ -48,7 +52,7 @@ public class OrderService {
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
         Order order = new Order(LocalDateTime.now(), price, user);
         ticketService.createTicketsFromOrderInformation(orderDto.rows(), orderDto.seatNumbers(), orderDto.types(),
-                order, screening, user).forEach(order::addTicket);
+                order, screening, user);
         orderRepository.save(order);
 
         return orderToResponseDto(order);
@@ -56,6 +60,6 @@ public class OrderService {
 
     public ResponseOrderDto orderToResponseDto(Order order){
         return new ResponseOrderDto(order.getId(), order.getDate(), order.getTotalPrice(),
-                order.isPaid(), order.isCancelled(), order.getTicketSet());
+                order.isPaid(), order.isCancelled(), ticketRepository.findAllByOrder(order));
     }
 }
