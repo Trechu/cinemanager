@@ -558,7 +558,25 @@ Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
 
 400 BAD REQUEST - Podany seans nie istnieje.
 
+### Zamówienia
+#### GET /api/orders/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca dane dotyczące danego zamówienia: `id, date, cancelled, paid, totalPrice, userId, tickets`. 
+`tickets` to lista biletów w analogicznym formacie jak zwracany przez endpoint dla biletów.
+Wymaga, aby zamówienie należało do użytkownika, którego token jest przesłany lub rangi przynajmniej managera.
+
+##### Zwraca:
+200 OK - Dane zamówienia
+
+400 BAD REQUEST - Zamówienie nie istnieje lub użytkownik nie ma uprawnień, aby je zobaczyć.
+
 #### POST /api/orders
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
 ##### Specyfikacja:
 Wymaga podania tokenu JWT na podstawie którego wystawiane są bilety (wyciąga z niego email)
 W body przesyłamy:
@@ -566,6 +584,6 @@ W body przesyłamy:
  - listy rzędów siedzeń, ich numerów w rzędach oraz typów
 
 ##### Zwraca:
-200 OK - Zamówienie oraz przekierowanie na podstronę z odpowiednim zamówieniem
+201 OK - Zamówienie oraz nagłówek Location
 
 400 BAD REQUEST - w przypadku podania złego użytkownika, złego seansu lub kiedy któreś miejsce zostało już zajęte
