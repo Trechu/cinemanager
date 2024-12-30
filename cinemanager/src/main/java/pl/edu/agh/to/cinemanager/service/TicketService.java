@@ -35,10 +35,9 @@ public class TicketService {
             if (ticketRepository.findByScreeningAndSeatRowAndSeatPosition(screening,row,seatNumber).isPresent()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the tickets is already taken");
             }
-            Ticket ticket = new Ticket(row, seatNumber, screening, user, order);
-            if (typeIterator.next().equals("Ulgowy")){
-                ticket.setDiscounted(true);
-            }
+
+            boolean discounted = typeIterator.next().equals("Ulgowy");
+            Ticket ticket = new Ticket(row, seatNumber, screening, user, order, discounted);
 
             tickets.add(ticket);
         }

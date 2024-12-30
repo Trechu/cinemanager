@@ -13,12 +13,21 @@ import java.util.List;
 
 @Configuration
 public class DataConfig {
+    private void calculateTotalPrice(Order order, List<Ticket> tickets) {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (Ticket ticket : tickets) {
+            BigDecimal price = ticket.isDiscounted() ? ticket.getScreening().getScreeningType().getDiscountPrice() : ticket.getScreening().getScreeningType().getBasePrice();
+            totalPrice = totalPrice.add(price);
+        }
+        order.setTotalPrice(totalPrice);
+    }
+
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
                                         MovieRepository movieRepository, GenreRepository genreRepository,
                                         ScreeningTypeRepository screeningTypeRepository,
                                         ScreeningRepository screeningRepository,
-                                        CinemaRoomRepository cinemaRoomRepository) {
+                                        CinemaRoomRepository cinemaRoomRepository, OrderRepository orderRepository, TicketRepository ticketRepository) {
         return args -> {
             if (userRepository.count() == 0) {
                 User user1 = new User("Jan", "Kowalski", "jan@mail.com",
@@ -369,6 +378,143 @@ public class DataConfig {
                 );
 
                 screeningRepository.saveAll(screenings);
+
+                User user3 = new User("User3FirstName", "User3LastName", "user3@mail.com", passwordEncoder.encode("password3"), UserRole.CUSTOMER);
+                User user4 = new User("User4FirstName", "User4LastName", "user4@mail.com", passwordEncoder.encode("password4"), UserRole.CUSTOMER);
+                User user5 = new User("User5FirstName", "User5LastName", "user5@mail.com", passwordEncoder.encode("password5"), UserRole.CUSTOMER);
+                User user6 = new User("User6FirstName", "User6LastName", "user6@mail.com", passwordEncoder.encode("password6"), UserRole.CUSTOMER);
+                User user7 = new User("User7FirstName", "User7LastName", "user7@mail.com", passwordEncoder.encode("password7"), UserRole.CUSTOMER);
+                User user8 = new User("User8FirstName", "User8LastName", "user8@mail.com", passwordEncoder.encode("password8"), UserRole.CUSTOMER);
+                User user9 = new User("User9FirstName", "User9LastName", "user9@mail.com", passwordEncoder.encode("password9"), UserRole.CUSTOMER);
+                User user10 = new User("User10FirstName", "User10LastName", "user10@mail.com", passwordEncoder.encode("password10"), UserRole.CUSTOMER);
+                User user11 = new User("User11FirstName", "User11LastName", "user11@mail.com", passwordEncoder.encode("password11"), UserRole.CUSTOMER);
+                User user12 = new User("User12FirstName", "User12LastName", "user12@mail.com", passwordEncoder.encode("password12"), UserRole.CUSTOMER);
+                userRepository.saveAll(List.of(user3, user4, user5, user6, user7, user8, user9, user10, user11, user12));
+
+                Order order1 = new Order(LocalDateTime.of(2024, 11, 15, 10, 0), BigDecimal.ZERO, user3);
+                Order order2 = new Order(LocalDateTime.of(2024, 11, 16, 11, 0), BigDecimal.ZERO, user4);
+                Order order3 = new Order(LocalDateTime.of(2024, 11, 17, 12, 0), BigDecimal.ZERO, user5);
+                Order order4 = new Order(LocalDateTime.of(2024, 11, 18, 13, 0), BigDecimal.ZERO, user6);
+                Order order5 = new Order(LocalDateTime.of(2024, 11, 19, 14, 0), BigDecimal.ZERO, user7);
+                Order order6 = new Order(LocalDateTime.of(2024, 11, 20, 15, 0), BigDecimal.ZERO, user8);
+                Order order7 = new Order(LocalDateTime.of(2024, 11, 21, 16, 0), BigDecimal.ZERO, user9);
+                Order order8 = new Order(LocalDateTime.of(2024, 11, 22, 17, 0), BigDecimal.ZERO, user10);
+                Order order9 = new Order(LocalDateTime.of(2024, 11, 23, 18, 0), BigDecimal.ZERO, user11);
+                Order order10 = new Order(LocalDateTime.of(2024, 11, 24, 19, 0), BigDecimal.ZERO, user12);
+                Order order11 = new Order(LocalDateTime.of(2024, 12, 24, 20, 0), BigDecimal.ZERO, user3);
+                Order order12 = new Order(LocalDateTime.of(2024, 12, 25, 21, 0), BigDecimal.ZERO, user4);
+                Order order13 = new Order(LocalDateTime.of(2024, 12, 26, 22, 0), BigDecimal.ZERO, user5);
+                Order order14 = new Order(LocalDateTime.of(2024, 12, 27, 23, 0), BigDecimal.ZERO, user6);
+                Order order15 = new Order(LocalDateTime.of(2024, 12, 28, 10, 0), BigDecimal.ZERO, user7);
+                Order order16 = new Order(LocalDateTime.of(2024, 12, 29, 11, 0), BigDecimal.ZERO, user8);
+                Order order17 = new Order(LocalDateTime.of(2024, 12, 30, 12, 0), BigDecimal.ZERO, user9);
+                Order order18 = new Order(LocalDateTime.of(2024, 12, 31, 13, 0), BigDecimal.ZERO, user10);
+                Order order19 = new Order(LocalDateTime.of(2025, 1, 1, 14, 0), BigDecimal.ZERO, user11);
+                Order order20 = new Order(LocalDateTime.of(2025, 1, 2, 15, 0), BigDecimal.ZERO, user12);
+
+                order1.setCancelled(true);
+                order2.setPaid(true);
+                order3.setPaid(true);
+                order4.setPaid(true);
+                order5.setPaid(true);
+                order6.setCancelled(true);
+                order7.setPaid(true);
+                order8.setPaid(true);
+                order9.setPaid(true);
+                order10.setPaid(true);
+                order11.setPaid(true);
+                order12.setPaid(true);
+                order13.setPaid(true);
+                order14.setPaid(true);
+                order15.setPaid(true);
+                order16.setPaid(true);
+                order17.setPaid(true);
+                order18.setPaid(true);
+                order19.setPaid(true);
+                order20.setCancelled(true);
+                order20.setPaid(true);
+
+                List<Ticket> tickets1 = List.of(new Ticket(1, 1, screenings.get(0), user3, order1, false));
+                List<Ticket> tickets2 = List.of(new Ticket(1, 2, screenings.get(1), user4, order2, true));
+                List<Ticket> tickets3 = List.of(new Ticket(1, 3, screenings.get(2), user5, order3, false));
+                List<Ticket> tickets4 = List.of(new Ticket(2, 1, screenings.get(3), user6, order4, true));
+                List<Ticket> tickets5 = List.of(new Ticket(2, 2, screenings.get(4), user7, order5, false));
+                List<Ticket> tickets6 = List.of(new Ticket(2, 3, screenings.get(5), user8, order6, true));
+                List<Ticket> tickets7 = List.of(new Ticket(3, 1, screenings.get(6), user9, order7, false));
+                List<Ticket> tickets8 = List.of(new Ticket(3, 2, screenings.get(7), user10, order8, true));
+                List<Ticket> tickets9 = List.of(new Ticket(3, 3, screenings.get(8), user11, order9, false));
+                List<Ticket> tickets10 = List.of(new Ticket(4, 1, screenings.get(9), user12, order10, true));
+                List<Ticket> tickets11 = List.of(new Ticket(4, 2, screenings.get(50), user3, order11, false));
+                List<Ticket> tickets12 = List.of(new Ticket(4, 3, screenings.get(50), user4, order12, true));
+                List<Ticket> tickets13 = List.of(new Ticket(5, 1, screenings.get(50), user5, order13, false));
+                List<Ticket> tickets14 = List.of(new Ticket(5, 2, screenings.get(51), user6, order14, true));
+                List<Ticket> tickets15 = List.of(new Ticket(5, 3, screenings.get(51), user7, order15, false));
+                List<Ticket> tickets16 = List.of(new Ticket(6, 1, screenings.get(76), user8, order16, true));
+                List<Ticket> tickets17 = List.of(new Ticket(6, 2, screenings.get(76), user9, order17, false));
+                List<Ticket> tickets18 = List.of(new Ticket(6, 3, screenings.get(78), user10, order18, true));
+                List<Ticket> tickets19 = List.of(new Ticket(7, 1, screenings.get(78), user11, order19, false));
+                List<Ticket> tickets20 = List.of(new Ticket(7, 2, screenings.get(76), user12, order20, true));
+
+                tickets1.getFirst().setUsed(false);
+                tickets2.getFirst().setUsed(true);
+                tickets3.getFirst().setUsed(true);
+                tickets4.getFirst().setUsed(true);
+                tickets5.getFirst().setUsed(true);
+                tickets6.getFirst().setUsed(false);
+                tickets7.getFirst().setUsed(true);
+                tickets8.getFirst().setUsed(true);
+                tickets9.getFirst().setUsed(true);
+                tickets10.getFirst().setUsed(true);
+                tickets11.getFirst().setUsed(true);
+                tickets12.getFirst().setUsed(true);
+                tickets13.getFirst().setUsed(true);
+                tickets14.getFirst().setUsed(true);
+                tickets15.getFirst().setUsed(true);
+
+                calculateTotalPrice(order1, tickets1);
+                calculateTotalPrice(order2, tickets2);
+                calculateTotalPrice(order3, tickets3);
+                calculateTotalPrice(order4, tickets4);
+                calculateTotalPrice(order5, tickets5);
+                calculateTotalPrice(order6, tickets6);
+                calculateTotalPrice(order7, tickets7);
+                calculateTotalPrice(order8, tickets8);
+                calculateTotalPrice(order9, tickets9);
+                calculateTotalPrice(order10, tickets10);
+                calculateTotalPrice(order11, tickets11);
+                calculateTotalPrice(order12, tickets12);
+                calculateTotalPrice(order13, tickets13);
+                calculateTotalPrice(order14, tickets14);
+                calculateTotalPrice(order15, tickets15);
+                calculateTotalPrice(order16, tickets16);
+                calculateTotalPrice(order17, tickets17);
+                calculateTotalPrice(order18, tickets18);
+                calculateTotalPrice(order19, tickets19);
+                calculateTotalPrice(order20, tickets20);
+
+                orderRepository.saveAll(List.of(order1, order2, order3, order4, order5, order6, order7, order8, order9,
+                        order10, order11, order12, order13, order14, order15, order16, order17, order18, order19, order20));
+
+                ticketRepository.saveAll(tickets1);
+                ticketRepository.saveAll(tickets2);
+                ticketRepository.saveAll(tickets3);
+                ticketRepository.saveAll(tickets4);
+                ticketRepository.saveAll(tickets5);
+                ticketRepository.saveAll(tickets6);
+                ticketRepository.saveAll(tickets7);
+                ticketRepository.saveAll(tickets8);
+                ticketRepository.saveAll(tickets9);
+                ticketRepository.saveAll(tickets10);
+                ticketRepository.saveAll(tickets11);
+                ticketRepository.saveAll(tickets12);
+                ticketRepository.saveAll(tickets13);
+                ticketRepository.saveAll(tickets14);
+                ticketRepository.saveAll(tickets15);
+                ticketRepository.saveAll(tickets16);
+                ticketRepository.saveAll(tickets17);
+                ticketRepository.saveAll(tickets18);
+                ticketRepository.saveAll(tickets19);
+                ticketRepository.saveAll(tickets20);
             }
         };
     }

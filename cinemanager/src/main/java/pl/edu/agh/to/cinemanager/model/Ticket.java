@@ -17,7 +17,7 @@ public class Ticket {
 
     private boolean used = false;
 
-    private boolean discounted = false;
+    private boolean discounted;
 
     @NotNull
     @ManyToOne(optional = false)
@@ -34,12 +34,13 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(int seatRow, int seatPosition, Screening screening, User user, Order order) {
+    public Ticket(int seatRow, int seatPosition, Screening screening, User user, Order order, boolean discounted) {
         this.seatRow = seatRow;
         this.seatPosition = seatPosition;
         this.screening = screening;
         this.user = user;
         this.order = order;
+        this.discounted = discounted;
     }
 
     public long getId() {
