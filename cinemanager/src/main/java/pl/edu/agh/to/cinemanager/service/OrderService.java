@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestOrderDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseOrderDto;
-import pl.edu.agh.to.cinemanager.model.Order;
-import pl.edu.agh.to.cinemanager.model.Screening;
-import pl.edu.agh.to.cinemanager.model.ScreeningType;
-import pl.edu.agh.to.cinemanager.model.User;
+import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
+import pl.edu.agh.to.cinemanager.model.*;
 import pl.edu.agh.to.cinemanager.repository.OrderRepository;
 import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 
@@ -17,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -55,11 +54,16 @@ public class OrderService {
                 order, screening, user);
         orderRepository.save(order);
 
-        return orderToResponseDto(order);
+        return orderToResponseDto(order, true);
     }
 
-    public ResponseOrderDto orderToResponseDto(Order order){
+    public ResponseOrderDto orderToResponseDto(Order order, boolean includeUserId){
+        Optional<Long> userId = includeUserId ? Optional.of(order.getUser().getId()) : Optional.empty();
+
+        List<ResponseTicketDto> tickets = ticketRepository.findAllByOrder(order).stream()
+                .map(ticketService::ticketToResponseDto).toList();
+
         return new ResponseOrderDto(order.getId(), order.getDate(), order.getTotalPrice(),
-                order.isPaid(), order.isCancelled(), ticketRepository.findAllByOrder(order));
+                order.isPaid(), order.isCancelled(), tickets, userId);
     }
 }

@@ -1,10 +1,13 @@
 package pl.edu.agh.to.cinemanager.dto;
 
-import pl.edu.agh.to.cinemanager.model.Ticket;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
-public record ResponseOrderDto(long id, LocalDateTime date, BigDecimal totalPrice, boolean paid, boolean cancelled, Set<Ticket> tickets) {
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public record ResponseOrderDto(long id, LocalDateTime date, BigDecimal totalPrice, boolean paid, boolean cancelled,
+                               List<ResponseTicketDto> tickets, Optional<Long> userId) {
 }

@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
 import pl.edu.agh.to.cinemanager.model.Order;
 import pl.edu.agh.to.cinemanager.model.Screening;
 import pl.edu.agh.to.cinemanager.model.Ticket;
@@ -18,9 +19,11 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final ScreeningService screeningService;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, ScreeningService screeningService) {
         this.ticketRepository = ticketRepository;
+        this.screeningService = screeningService;
     }
 
     @Transactional
@@ -42,5 +45,10 @@ public class TicketService {
             tickets.add(ticket);
         }
         ticketRepository.saveAll(tickets);
+    }
+
+    public ResponseTicketDto ticketToResponseDto(Ticket ticket) {
+        return new ResponseTicketDto(ticket.getId(), ticket.getSeatRow(), ticket.getSeatPosition(), ticket.isUsed(),
+                screeningService.screeningToScreeningDto(ticket.getScreening()), ticket.isDiscounted());
     }
 }
