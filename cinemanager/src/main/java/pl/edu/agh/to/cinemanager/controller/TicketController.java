@@ -1,5 +1,7 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,12 +24,12 @@ public class TicketController {
 
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")
-    public List<ResponseTicketDto> getTickets(Authentication authentication,
-                           @RequestParam(value = "past", defaultValue = "false", required = false) boolean past) {
+    public Page<ResponseTicketDto> getTickets(Authentication authentication, Pageable pageable,
+                                              @RequestParam(value = "past", defaultValue = "false", required = false) boolean past) {
         if (past) {
-            return ticketService.getAllTicketsForCustomer(authentication.getName());
+            return ticketService.getAllTicketsForCustomer(authentication.getName(), pageable);
         } else {
-            return ticketService.getFutureTicketsForCustomer(authentication.getName());
+            return ticketService.getFutureTicketsForCustomer(authentication.getName(), pageable);
         }
     }
 

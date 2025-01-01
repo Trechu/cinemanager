@@ -1,5 +1,7 @@
 package pl.edu.agh.to.cinemanager.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,11 +25,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Optional<Ticket> findByScreeningAndSeatRowAndSeatPosition(Screening screening, int row, int position);
 
-    List<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(
-            LocalDateTime now, LocalDateTime till, User user
+    Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(
+            LocalDateTime now, LocalDateTime till, User user, Pageable pageable
     );
 
-    List<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndUser(User user);
+    Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndUser(User user, Pageable pageable);
 
     Optional<Ticket> findTicketByIdAndUser(long ticketId, User user);
 }

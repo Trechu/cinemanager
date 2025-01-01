@@ -2,6 +2,8 @@ package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -52,27 +54,23 @@ public class TicketService {
         ticketRepository.saveAll(tickets);
     }
 
-    public List<ResponseTicketDto> getFutureTicketsForCustomer(String email) {
+    public Page<ResponseTicketDto> getFutureTicketsForCustomer(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime till = now.plusHours(2);
 
-        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(now, till, user)
-                .stream()
-                .map(this::ticketToResponseDto)
-                .toList();
+        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(now, till, user, pageable)
+                .map(this::ticketToResponseDto);
     }
 
-    public List<ResponseTicketDto> getAllTicketsForCustomer(String email) {
+    public Page<ResponseTicketDto> getAllTicketsForCustomer(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
 
-        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndUser(user)
-                .stream()
-                .map(this::ticketToResponseDto)
-                .toList();
+        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndUser(user, pageable)
+                .map(this::ticketToResponseDto);
     }
 
     public ResponseTicketDto getTicketByIdForCustomer(String email, Ticket ticket) {
