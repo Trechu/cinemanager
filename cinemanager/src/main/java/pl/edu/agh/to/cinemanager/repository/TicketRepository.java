@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    List<Ticket> findAllByScreening(Screening screening);
+    List<Ticket> findAllByScreeningAndOrderCancelledFalse(Screening screening);
 
     Set<Ticket> findAllByOrder(Order order);
 

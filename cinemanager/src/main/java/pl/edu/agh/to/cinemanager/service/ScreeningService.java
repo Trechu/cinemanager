@@ -77,7 +77,7 @@ public class ScreeningService {
     }
 
     public List<ResponseTakenSeatDto> getTakenSeats(Screening screening) {
-        return ticketRepository.findAllByScreening(screening).stream()
+        return ticketRepository.findAllByScreeningAndOrderCancelledFalse(screening).stream()
                 .map(this::getTakenSeatDtoFromTicket)
                 .toList();
     }
