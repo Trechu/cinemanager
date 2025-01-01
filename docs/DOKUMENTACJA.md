@@ -34,17 +34,32 @@
   - `rows` - liczba rzędów siedzeń
   - `seats_per_row` - liczba siedzeń w każdym rzędzie
 
+- `ScreningType` - dane o rodzajach seansów
+  - `name` - nazwa rodzaju seansu (np. 2D, 3D)
+  - `base_price` - podstawowa cena biletu
+  - `discount_price` - ulgowa cena biletu
+
 - `Screening` - dane o seansach filmowych
   - `movie_id` - klucz obcy do tabeli `Movies`, jaki film będzie na seansie
   - `room_id` - klucz obcy do tabeli `CinemaRooms`, gdzie odbędzie się seans
   - `start_date` - data seansu filmowego
+  - `screening_type_id` - klucz obcy do tabeli `ScreeningType`, jakiego rodzaju jest seans
+
+- `Orders` - dane o zamówieniach
+  - `user_id` - klucz obcy do tabeli `Users`, kto dokonał zamówienia
+  - `date` - data zamówienia
+  - `total_price` - całkowita wartość zamówienia
+  - `paid` - informacja, czy zamówienie zostało opłacone
+  - `cancelled` - informacja, czy zamówienie zostało anulowane (np. z powodu nieopłacenia w wymaganym czasie)
 
 - `Tickets` - dane o biletach
   - `user_id` - klucz obcy do tabeli `Users`, do kogo należy bilet
   - `screening_id` - klucz obcy do tabeli `Screenings`, na jaki seans
   - `seat_row` - numer rzędu w sali kinowej
   - `seat_position` - numer siedzenia w rzędzie
-  - `valid` - ważność biletu, po użyciu `false`
+  - `used` - ważność biletu, po użyciu `true`
+  - `discounted` - informacja czy bilet jest biletem ulgowym
+  - `order_id` - klucz obcy do tabeli `Orders`, w jakim zamówieniu zakupiono dany bilet
 
 ### Relacje
 
@@ -52,13 +67,16 @@
   - Recenzja jest wystawiana przez jednego użytkownika na jeden film
 
 - `Movies`
-  - film ma jest przypisany do jednego gatunku
+  - Film jest przypisany do jednego gatunku
 
 - `Screenings`
-  - Seans jest przypisany do jednej sali kinowej i do jednego filmu
+  - Seans jest przypisany do jednej sali kinowej i do jednego filmu oraz posiada jeden rodzaj
 
 - `Tickets`
-  - Bilet jest przypisany do jednego użytkownika na jeden seans
+  - Bilet jest przypisany do jednego zamówienia, do jednego użytkownika i na jeden seans
+
+- `Orders`
+  - Zamówienie jest przypisane do jednego użytkownika
 
 ### Mapowanie
 
@@ -68,7 +86,7 @@ Poniżej znajduje się przykład mapowania tabeli `Users`
 
 ```java
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -78,25 +96,26 @@ public class User {
     @NotBlank
     @Column(length = 64)
     private String firstName;
+
     @NotBlank
     @Column(length = 64)
     private String lastName;
+
     @Email
     @Column(length = 128, unique = true)
     private String email;
+
     @NotBlank
     @Column(length = 256)
     private String password;
+
+    @NotNull
     @Column(length = 32)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Review> reviewSet = new HashSet<>();
-    @OneToMany(mappedBy = "user")
-    private Set<Ticket> ticketSet = new HashSet<>();
-
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, String email, String password, UserRole role) {
         this.firstName = firstName;
