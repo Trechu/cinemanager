@@ -42,7 +42,7 @@ public class TicketService {
         while (rowIterator.hasNext()&&seatNumberIterator.hasNext()&&typeIterator.hasNext()){
             int row = rowIterator.next();
             int seatNumber = seatNumberIterator.next();
-            if (ticketRepository.findByScreeningAndSeatRowAndSeatPosition(screening,row,seatNumber).isPresent()){
+            if (ticketRepository.findByScreeningAndSeatRowAndSeatPositionAndOrderCancelledFalse(screening,row,seatNumber).isPresent()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the tickets is already taken");
             }
 
