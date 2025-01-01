@@ -646,3 +646,40 @@ Symuluje otrzymanie informacji o płatności od zewnętrznego systemu płatnośc
 400 BAD REQUEST - Zamówienie nie istnieje lub jest już opłacone.
 
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+### Bilety
+
+#### GET /api/tickets
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca listę "przydatnych" biletów przypisanych do użytkownika, którego token został przesłany.
+"Przydatne" bilety to te, które nie zostały użyte, dotyczą seansów w przyszłości (z buforem 2 godziny do tyłu), 
+z zamówień opłaconych i nieanulowanych.
+
+W przypadku potrzeby zwrócenia wszystkich biletów (z zamówień opłaconych i nieanulowanych), 
+należy podać parametr GET `past=true`.
+
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=id,desc`). 
+
+##### Zwraca:
+200 OK - Lista zamówień w postaci analogicznej do endpointu dla biletu o danym id, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### GET /api/tickets/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca dane o bilecie o podanym id, jeżeli przypisany jest do użytkownika, którego token został przesłany.
+
+##### Zwraca:
+200 OK - Bilet postaci `id, discounted, screening, seatPosition, seatRow, used`, 
+gdzie `screening` jest w postaci analogicznej do endpointu dla seansu o danym id.
+
+400 BAD REQUEST - Bilet nie istnieje lub użytkownik nie posiada uprawnień do jego wyświetlenia.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
