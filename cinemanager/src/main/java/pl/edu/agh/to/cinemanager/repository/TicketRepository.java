@@ -25,8 +25,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Optional<Ticket> findByScreeningAndSeatRowAndSeatPositionAndOrderCancelledFalse(Screening screening, int row, int position);
 
-    Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(
-            LocalDateTime now, LocalDateTime till, User user, Pageable pageable
+    Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndUserAndUsedFalse(
+            LocalDateTime now, User user, Pageable pageable
     );
 
     Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndUser(User user, Pageable pageable);

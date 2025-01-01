@@ -58,10 +58,9 @@ public class TicketService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime till = now.plusHours(2);
+        LocalDateTime now = LocalDateTime.now().minusHours(2);
 
-        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndScreeningStartDateBeforeAndUserAndUsedFalse(now, till, user, pageable)
+        return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndScreeningStartDateAfterAndUserAndUsedFalse(now, user, pageable)
                 .map(this::ticketToResponseDto);
     }
 
