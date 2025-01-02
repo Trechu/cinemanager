@@ -49,8 +49,8 @@ public class OrderService {
         Screening screening = screeningService.getScreeningById(orderDto.screeningId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This screening does not exist"));
         ScreeningType screeningType = screening.getScreeningType();
-        BigDecimal price = orderDto.types().stream().map(type -> {
-            if (Objects.equals(type, "Ulgowy")) {
+        BigDecimal price = orderDto.tickets().stream().map(ticket -> {
+            if (ticket.ticketType().equals(TicketType.DISCOUNTED)) {
                 return screeningType.getDiscountPrice();
             } else {
                 return screeningType.getBasePrice();
@@ -59,9 +59,11 @@ public class OrderService {
         User user = userService.findUserByEmail(email).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
         Order order = new Order(LocalDateTime.now(), price, user);
-        ticketService.createTicketsFromOrderInformation(orderDto.rows(), orderDto.seatNumbers(), orderDto.types(),
-                order, screening, user);
+
         orderRepository.save(order);
+
+        ticketService.createTicketsFromOrderInformation(orderDto.tickets(),
+                order, screening, user);
 
         return orderToResponseDto(order, true);
     }

@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
-import pl.edu.agh.to.cinemanager.model.Order;
-import pl.edu.agh.to.cinemanager.model.Screening;
-import pl.edu.agh.to.cinemanager.model.Ticket;
-import pl.edu.agh.to.cinemanager.model.User;
+import pl.edu.agh.to.cinemanager.dto.TicketDto;
+import pl.edu.agh.to.cinemanager.model.*;
 import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 import pl.edu.agh.to.cinemanager.repository.UserRepository;
 
@@ -34,19 +32,18 @@ public class TicketService {
     }
 
     @Transactional
-    public void createTicketsFromOrderInformation(List<Integer> rows, List<Integer> seatNumbers, List<String> types, Order order, Screening screening, User user){
-        Iterator<Integer> rowIterator = rows.iterator();
-        Iterator<Integer> seatNumberIterator = seatNumbers.iterator();
-        Iterator<String> typeIterator = types.iterator();
+    public void createTicketsFromOrderInformation(List<TicketDto> ticketDtos, Order order, Screening screening, User user){
+        Iterator<TicketDto> ticketIterator = ticketDtos.iterator();
         List<Ticket> tickets = new ArrayList<>();
-        while (rowIterator.hasNext()&&seatNumberIterator.hasNext()&&typeIterator.hasNext()){
-            int row = rowIterator.next();
-            int seatNumber = seatNumberIterator.next();
+        while (ticketIterator.hasNext()){
+            TicketDto ticketDto = ticketIterator.next();
+            int row = ticketDto.row();
+            int seatNumber = ticketDto.seatNumber();
             if (ticketRepository.findByScreeningAndSeatRowAndSeatPositionAndOrderCancelledFalse(screening,row,seatNumber).isPresent()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the tickets is already taken");
             }
 
-            boolean discounted = typeIterator.next().equals("Ulgowy");
+            boolean discounted = ticketDto.ticketType().equals(TicketType.DISCOUNTED);
             Ticket ticket = new Ticket(row, seatNumber, screening, user, order, discounted);
 
             tickets.add(ticket);
