@@ -623,10 +623,10 @@ Wymaga, aby zamówienie należało do użytkownika, którego token jest przesła
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Wymaga podania tokenu JWT na podstawie którego wystawiane są bilety (wyciąga z niego email)
+Wymaga podania tokenu JWT, na podstawie którego wystawiane są bilety.
 W body przesyłamy:
- - id seansu
- - listy rzędów siedzeń, ich numerów w rzędach oraz typów
+ - `screeningId` - id seansu,
+ - `tickets` - lista zamówionych miejsc postaci `row, seatNumber, ticketType`, gdzie `ticketType` to `REGULAR` dla zwykłego biletu lub `DISCOUNTED` dla biletu ulgowego.
 
 ##### Zwraca:
 201 CREATED - Zamówienie oraz nagłówek Location
