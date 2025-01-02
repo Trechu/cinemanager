@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 import pl.edu.agh.to.cinemanager.model.Order;
 import pl.edu.agh.to.cinemanager.model.User;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
+    List<Order> findAllByPaidFalseAndCancelledFalseAndDateBefore(LocalDateTime dateTime);
 }
