@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestOrderDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseOrderDto;
-import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.model.Order;
 import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.model.UserRole;
@@ -22,7 +21,6 @@ import pl.edu.agh.to.cinemanager.service.OrderService;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @RestController

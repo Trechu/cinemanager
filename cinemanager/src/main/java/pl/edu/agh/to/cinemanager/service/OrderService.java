@@ -80,7 +80,7 @@ public class OrderService {
 
     public void updatePayment(Order order) {
         if (order.isPaid()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order is already paid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order has already been paid");
         } else {
             order.setPaid(true);
             orderRepository.save(order);

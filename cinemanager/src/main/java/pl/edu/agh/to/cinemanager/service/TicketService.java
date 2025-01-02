@@ -78,13 +78,12 @@ public class TicketService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket with id " + ticket.getId() + " does not exist or is not yours"));
     }
 
-    @Transactional
     public void validateTicket(Ticket ticket) {
         if (ticket.isUsed()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket is already used");
         } else {
             ticket.setUsed(true);
-            ticketRepository.saveAll(List.of(ticket));
+            ticketRepository.save(ticket);
         }
     }
 
