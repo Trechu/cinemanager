@@ -1,0 +1,73 @@
+body {
+    background-color: black;
+    color:floralwhite;
+}
+
+.navbar {
+    margin: auto;
+    font-size: large;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    padding-left: 10em;
+    padding-right: 10em;
+}
+
+.navbar-secondary {
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-radius: 1px;
+    border-color: rgb(18, 18, 18);
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.navbar-brand-text {
+    color: wheat;
+    font-weight: 800;
+}
+
+.navbar-brand-text:hover {
+    color: rgb(246, 228, 193);
+}
+
+.screening-card {
+    padding: 2em;
+    height: 20em;
+    display: flex;
+    flex-direction: row;
+}
+
+.screening-card-image-container {
+    width: 20%;
+    height: 100%;
+}
+
+.screening-card-details-container {
+    padding: 1em;
+    width: 80%;
+    height: 100%;
+}
+
+.img-thumbnail {
+    width: 200px;
+    height: 300px;
+}
+
+.buy-btn {
+    margin-top: 2em;
+}
+
+.divider-horizontal {
+    border-top: 3px solid rgb(227, 225, 225);
+}
+
+.btn-holder {
+    margin: auto;
+    display: flex;
+    width: 40%;
+}
+
+.page-btn {
+    margin: auto;
+    margin-bottom: 1em;
+}

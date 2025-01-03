@@ -71,7 +71,7 @@ export default function Register() {
     return (
         ( !getCurrentUser() ? 
         (<div className="col-md-12">
-            <div className="card card-container">
+            <div className="card card-container bg-dark">
                 <img
                     style={{ "alignSelf": "center" }}
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
