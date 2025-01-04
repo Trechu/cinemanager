@@ -71,3 +71,58 @@ body {
     margin: auto;
     margin-bottom: 1em;
 }
+
+.order-details {
+    padding: 3em;
+    margin: auto;
+    min-width: 100%;
+    height: fit-content;
+    background-color: rgb(18, 18, 18);
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.screen-mock {
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 5%;
+    width: 65%;
+    height: 1.5em;
+    background-color: azure;
+}
+
+.row {
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 1000px;
+    display: flex;
+}
+
+.row-identificator {
+    display: flex;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    float: left;
+}
+
+.seat {
+    float: left;
+    margin: auto;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.seat-identificator {
+    position: absolute;
+    z-index: 100;
+}
+
+.taken {
+    background-color: gray;
+}

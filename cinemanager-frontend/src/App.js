@@ -9,6 +9,7 @@ import Manager from "./components/manager-component";
 import Admin from "./components/admin-component";
 import Screenings from "./components/screening-component";
 import "./styles/overall.css"
+import Order from "./components/order-component";
 
 function userHasRole(user){
   return user.scope === "ROLE_ADMINISTRATOR";
@@ -51,7 +52,7 @@ function App() {
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
+            <Link to={"/"} className="nav-link">
               Home
             </Link>
           </li>
@@ -128,13 +129,14 @@ function App() {
           </li>
         </div>
       </nav>
-      <div className="container mt-3">
+      <div className="container-xl mt-3">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/manager" element={<Manager />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/repertuar" element={<Screenings />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { fetch_screenings } from "../services/screening-service"
 
-function Screening(key, posterUrl, title, genre, length, screeningType, startDate, includeDivider){
+function Screening(key, screeningId, posterUrl, title, genre, length, screeningType, startDate, includeDivider){
 
     const days = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"]
     var date = new Date(startDate)
@@ -17,7 +18,11 @@ function Screening(key, posterUrl, title, genre, length, screeningType, startDat
                     <h2>{title}</h2>
                     <h4>{genre} | {length} min</h4>
                     <h4>Rodzaj seansu: {screeningType} | {formattedDate}</h4>
-                    <button type="button" className="btn btn-primary buy-btn">Kup bilet</button>
+                    <button type="button" className="btn btn-light buy-btn">
+                        <Link to={"/order?screening=" + screeningId} className="nav-link">
+                            Kup bilet
+                        </Link>
+                    </button>
                 </div>
             </div>
             {includeDivider && 
@@ -46,12 +51,14 @@ export default function Screenings(){
         urlParams.set('page', increase ? parseInt(urlParams.get('page')) + 1 : (urlParams.get('page') > 0 ? parseInt(urlParams.get('page')) - 1 : 0))
         window.history.replaceState(null, null, "?"+urlParams.toString())
         getScreenings()
+        window.scrollTo(0,0)
     }
 
     return (
         <div>
             {screenings != undefined && 
                 screenings.content.map((element, index) => Screening(
+                        index,
                         element.id,
                         element.movie.posterUrl,
                         element.movie.title,
