@@ -2,7 +2,7 @@
 
 ## Model bazodanowy
 ### Schemat
-![](./img/Database2.png)
+![](./img/Database3.png)
 
 ### Tabele
 - `Users` - dane o użytkownikach
@@ -22,6 +22,10 @@
 
 - `Genres` - dane o gatunkach filmowych
   - `name` - nazwa gatunku
+
+- `Directors` - dane o reżyserach
+  - `first_name` - imię/imiona reżysera
+  - `last_name` - nazwisko reżysera
 
 - `Reviews` - dane o recenzjach filmów dodane przez użytkowników
     - `user_id` - klucz obcy do tabeli `Users`, użytkownik wystawiający recenzję
@@ -67,7 +71,7 @@
   - Recenzja jest wystawiana przez jednego użytkownika na jeden film
 
 - `Movies`
-  - Film jest przypisany do jednego gatunku
+  - Film jest przypisany do jednego gatunku i do jednego reżysera
 
 - `Screenings`
   - Seans jest przypisany do jednej sali kinowej i do jednego filmu oraz posiada jeden rodzaj
