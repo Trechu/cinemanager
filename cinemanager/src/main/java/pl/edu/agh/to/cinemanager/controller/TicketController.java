@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -10,17 +11,12 @@ import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
 import pl.edu.agh.to.cinemanager.model.Ticket;
 import pl.edu.agh.to.cinemanager.service.TicketService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "api/tickets")
+@AllArgsConstructor
 public class TicketController {
 
     private final TicketService ticketService;
-
-    public TicketController(TicketService ticketService) {
-        this.ticketService = ticketService;
-    }
 
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")

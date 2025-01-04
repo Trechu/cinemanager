@@ -1,5 +1,7 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,21 +19,16 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("api")
+@AllArgsConstructor
+@Slf4j
 public class AuthController {
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
-
     private final TokenService tokenService;
     private final UserService userService;
-
-    public AuthController(TokenService tokenService, UserService userService) {
-        this.tokenService = tokenService;
-        this.userService = userService;
-    }
 
     @PostMapping("/token")
     public String token(Authentication authentication) {
         try {
-            LOG.debug("Token requested for user: '{}'", authentication.getName());
+            log.debug("Token requested for user: '{}'", authentication.getName());
             return tokenService.generateToken(authentication);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

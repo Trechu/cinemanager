@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,13 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/screening-types")
+@AllArgsConstructor
 public class ScreeningTypeController {
 
     private final ScreeningTypeService screeningTypeService;
-
-    public ScreeningTypeController(ScreeningTypeService screeningTypeService) {
-        this.screeningTypeService = screeningTypeService;
-    }
 
     @GetMapping("")
     public List<ResponseScreeningTypeDto> getAllScreeningTypes() {

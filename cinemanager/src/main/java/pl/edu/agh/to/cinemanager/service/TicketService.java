@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,17 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ScreeningService screeningService;
     private final UserRepository userRepository;
-
-    public TicketService(TicketRepository ticketRepository, ScreeningService screeningService, UserRepository userRepository) {
-        this.ticketRepository = ticketRepository;
-        this.screeningService = screeningService;
-        this.userRepository = userRepository;
-    }
 
     @Transactional
     public void createTicketsFromOrderInformation(List<TicketDto> ticketDtos, Order order, Screening screening, User user){

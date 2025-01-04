@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -33,16 +35,6 @@ public class OrderService {
     private final UserService userService;
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
-
-    public OrderService(OrderRepository orderRepository, TicketService ticketService, ScreeningService screeningService,
-                        UserService userService, TicketRepository ticketRepository, UserRepository userRepository) {
-        this.orderRepository = orderRepository;
-        this.ticketService = ticketService;
-        this.screeningService = screeningService;
-        this.userService = userService;
-        this.ticketRepository = ticketRepository;
-        this.userRepository = userRepository;
-    }
 
     @Transactional
     public ResponseOrderDto createOrderForUserByEmail(String email, RequestOrderDto orderDto){

@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,13 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CinemaRoomService {
 
     private final CinemaRoomRepository cinemaRoomRepository;
-
-    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository) {
-        this.cinemaRoomRepository = cinemaRoomRepository;
-    }
 
     public List<ResponseCinemaRoomDto> getAllRooms() {
         return cinemaRoomRepository.findAll().stream().map(this::cinemaRoomToCinemaRoomResponseDto).toList();

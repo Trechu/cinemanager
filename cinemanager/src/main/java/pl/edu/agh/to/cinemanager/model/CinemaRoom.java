@@ -2,9 +2,13 @@ package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 @Entity
 @Table(name = "cinema_rooms")
+@Getter
+@Setter
+@NoArgsConstructor
 public class CinemaRoom {
 
     @Id
@@ -19,40 +23,9 @@ public class CinemaRoom {
 
     private int seatsPerRow;
 
-    public CinemaRoom() {
-    }
-
     public CinemaRoom(String name, int rows, int seatsPerRow) {
         this.name = name;
         this.rows = rows;
-        this.seatsPerRow = seatsPerRow;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public int getSeatsPerRow() {
-        return seatsPerRow;
-    }
-
-    public void setSeatsPerRow(int seatsPerRow) {
         this.seatsPerRow = seatsPerRow;
     }
 }

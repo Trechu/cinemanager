@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,13 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class GenreService {
 
     private final GenreRepository genreRepository;
-
-    public GenreService(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
 
     public List<ResponseGenreDto> getAllGenres() {
         return genreRepository.findAll().stream().map(this::genreToResponseDto).toList();

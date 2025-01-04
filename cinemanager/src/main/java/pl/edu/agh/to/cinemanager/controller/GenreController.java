@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,13 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/genres")
+@AllArgsConstructor
 public class GenreController {
 
     private final GenreService genreService;
-
-    public GenreController(GenreService genreService) {
-        this.genreService = genreService;
-    }
 
     @GetMapping("")
     public List<ResponseGenreDto> getAllGenres() {

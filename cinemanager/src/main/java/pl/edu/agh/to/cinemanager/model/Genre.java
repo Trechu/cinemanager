@@ -2,12 +2,18 @@ package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "genres")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Genre {
 
     @Id
@@ -18,22 +24,7 @@ public class Genre {
     @Column(length = 64, unique = true)
     private String name;
 
-    public Genre() {
-    }
-
     public Genre(String name) {
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 }

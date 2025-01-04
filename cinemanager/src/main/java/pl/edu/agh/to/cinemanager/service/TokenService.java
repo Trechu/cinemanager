@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -12,12 +13,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TokenService {
     private final JwtEncoder encoder;
-
-    public TokenService(JwtEncoder encoder) {
-        this.encoder = encoder;
-    }
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();

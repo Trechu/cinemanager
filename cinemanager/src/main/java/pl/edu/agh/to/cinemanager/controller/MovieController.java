@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.controller;
 import java.net.URI;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,10 @@ import pl.edu.agh.to.cinemanager.service.MovieService;
 
 @RestController
 @RequestMapping(path = "api/movies")
+@AllArgsConstructor
 public class MovieController {
 
     private final MovieService movieService;
-
-    public MovieController(MovieService movieService) {
-        this.movieService = movieService;
-    }
 
     @GetMapping("")
     public Page<ResponseMovieDto> getAllMovies(Pageable pageable) {

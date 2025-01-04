@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,19 +15,14 @@ import pl.edu.agh.to.cinemanager.model.Genre;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.repository.MovieRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class MovieService {
 
     private final MovieRepository movieRepository;
     private final GenreService genreService;
-
-    public MovieService(MovieRepository movieRepository, GenreService genreService) {
-        this.movieRepository = movieRepository;
-        this.genreService = genreService;
-    }
 
     public Page<ResponseMovieDto> getAllMovies(Pageable pageable) {
         return movieRepository.findAll(

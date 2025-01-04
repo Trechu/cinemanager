@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,13 +24,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/screenings")
+@AllArgsConstructor
 public class ScreeningController {
 
     private final ScreeningService screeningService;
-
-    public ScreeningController(ScreeningService screeningService) {
-        this.screeningService = screeningService;
-    }
 
     @GetMapping("")
     public Page<ResponseScreeningDto> getAllScreenings(Pageable pageable,

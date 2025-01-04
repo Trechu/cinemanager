@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,13 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
+@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping("")

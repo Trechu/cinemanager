@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,15 +26,11 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/orders")
+@AllArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final AuthService authService;
-
-    public OrderController(OrderService orderService, AuthService authService) {
-        this.orderService = orderService;
-        this.authService = authService;
-    }
 
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")

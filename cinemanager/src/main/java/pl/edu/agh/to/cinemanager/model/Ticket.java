@@ -2,9 +2,15 @@ package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tickets")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Ticket {
 
     @Id
@@ -16,7 +22,7 @@ public class Ticket {
     private int seatPosition;
 
     private boolean used = false;
-
+    
     private boolean discounted;
 
     @NotNull
@@ -31,9 +37,6 @@ public class Ticket {
     @ManyToOne(optional = false)
     private Order order;
 
-    public Ticket() {
-    }
-
     public Ticket(int seatRow, int seatPosition, Screening screening, User user, Order order, boolean discounted) {
         this.seatRow = seatRow;
         this.seatPosition = seatPosition;
@@ -41,65 +44,5 @@ public class Ticket {
         this.user = user;
         this.order = order;
         this.discounted = discounted;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public int getSeatRow() {
-        return seatRow;
-    }
-
-    public void setSeatRow(int seatRow) {
-        this.seatRow = seatRow;
-    }
-
-    public int getSeatPosition() {
-        return seatPosition;
-    }
-
-    public void setSeatPosition(int seatPosition) {
-        this.seatPosition = seatPosition;
-    }
-
-    public boolean isUsed() {
-        return used;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
-
-    public boolean isDiscounted() {
-        return discounted;
-    }
-
-    public void setDiscounted(boolean discounted) {
-        this.discounted = discounted;
-    }
-
-    public Screening getScreening() {
-        return screening;
-    }
-
-    public void setScreening(Screening screening) {
-        this.screening = screening;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 }

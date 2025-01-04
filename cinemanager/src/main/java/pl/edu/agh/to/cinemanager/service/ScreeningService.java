@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ScreeningService {
 
     private final ScreeningRepository screeningRepository;
@@ -28,15 +30,6 @@ public class ScreeningService {
     private final MovieService movieService;
     private final CinemaRoomService cinemaRoomService;
     private final TicketRepository ticketRepository;
-
-    public ScreeningService(ScreeningRepository screeningRepository, ScreeningTypeService screeningTypeService,
-                            MovieService movieService, CinemaRoomService cinemaRoomService, TicketRepository ticketRepository) {
-        this.screeningRepository = screeningRepository;
-        this.screeningTypeService = screeningTypeService;
-        this.movieService = movieService;
-        this.cinemaRoomService = cinemaRoomService;
-        this.ticketRepository = ticketRepository;
-    }
 
     public Page<ResponseScreeningDto> getAllScreenings(Specification<Screening> specification, Pageable pageable) {
         return screeningRepository.findAll(
