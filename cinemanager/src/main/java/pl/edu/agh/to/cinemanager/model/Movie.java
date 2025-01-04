@@ -28,9 +28,9 @@ public class Movie {
     @NotBlank
     private String description;
 
-    @NotBlank
-    @Column(length = 256)
-    private String director;
+    @NotNull
+    @ManyToOne(optional = false)
+    private Director director;
 
     @NotBlank
     @Column(length = 256)
@@ -41,8 +41,8 @@ public class Movie {
     @NotNull
     @ManyToOne(optional = false)
     private Genre genre;
-    
-    public Movie(String title, String description, String director, String posterUrl, int length, Genre genre) {
+
+    public Movie(String title, String description, Director director, String posterUrl, int length, Genre genre) {
         this.title = title;
         this.description = description;
         this.director = director;

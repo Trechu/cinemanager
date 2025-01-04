@@ -359,6 +359,55 @@ Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. 
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
+### Reżyserzy
+#### GET /api/directors
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich reżyserów filmowych, którzy tworzyli filmy w bazie kina.
+
+##### Zwraca:
+200 OK - Lista reżyserów postaci `id, firstName, lastName`.
+
+#### GET /api/directors/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych reżysera filmowego.
+
+##### Zwraca:
+200 OK - Dane reżysera postaci `id, firstName, lastName`.
+
+#### POST /api/directors
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać reżysera. Należy podać pola `firstName`, `lastName`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie reżysera powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/directors/{id}` oraz w body znajduje się `id, firstName, lastName`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/directors/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić dane reżysera. W body należy podać pola `firstName`, `lastName`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
 ### Filmy
 #### GET /api/movies
@@ -367,7 +416,7 @@ Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. 
 Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=length,desc`).
 
 ##### Zwraca:
-200 OK - Lista filmów postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
+200 OK - Lista filmów postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
 Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
 
 #### GET /api/movies/{id}
@@ -376,7 +425,7 @@ Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalEleme
 Pozwala na wylistowanie danych filmu.
 
 ##### Zwraca:
-200 OK - Film postaci `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+200 OK - Film postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
 
 #### POST /api/movies
 
@@ -384,10 +433,11 @@ Pozwala na wylistowanie danych filmu.
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala dodać film. Należy podać pola `title, descrption, director, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+Pozwala dodać film. Należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
 
 ##### Zwraca:
-201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` oraz w body znajduje się `id, title, descrption, director, posterUrl, length, genre (id, name)`.
+201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` 
+oraz w body znajduje się `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
 
 400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
 
@@ -400,7 +450,7 @@ Pozwala dodać film. Należy podać pola `title, descrption, director, posterUrl
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala uaktualnić film. W body należy podać pola `title, descrption, director, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+Pozwala uaktualnić film. W body należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
 
 ##### Zwraca:
 204 NO CONTENT - Uaktualnienie powiodło się.

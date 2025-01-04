@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestMovieDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
+import pl.edu.agh.to.cinemanager.model.Director;
 import pl.edu.agh.to.cinemanager.model.Genre;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.repository.MovieRepository;
@@ -23,6 +24,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final GenreService genreService;
+    private final DirectorService directorService;
 
     public Page<ResponseMovieDto> getAllMovies(Pageable pageable) {
         return movieRepository.findAll(
@@ -41,7 +43,7 @@ public class MovieService {
         Movie movie = new Movie(
                 movieDto.title(),
                 movieDto.description(),
-                movieDto.director(),
+                getDirectorFromRequestDto(movieDto),
                 movieDto.posterUrl(),
                 movieDto.length(),
                 getGenreFromRequestDto(movieDto)
@@ -55,7 +57,7 @@ public class MovieService {
     public void updateMovie(Movie movie, RequestMovieDto updatedMovieDto) {
         movie.setTitle(updatedMovieDto.title());
         movie.setDescription(updatedMovieDto.description());
-        movie.setDirector(updatedMovieDto.director());
+        movie.setDirector(getDirectorFromRequestDto(updatedMovieDto));
         movie.setPosterUrl(updatedMovieDto.posterUrl());
         movie.setLength(updatedMovieDto.length());
         movie.setGenre(getGenreFromRequestDto(updatedMovieDto));
@@ -64,13 +66,19 @@ public class MovieService {
     }
 
     public ResponseMovieDto movieToResponseDto(Movie movie) {
-        return new ResponseMovieDto(movie.getId(), movie.getTitle(), movie.getDescription(), movie.getDirector(),
-                movie.getPosterUrl(), movie.getLength(), genreService.genreToResponseDto(movie.getGenre()));
+        return new ResponseMovieDto(movie.getId(), movie.getTitle(), movie.getDescription(),
+                directorService.directorToResponseDto(movie.getDirector()), movie.getPosterUrl(), movie.getLength(),
+                genreService.genreToResponseDto(movie.getGenre()));
     }
 
     private Genre getGenreFromRequestDto(RequestMovieDto movieDto) {
         return genreService.getGenreById(movieDto.genreId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This genre does not exist"));
+    }
+
+    private Director getDirectorFromRequestDto(RequestMovieDto movieDto) {
+        return directorService.getDirectorById(movieDto.directorId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This director does not exist"));
     }
 
     private void save(Movie movie) {
