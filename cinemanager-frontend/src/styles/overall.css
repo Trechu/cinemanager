@@ -1,0 +1,155 @@
+body {
+    background-color: black;
+    color:floralwhite;
+}
+
+.navbar {
+    margin: auto;
+    font-size: large;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    padding-left: 10em;
+    padding-right: 10em;
+}
+
+.navbar-secondary {
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-radius: 1px;
+    border-color: rgb(18, 18, 18);
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.navbar-brand-text {
+    color: wheat;
+    font-weight: 800;
+}
+
+.navbar-brand-text:hover {
+    color: rgb(246, 228, 193);
+}
+
+.screening-card {
+    padding: 2em;
+    height: 20em;
+    display: flex;
+    flex-direction: row;
+}
+
+.screening-card-image-container {
+    width: 20%;
+    height: 100%;
+}
+
+.screening-card-details-container {
+    padding: 1em;
+    width: 80%;
+    height: 100%;
+}
+
+.img-thumbnail {
+    width: 200px;
+    height: 300px;
+}
+
+.buy-btn {
+    margin-top: 2em;
+}
+
+.cnf-btn {
+    margin-top: 2em;
+}
+
+.divider-horizontal {
+    border-top: 3px solid rgb(227, 225, 225);
+    width: 50%;
+}
+
+.btn-holder {
+    margin: auto;
+    display: flex;
+    width: 40%;
+}
+
+.page-btn {
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.order-details {
+    padding: 3em;
+    margin: auto;
+    min-width: 100%;
+    height: fit-content;
+    background-color: rgb(18, 18, 18);
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ticket-types {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.screen-mock {
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 5%;
+    width: 65%;
+    height: 1.5em;
+    background-color: azure;
+}
+
+.row {
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 1000px;
+    display: flex;
+}
+
+.row-identificator {
+    display: flex;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    float: left;
+}
+
+.seat {
+    float: left;
+    margin: auto;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.seat-identificator {
+    position: absolute;
+    z-index: 100;
+    user-select: none;
+}
+
+.taken {
+    background-color: gray;
+}
+
+.seat-icon:hover {
+    opacity: 80%;
+}
+
+.disabled-seat {
+    pointer-events: none;
+    opacity: 40%;
+}
+
+.selected-seat {
+    opacity: 50%;
+}

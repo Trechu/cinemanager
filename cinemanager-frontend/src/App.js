@@ -7,6 +7,9 @@ import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 import Manager from "./components/manager-component";
 import Admin from "./components/admin-component";
+import Screenings from "./components/screening-component";
+import "./styles/overall.css"
+import Order from "./components/order-component";
 
 function userHasRole(user){
   return user.scope === "ROLE_ADMINISTRATOR";
@@ -43,13 +46,13 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand navbar-dark">
         <Link to={"/"} className="navbar-brand">
-          CineManager
+          <span className="navbar-brand-text">CineManager</span>
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
+            <Link to={"/"} className="nav-link">
               Home
             </Link>
           </li>
@@ -117,12 +120,23 @@ function App() {
           </div>
         )}
       </nav>
-      <div className="container mt-3">
+      <nav className="navbar navbar-secondary navbar-expand navbar-dark">
+        <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/repertuar?page=0&size=5"} className="nav-link">
+              Repertuar
+            </Link>
+          </li>
+        </div>
+      </nav>
+      <div className="container-xl mt-3">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/manager" element={<Manager />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/repertuar" element={<Screenings />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
       </div>
     </div>
