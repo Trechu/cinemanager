@@ -55,7 +55,7 @@ public class DataConfig {
                         "Władca Pierścieni: Drużyna Pierścienia",
                         "Grupa bohaterów wyrusza w podróż, aby zniszczyć pierścień władzy.",
                         "Peter Jackson",
-                        "posters/wladca_pierscieni_druzyna_pierscienia.png",
+                        "posters/wladca_pierscieni_druzyna_pierscienia.webp",
                         178,
                         fantasy
                 );
@@ -64,7 +64,7 @@ public class DataConfig {
                         "Skazani na Shawshank",
                         "Młody bankier niesłusznie skazany na dożywocie odnajduje nadzieję za kratami.",
                         "Frank Darabont",
-                        "posters/skazani_na_shawshank.png",
+                        "posters/skazani_na_shawshank.jpg",
                         142,
                         drama
                 );
@@ -73,7 +73,7 @@ public class DataConfig {
                         "Matrix",
                         "Haker odkrywa prawdę o rzeczywistości i bierze udział w walce przeciwko maszynom.",
                         "Wachowski Sisters",
-                        "posters/matrix.png",
+                        "posters/matrix.jpg",
                         136,
                         sciFi
                 );
@@ -82,7 +82,7 @@ public class DataConfig {
                         "Incepcja",
                         "Zespół specjalistów kradnie informacje, włamując się do ludzkich snów.",
                         "Christopher Nolan",
-                        "posters/incepcja.png",
+                        "posters/incepcja.jpg",
                         148,
                         sciFi
                 );
@@ -91,7 +91,7 @@ public class DataConfig {
                         "Forrest Gump",
                         "Historia życia prostego człowieka, który przypadkowo staje się świadkiem wielkich wydarzeń.",
                         "Robert Zemeckis",
-                        "posters/forrest_gump.png",
+                        "posters/forrest_gump.jpg",
                         142,
                         drama
                 );
@@ -100,7 +100,7 @@ public class DataConfig {
                         "Shrek",
                         "Ogr wyrusza na misję, aby uratować księżniczkę, i odkrywa przyjaźń po drodze.",
                         "Andrew Adamson, Vicky Jenson",
-                        "posters/shrek.png",
+                        "posters/shrek.jpg",
                         90,
                         animation
                 );
@@ -109,7 +109,7 @@ public class DataConfig {
                         "Pulp Fiction",
                         "Splątane historie kryminalne w Los Angeles.",
                         "Quentin Tarantino",
-                        "posters/pulp_fiction.png",
+                        "posters/pulp_fiction.jpg",
                         154,
                         thriller
                 );
@@ -118,7 +118,7 @@ public class DataConfig {
                         "Titanic",
                         "Historia miłosna na tle katastrofy RMS Titanic.",
                         "James Cameron",
-                        "posters/titanic.png",
+                        "posters/titanic.jpg",
                         195,
                         romance
                 );
@@ -127,7 +127,7 @@ public class DataConfig {
                         "Gladiator",
                         "Były generał rzymski zostaje gladiatorem, aby zemścić się na cesarzu.",
                         "Ridley Scott",
-                        "posters/gladiator.png",
+                        "posters/gladiator.jpg",
                         155,
                         action
                 );
@@ -136,7 +136,7 @@ public class DataConfig {
                         "Joker",
                         "Historia psychologiczna przemiany Arthura Flecka w legendarnego przestępcę.",
                         "Todd Phillips",
-                        "posters/joker.png",
+                        "posters/joker.jpg",
                         122,
                         drama
                 );
@@ -145,7 +145,7 @@ public class DataConfig {
                         "Interstellar",
                         "Zespół naukowców podróżuje przez czarną dziurę, aby znaleźć nowy dom dla ludzkości.",
                         "Christopher Nolan",
-                        "posters/interstellar.png",
+                        "posters/interstellar.jpg",
                         169,
                         sciFi
                 );
@@ -154,7 +154,7 @@ public class DataConfig {
                         "Obcy: Ósmy pasażer Nostromo",
                         "Załoga statku kosmicznego walczy z przerażającym obcym stworzeniem.",
                         "Ridley Scott",
-                        "posters/obcy_osmy_pasazer_nostromo.png",
+                        "posters/obcy_osmy_pasazer_nostromo.jpg",
                         117,
                         horror
                 );
@@ -163,7 +163,7 @@ public class DataConfig {
                         "Toy Story",
                         "Zabawki ożywają, gdy ludzie nie patrzą, i przeżywają niesamowite przygody.",
                         "John Lasseter",
-                        "posters/toy_story.png",
+                        "posters/toy_story.jpg",
                         81,
                         animation
                 );
@@ -172,7 +172,7 @@ public class DataConfig {
                         "Zielona Mila",
                         "Strażnik więzienny zaprzyjaźnia się z więźniem posiadającym nadnaturalne moce.",
                         "Frank Darabont",
-                        "posters/zielona_mila.png",
+                        "posters/zielona_mila.jpg",
                         189,
                         drama
                 );
@@ -181,7 +181,7 @@ public class DataConfig {
                         "Mission: Impossible",
                         "Agent Ethan Hunt musi oczyścić swoje imię i powstrzymać spisek.",
                         "Brian De Palma",
-                        "posters/mission_impossible.png",
+                        "posters/mission_impossible.jpg",
                         110,
                         action
                 );
@@ -190,7 +190,7 @@ public class DataConfig {
                         "Człowiek ze Stali",
                         "Młody Clark Kent odkrywa swoje moce i staje się Supermanem.",
                         "Zack Snyder",
-                        "posters/czlowiek_ze_stali.png",
+                        "posters/czlowiek_ze_stali.jpg",
                         143,
                         sciFi
                 );
@@ -199,7 +199,7 @@ public class DataConfig {
                         "Piraci z Karaibów: Klątwa Czarnej Perły",
                         "Piracka przygoda z Jackiem Sparrowem i tajemniczą klątwą.",
                         "Gore Verbinski",
-                        "posters/piraci_z_karaibow_klatwa_czarnej_perly.png",
+                        "posters/piraci_z_karaibow_klatwa_czarnej_perly.jpg",
                         143,
                         fantasy
                 );
@@ -208,7 +208,7 @@ public class DataConfig {
                         "Sherlock Holmes",
                         "Słynny detektyw i jego przyjaciel Watson rozwiązują zagadki kryminalne.",
                         "Guy Ritchie",
-                        "posters/sherlock_holmes.png",
+                        "posters/sherlock_holmes.webp",
                         128,
                         mystery
                 );
@@ -217,7 +217,7 @@ public class DataConfig {
                         "Kraina Lodu",
                         "Księżniczki Anna i Elsa wyruszają w przygodę w świecie pełnym lodu i magii.",
                         "Chris Buck, Jennifer Lee",
-                        "posters/kraina_lodu.png",
+                        "posters/kraina_lodu.jpg",
                         102,
                         animation
                 );
@@ -226,7 +226,7 @@ public class DataConfig {
                         "Avatar",
                         "Były żołnierz odkrywa magię planety Pandora.",
                         "James Cameron",
-                        "posters/avatar.png",
+                        "posters/avatar.jpg",
                         162,
                         sciFi
                 );
