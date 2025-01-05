@@ -50,7 +50,7 @@ export default function Login() {
             login(email, password).then(
                 () => {
                     alert("Zalogowano.");
-                    window.location.reload();
+                    window.history.back();
                 },
                 error => {
                     alert("Logowanie nie powiodło się");

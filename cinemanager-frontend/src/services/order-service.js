@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL_BASE } from "./api-url-config";
+import { API_URL_BASE, PAGE_URL_BASE } from "./api-url-config";
 import { getCurrentUser } from "./authentication-service";
 
 const API_URL = API_URL_BASE
@@ -13,6 +13,11 @@ export async function fetch_screening_seats(screeningId){
 }
 
 export function place_order(tickets, screeningId){
+    var user = getCurrentUser();
+    if(user == null){
+        window.alert("Przed dokonaniem zakupu musisz się zalogować")
+        return;
+    }
     const ticketsDto = []
     for(var ticket of tickets){
         ticketsDto.push(
@@ -28,7 +33,9 @@ export function place_order(tickets, screeningId){
         "tickets": ticketsDto
     }, {
         headers: {
-            Authorization: "Bearer " + getCurrentUser()
+            Authorization: "Bearer " + user
         }
-    }).catch(err => console.warn(err))
+    })
+    .then(res => setTimeout(() => window.location.replace(PAGE_URL_BASE + "user"), 1000))
+    .catch(err => console.warn(err))
 }

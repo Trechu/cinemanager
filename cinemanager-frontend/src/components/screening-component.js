@@ -7,13 +7,21 @@ function Screening(key, screeningId, posterUrl, title, genre, length, screeningT
 
     const days = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"]
     var date = new Date(startDate)
-    var formattedDate = days[date.getDay()] + " " + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes())
+    var formattedDate = days[date.getDay()]
+        + " "
+        + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) 
+        + "/" + ((date.getMonth() + 1 > 9) ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1)) 
+        + "/" + date.getFullYear() 
+        + " " 
+        + date.getHours() 
+        + ":" 
+        + (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes())
 
     return (
         <div>
             <div className="screening-card" key={key}>
                 <div className="screening-card-image-container">
-                    <img src={API_STATIC_URL+posterUrl} alt={posterUrl} className="img-thumbnail"></img>
+                    <img src={API_STATIC_URL+posterUrl} alt={":<"} className="img-thumbnail"></img>
                 </div>
                 <div className="screening-card-details-container">
                     <h2>{title}</h2>

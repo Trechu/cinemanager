@@ -11,10 +11,6 @@ import Screenings from "./components/screening-component";
 import "./styles/overall.css"
 import Order from "./components/order-component";
 
-function userHasRole(user){
-  return user.scope === "ROLE_ADMINISTRATOR";
-}
-
 function App() {
 
   const user = getCurrentUser();

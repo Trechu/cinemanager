@@ -170,7 +170,6 @@ export default function Order() {
                 <br/>
                 <button class="btn btn-secondary cnf-btn" type="button" onClick={() => {
                         place_order(selectedSeats, screeningInfo.id)
-                        window.location.reload()
                     }}>
                         Potwierdź zamówienie
                 </button> 
