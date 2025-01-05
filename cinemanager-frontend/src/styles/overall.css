@@ -57,8 +57,13 @@ body {
     margin-top: 2em;
 }
 
+.cnf-btn {
+    margin-top: 2em;
+}
+
 .divider-horizontal {
     border-top: 3px solid rgb(227, 225, 225);
+    width: 50%;
 }
 
 .btn-holder {
@@ -69,6 +74,7 @@ body {
 
 .page-btn {
     margin: auto;
+    margin-top: 1em;
     margin-bottom: 1em;
 }
 
@@ -81,6 +87,13 @@ body {
     border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.ticket-types {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .screen-mock {
@@ -121,8 +134,22 @@ body {
 .seat-identificator {
     position: absolute;
     z-index: 100;
+    user-select: none;
 }
 
 .taken {
     background-color: gray;
+}
+
+.seat-icon:hover {
+    opacity: 80%;
+}
+
+.disabled-seat {
+    pointer-events: none;
+    opacity: 40%;
+}
+
+.selected-seat {
+    opacity: 50%;
 }
