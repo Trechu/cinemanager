@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,17 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, AuthService authService, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.authService = authService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<ResponseUserDto> getUsers() {
         return userRepository.findAll().stream().map(UserService::getResponseUserDto).toList();

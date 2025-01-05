@@ -1,9 +1,16 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tickets")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Ticket {
 
     @Id
@@ -11,62 +18,31 @@ public class Ticket {
     private long id;
 
     private int seatRow;
-    private int seatPosition;
-    private boolean valid = true;
 
-    @ManyToOne
+    private int seatPosition;
+
+    private boolean used = false;
+    
+    private boolean discounted;
+
+    @NotNull
+    @ManyToOne(optional = false)
     private Screening screening;
-    @ManyToOne
+
+    @NotNull
+    @ManyToOne(optional = false)
     private User user;
 
-    public Ticket() {}
+    @NotNull
+    @ManyToOne(optional = false)
+    private Order order;
 
-    public Ticket(int seatRow, int seatPosition) {
+    public Ticket(int seatRow, int seatPosition, Screening screening, User user, Order order, boolean discounted) {
         this.seatRow = seatRow;
         this.seatPosition = seatPosition;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public int getSeatRow() {
-        return seatRow;
-    }
-
-    public void setSeatRow(int seatRow) {
-        this.seatRow = seatRow;
-    }
-
-    public int getSeatPosition() {
-        return seatPosition;
-    }
-
-    public void setSeatPosition(int seatPosition) {
-        this.seatPosition = seatPosition;
-    }
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public Screening getScreening() {
-        return screening;
-    }
-
-    public void setScreening(Screening screening) {
         this.screening = screening;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
         this.user = user;
+        this.order = order;
+        this.discounted = discounted;
     }
 }

@@ -2,7 +2,7 @@
 
 ## Model bazodanowy
 ### Schemat
-![](./img/Database.png)
+![](./img/Database3.png)
 
 ### Tabele
 - `Users` - dane o użytkownikach
@@ -23,6 +23,10 @@
 - `Genres` - dane o gatunkach filmowych
   - `name` - nazwa gatunku
 
+- `Directors` - dane o reżyserach
+  - `first_name` - imię/imiona reżysera
+  - `last_name` - nazwisko reżysera
+
 - `Reviews` - dane o recenzjach filmów dodane przez użytkowników
     - `user_id` - klucz obcy do tabeli `Users`, użytkownik wystawiający recenzję
     - `movie_id` - klucz obcy do tabeli `Movies`, oceniany film
@@ -34,17 +38,32 @@
   - `rows` - liczba rzędów siedzeń
   - `seats_per_row` - liczba siedzeń w każdym rzędzie
 
+- `ScreningType` - dane o rodzajach seansów
+  - `name` - nazwa rodzaju seansu (np. 2D, 3D)
+  - `base_price` - podstawowa cena biletu
+  - `discount_price` - ulgowa cena biletu
+
 - `Screening` - dane o seansach filmowych
   - `movie_id` - klucz obcy do tabeli `Movies`, jaki film będzie na seansie
   - `room_id` - klucz obcy do tabeli `CinemaRooms`, gdzie odbędzie się seans
   - `start_date` - data seansu filmowego
+  - `screening_type_id` - klucz obcy do tabeli `ScreeningType`, jakiego rodzaju jest seans
+
+- `Orders` - dane o zamówieniach
+  - `user_id` - klucz obcy do tabeli `Users`, kto dokonał zamówienia
+  - `date` - data zamówienia
+  - `total_price` - całkowita wartość zamówienia
+  - `paid` - informacja, czy zamówienie zostało opłacone
+  - `cancelled` - informacja, czy zamówienie zostało anulowane (np. z powodu nieopłacenia w wymaganym czasie)
 
 - `Tickets` - dane o biletach
   - `user_id` - klucz obcy do tabeli `Users`, do kogo należy bilet
   - `screening_id` - klucz obcy do tabeli `Screenings`, na jaki seans
   - `seat_row` - numer rzędu w sali kinowej
   - `seat_position` - numer siedzenia w rzędzie
-  - `valid` - ważność biletu, po użyciu `false`
+  - `used` - ważność biletu, po użyciu `true`
+  - `discounted` - informacja czy bilet jest biletem ulgowym
+  - `order_id` - klucz obcy do tabeli `Orders`, w jakim zamówieniu zakupiono dany bilet
 
 ### Relacje
 
@@ -52,23 +71,26 @@
   - Recenzja jest wystawiana przez jednego użytkownika na jeden film
 
 - `Movies`
-  - film ma jest przypisany do jednego gatunku
+  - Film jest przypisany do jednego gatunku i do jednego reżysera
 
 - `Screenings`
-  - Seans jest przypisany do jednej sali kinowej i do jednego filmu
+  - Seans jest przypisany do jednej sali kinowej i do jednego filmu oraz posiada jeden rodzaj
 
 - `Tickets`
-  - Bilet jest przypisany do jednego użytkownika na jeden seans
+  - Bilet jest przypisany do jednego zamówienia, do jednego użytkownika i na jeden seans
+
+- `Orders`
+  - Zamówienie jest przypisane do jednego użytkownika
 
 ### Mapowanie
 
 W projekcie zastosowano Hibernate jako framework do mapowania obiektowo-relacyjnego (`ORM`). Każda tabela w bazie danych została odwzorowana na odpowiednią klasę encji w Javie, co pozwala na wygodne operowanie danymi w kodzie przy użyciu obiektów.
 
-Poniżej znajduje sie przykład mapowania tabeli `Users`
+Poniżej znajduje się przykład mapowania tabeli `Users`
 
 ```java
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -78,25 +100,26 @@ public class User {
     @NotBlank
     @Column(length = 64)
     private String firstName;
+
     @NotBlank
     @Column(length = 64)
     private String lastName;
+
     @Email
     @Column(length = 128, unique = true)
     private String email;
+
     @NotBlank
     @Column(length = 256)
     private String password;
+
+    @NotNull
     @Column(length = 32)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Review> reviewSet = new HashSet<>();
-    @OneToMany(mappedBy = "user")
-    private Set<Ticket> ticketSet = new HashSet<>();
-
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, String email, String password, UserRole role) {
         this.firstName = firstName;
@@ -122,7 +145,7 @@ Pozostałe elementy systemu są zbudowane analogicznie - klasa modelowa, repozyt
 ### Autentykacja
 Dostęp do API jest zabezpieczony za pomocą Spring Security. Autentykacja użytkowników odbywa się za pośrednictwem tokenów JWT. 
 
-Użytkownik wysyła zapytanie POST o token na `/api/token`, podając w nagłówku Authentication zakodowane za pomocą Base64 `email:haslo`.
+Użytkownik wysyła zapytanie POST o token na `/api/token`, podając w nagłówku Authorization zakodowane za pomocą Base64 `email:haslo`.
 
 ```
 Base64("jan@mail.com:password") -> amFuQG1haWwuY29tOnBhc3N3b3Jk
@@ -162,7 +185,7 @@ Przykładowa zawartość tokenu:
 
 Jeżeli dane są niepoprawne, użytkownik otrzyma odpowiedź 401 Unauthorized.
 
-Aby uzyskać dostęp do zabezpieczonych endpointów, należy dodać do zapytania token w nagłówku Authentication.
+Aby uzyskać dostęp do zabezpieczonych endpointów, należy dodać do zapytania token w nagłówku Authorization.
 
 Przykładowe zapytanie:
 ```
@@ -187,7 +210,6 @@ Dzięki podziałowi na role, różni użytkownicy posiadają różne uprawnienia
 Główna klasa Spring Security, pozwalająca na zabezpieczenie systemu. W metodzie 
 `securityFilterChain(HttpSecurity http)` ustawiane są główne ustawienia:
 - ustawienia CORS i CSRF,
-- wymaganie autentykacji oprócz ścieżek `/api/token` i `/api/register`
 - stworzenie serwera zasobów OAuth2, do autentykacji przez JWT
 - tryb STATELESS.
 
@@ -213,74 +235,505 @@ Serwis pozwalający w prosty sposób za pomocą metody `hasRole(userRole, author
 
 ## REST API
 
-### POST /api/token
+### Autentykacja
+#### POST /api/token
 
-#### Body: 
+##### Body: 
 puste
 
-#### Nagłówki:
-Authentication: 'Basic ' + Base64(email + ':' + password)
+##### Nagłówki:
+Authorization: 'Basic ' + Base64(email + ':' + password)
 
-#### Zwraca:
+##### Zwraca:
 200 OK - Logowanie powiodło się. W polu danych zwracany jest wygenerowany token.
 
 401 UNAUTHORIZED - Logowanie nie powiodło się z powodu błędnego hasła lub emailu.
 
 
-### POST /api/register
+#### POST /api/register
 
-#### Body: 
+##### Body: 
 firstName, lastName, email, password (plaintext), role (ADMINISTRATOR, MANAGER, EMPLOYEE, CUSTOMER)
 
-#### Nagłówki:
-`Opcjonalnie` Authentication: 'Bearer ' + Token
+##### Nagłówki:
+`Opcjonalnie` Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Niezalogowana osoba może stworzyć tylko 
 użytkownika o roli Customer. Administrator oraz Manager mogą tworzyć użytkowników o roli swojej lub niższej.
 
-#### Zwraca:
+##### Zwraca:
 201 CREATED - Dodatkowo header Location z URL /api/users/{id} oraz w body id, firstname, lastname, email, role.
 
 403 FORBIDDEN - Nie ma prawa do stworzenia osoby tej rangi.
 
 409 CONFLICT - Jeśli istnieje już użytkownik z takim adresem email. 
 
-### GET /api/users
+### Użytkownicy
+#### GET /api/users
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Ponadto jego rola musi być równa co najmniej Managerowi.
 
-#### Zwraca
+##### Zwraca:
 200 OK - W polu data zwracana jest lista użytkowników zarejestrowanych w systemie.
 
 403 FORBIDDEN - Nie ma prawa do otrzymania listy użytkowników.
 
-### GET /api/users/{id}
+#### GET /api/users/{id}
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Użytkownik może podejrzeć sam siebie lub jego ranga musi być równa co najmniej managerowi.
 
-#### Zwraca
+##### Zwraca:
 200 OK - W polu data zwracane są dane o użytkowniku.
 
 403 FORBIDDEN - Nie ma prawa do otrzymania danych o użytkowniku.
 
-### DELETE /api/users/{id}
+#### DELETE /api/users/{id}
 
-#### Nagłówki:
-Authentication: 'Bearer ' + Token
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
 
-#### Specyfikacja:
+##### Specyfikacja:
 Użytkownik musi być zalogowany. Ponadto jego rola musi być równa co najmniej Managerowi. Pozwala na usunięcie siebie lub użytkownika co najwyżej tej samej rangi.
 
-#### Zwraca
+##### Zwraca:
 204 NO CONTENT - Usunięcie powiodło się.
 
 403 FORBIDDEN - Nie można usunąć użytkownika takiej rangi.
+
+### Gatunki
+#### GET /api/genres
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich gatunków filmowych, do których należą filmy w bazie kina.
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name`.
+
+#### GET /api/genres/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie gatunku filmowego.
+
+##### Zwraca:
+200 OK - Gatunek postaci `id, name`.
+
+#### POST /api/genres
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać gatunek filmowy. Należy podać jedynie pole `name`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie gatunku powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/genres/{id}` oraz w body znajduje się `id, name`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/genres/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić gatunek filmowy. W body należy podać jedynie pole `name`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Reżyserzy
+#### GET /api/directors
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich reżyserów filmowych, którzy tworzyli filmy w bazie kina.
+
+##### Zwraca:
+200 OK - Lista reżyserów postaci `id, firstName, lastName`.
+
+#### GET /api/directors/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych reżysera filmowego.
+
+##### Zwraca:
+200 OK - Dane reżysera postaci `id, firstName, lastName`.
+
+#### POST /api/directors
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać reżysera. Należy podać pola `firstName`, `lastName`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie reżysera powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/directors/{id}` oraz w body znajduje się `id, firstName, lastName`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/directors/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić dane reżysera. W body należy podać pola `firstName`, `lastName`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Filmy
+#### GET /api/movies
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=length,desc`).
+
+##### Zwraca:
+200 OK - Lista filmów postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+#### GET /api/movies/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych filmu.
+
+##### Zwraca:
+200 OK - Film postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
+
+#### POST /api/movies
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać film. Należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` 
+oraz w body znajduje się `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/movies/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić film. W body należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Sale kinowe
+#### GET /api/cinema-rooms
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich sal kinowych.
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name, rows, seatsPerRow`.
+
+#### GET /api/cinema-rooms/{id}
+##### Specyfikacja:
+Pozwala na wylistowanie danych konkretnej sali kinowej
+
+##### Zwraca:
+200 OK - Dane w postaci `id, name, rows, seatsPerRow`.
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+#### POST /api/cinema-rooms
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać nową salę kinową. Wymaga rangi co najmniej managera. W body należy podać `name, rows, seatsPerRow`.
+
+##### Zwraca:
+201 CREATED - Dodanie sali powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/cinema-rooms/{id}` oraz w body znajduje się `id, name, rows, seatsPerRow`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/cinema-rooms/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić salę kinową. W body należy podać pola `name, rows, seatsPerRow`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Typy seansów
+#### GET /api/screening-types
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich rodzajów seansów (np. 2D, 3D).
+
+##### Zwraca:
+200 OK - Lista gatunków postaci `id, name, basePrice, discountPrice`.
+
+#### GET /api/screening-types/{id}
+##### Specyfikacja:
+Pozwala na wylistowanie danych konkretnego typu seansu.
+
+##### Zwraca:
+200 OK - Dane w postaci `id, name, basePrice, discountPrice`.
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+#### POST /api/screening-types
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać nowy typ seansu. Wymaga rangi co najmniej managera. W body należy podać `name, basePrice, discountPrice`.
+
+##### Zwraca:
+201 CREATED - Dodanie typu seansu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/screening-types/{id}` oraz w body znajduje się `id, name, basePrice, discountPrice`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/cinema-rooms/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić typ seansu. W body należy podać pola `name, basePrice, discountPrice`. Wymaga uprawnień co najmniej managera.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+### Seanse
+#### GET /api/screenings
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich seansów. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=startDate,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `movieId` - listuje tylko seanse dla danego filmu,
+- `after` - listuje tylko seanse odbywające się po (`>=`) danej dacie (przekazanej w formacie ISO-8601, np. `2025-01-01T12:00:00`).
+
+##### Zwraca:
+200 OK - Lista seansów postaci `id, startDate, screeningType, movie, cinemaRoom`, znajdujące się pod kluczem `content`. 
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
+
+#### GET /api/screenings/{id}
+
+##### Specyfikacja:
+Pozwala na wylistowanie danych seansu.
+
+##### Zwraca:
+200 OK - Seans postaci `id, startDate, screeningType, movie, cinemaRoom`.
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+
+#### POST /api/screenings
+
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala dodać seans. Należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. 
+Wymaga uprawnień co najmniej managera.
+Zostaje sprawdzone, czy dany seans nie pokrywa się z jakimś innym seansem odbywającym się w tym samym czasie w tej samej sali.
+
+##### Zwraca:
+201 CREATED - Dodanie seansu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/screenings/{id}` oraz w body znajduje się `id, startDate, screeningType, movie, cinemaRoom`.
+Film, typ seansu i sala zwracane są w analogicznej postaci, co endpointy GET tych zasobów dla danego id.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne (w tym gdy istnieje inny seans w tym samym czasie i w tej samej sali).
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### PUT /api/screenings/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala uaktualnić seans. W body należy podać pola `startDate, screeningTypeId, movieId, cinemaRoomId`. 
+Wymaga uprawnień co najmniej managera.
+Zostaje sprawdzone, czy dany seans nie pokrywa się z jakimś innym seansem odbywającym się w tym samym czasie w tej samej sali.
+
+##### Zwraca:
+204 NO CONTENT - Uaktualnienie powiodło się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne (w tym gdy istnieje inny seans w tym samym czasie i w tej samej sali).
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### GET /api/screenings/{id}/seats
+##### Specyfikacja:
+Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
+
+##### Zwraca:
+200 OK - Lista zajętych siedzeń na dany seans postaci: `row, position`
+
+400 BAD REQUEST - Podany seans nie istnieje.
+
+### Zamówienia
+#### GET /api/orders
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Pozwala na wylistowanie wszystkich zamówień. 
+Dla roli przynajmniej managera wylistowuje wszystkie zamówienia, w przeciwnym przypadku jedynie zamówienia użytkownika, którego token został przesłany.
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=date,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `userId` - listuje tylko zamówienia dla danego użytkownika (lecz zwykły użytkownik dalej ma dostęp jedynie do swoich danych),
+- `after` - listuje tylko zamówienia dokonane po (`>=`) danej dacie (przekazanej w formacie ISO-8601, np. `2025-01-01T12:00:00`),
+- `before` - listuje tylko zamówienia dokonane przed (`<=`) daną datą (przekazaną w formacie ISO-8601, np. `2025-01-01T12:00:00`),
+- `paid` - listuje tylko zamówienia zapłacone,
+- `cancelled` - listuje tylko zamówienia anulowane.
+
+##### Zwraca:
+200 OK - Lista zamówień w postaci analogicznej do endpointu dla zamówienia o danym id, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### GET /api/orders/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca dane dotyczące danego zamówienia: `id, date, cancelled, paid, totalPrice, userId, tickets`. 
+`tickets` to lista biletów w analogicznym formacie jak zwracany przez endpoint dla biletów.
+Wymaga, aby zamówienie należało do użytkownika, którego token jest przesłany lub rangi przynajmniej managera.
+`userId` jest dodawane w przypadku posiadania roli co najmniej managera.
+
+##### Zwraca:
+200 OK - Dane zamówienia
+
+400 BAD REQUEST - Zamówienie nie istnieje lub użytkownik nie ma uprawnień, aby je zobaczyć.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### POST /api/orders
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Wymaga podania tokenu JWT, na podstawie którego wystawiane są bilety.
+W body przesyłamy:
+ - `screeningId` - id seansu,
+ - `tickets` - lista zamówionych miejsc postaci `row, seatNumber, ticketType`, gdzie `ticketType` to `REGULAR` dla zwykłego biletu lub `DISCOUNTED` dla biletu ulgowego.
+
+##### Zwraca:
+201 CREATED - Zamówienie oraz nagłówek Location
+
+400 BAD REQUEST - w przypadku podania złego użytkownika, złego seansu lub kiedy któreś miejsce zostało już zajęte
+
+#### POST /api/orders/{id}/payment
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Symuluje otrzymanie informacji o płatności od zewnętrznego systemu płatności. Wymaga roli administratora.
+
+##### Zwraca:
+204 NO CONTENT - Zapisano infromację o udanej płatności.
+
+400 BAD REQUEST - Zamówienie nie istnieje lub jest już opłacone.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+### Bilety
+
+#### GET /api/tickets
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca listę "przydatnych" biletów przypisanych do użytkownika, którego token został przesłany.
+"Przydatne" bilety to te, które nie zostały użyte, dotyczą seansów w przyszłości (z buforem 2 godziny do tyłu), 
+z zamówień opłaconych i nieanulowanych.
+
+W przypadku potrzeby zwrócenia wszystkich biletów (z zamówień opłaconych i nieanulowanych), 
+należy podać parametr GET `past=true`.
+
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=id,desc`). 
+
+##### Zwraca:
+200 OK - Lista zamówień w postaci analogicznej do endpointu dla biletu o danym id, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### GET /api/tickets/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca dane o bilecie o podanym id, jeżeli przypisany jest do użytkownika, którego token został przesłany.
+
+##### Zwraca:
+200 OK - Bilet postaci `id, discounted, screening, seatPosition, seatRow, used`, 
+gdzie `screening` jest w postaci analogicznej do endpointu dla seansu o danym id.
+
+400 BAD REQUEST - Bilet nie istnieje lub użytkownik nie posiada uprawnień do jego wyświetlenia.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.

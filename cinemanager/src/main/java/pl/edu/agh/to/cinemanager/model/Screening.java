@@ -1,57 +1,43 @@
 package pl.edu.agh.to.cinemanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "screenings")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Screening {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private LocalDate startDate;
+    @NotNull
+    private LocalDateTime startDate;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Movie movie;
-    @ManyToOne
+
+    @NotNull
+    @ManyToOne(optional = false)
     private CinemaRoom cinemaRoom;
 
-    public Screening() {}
+    @NotNull
+    @ManyToOne(optional = false)
+    private ScreeningType screeningType;
 
-    public Screening(LocalDate startDate, Movie movie, CinemaRoom cinemaRoom) {
+    public Screening(LocalDateTime startDate, Movie movie, CinemaRoom cinemaRoom, ScreeningType screeningType) {
         this.startDate = startDate;
         this.movie = movie;
         this.cinemaRoom = cinemaRoom;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public CinemaRoom getCinemaRoom() {
-        return cinemaRoom;
-    }
-
-    public void setCinemaRoom(CinemaRoom cinemaRoom) {
-        this.cinemaRoom = cinemaRoom;
+        this.screeningType = screeningType;
     }
 }
