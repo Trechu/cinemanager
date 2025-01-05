@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { API_STATIC_URL } from "../services/api-url-config"
 import { fetch_screenings } from "../services/screening-service"
 
 function Screening(key, screeningId, posterUrl, title, genre, length, screeningType, startDate, includeDivider){
@@ -12,7 +13,7 @@ function Screening(key, screeningId, posterUrl, title, genre, length, screeningT
         <div>
             <div className="screening-card" key={key}>
                 <div className="screening-card-image-container">
-                    <img src={posterUrl} alt={posterUrl} className="img-thumbnail"></img>
+                    <img src={API_STATIC_URL+posterUrl} alt={posterUrl} className="img-thumbnail"></img>
                 </div>
                 <div className="screening-card-details-container">
                     <h2>{title}</h2>
