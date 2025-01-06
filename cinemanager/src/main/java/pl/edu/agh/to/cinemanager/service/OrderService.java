@@ -1,6 +1,7 @@
 package pl.edu.agh.to.cinemanager.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestOrderDto;
+import pl.edu.agh.to.cinemanager.dto.RequestOrderUpdateDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseOrderDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
 import pl.edu.agh.to.cinemanager.model.*;
@@ -77,6 +79,33 @@ public class OrderService {
             order.setPaid(true);
             orderRepository.save(order);
         }
+    }
+
+    public void updateOrder(Order order, RequestOrderUpdateDto updatedOrderDto) {
+        order.setUser(getUserFromRequestUpdateDto(updatedOrderDto));
+        order.setDate(updatedOrderDto.date());
+        order.setTotalPrice(updatedOrderDto.totalPrice());
+        order.setCancelled(updatedOrderDto.cancelled());
+        order.setPaid(updatedOrderDto.paid());
+
+        save(order);
+    }
+
+    private void save(Order order) {
+        try {
+            orderRepository.save(order);
+        } catch (Exception e) {
+            if (e.getCause().getCause() instanceof ConstraintViolationException) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            }
+        }
+    }
+
+    private User getUserFromRequestUpdateDto(RequestOrderUpdateDto updatedOrderDto) {
+        return userRepository.findById(updatedOrderDto.userId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
     }
 
     public Page<ResponseOrderDto> getAllOrders(Specification<Order> specification, Pageable pageable) {
