@@ -10,6 +10,12 @@ import Admin from "./components/admin-component";
 import Screenings from "./components/screening-component";
 import "./styles/overall.css"
 import Order from "./components/order-component";
+import { Tickets, TicketDetails } from "./components/ticket-component";
+import { OrderList, OrderDetails} from "./components/order-list-component";
+import User from "./components/user-component";
+import { Movies, Movie } from "./components/movie-component";
+import CinemaRooms from "./components/cinema-room-component";
+
 
 function App() {
 
@@ -123,6 +129,16 @@ function App() {
               Repertuar
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to={"/movies"} className="nav-link">
+              Filmy
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/cinema-rooms"} className="nav-link">
+              Sale kinowe
+            </Link>
+          </li>
         </div>
       </nav>
       <div className="container-xl mt-3">
@@ -133,6 +149,14 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/repertuar" element={<Screenings />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/ticket" element={<Tickets />} />
+          <Route path="/ticket/:id" element={<TicketDetails />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
+          <Route path="/orders" element={<OrderList />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:id" element={<Movie />} />
+          <Route path="/cinema-rooms" element={<CinemaRooms />} />
         </Routes>
       </div>
     </div>

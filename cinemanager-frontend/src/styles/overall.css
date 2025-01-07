@@ -105,7 +105,7 @@ body {
     background-color: azure;
 }
 
-.row {
+.rows {
     position: relative;
     overflow: hidden;
     height: 40px;
@@ -152,4 +152,164 @@ body {
 
 .selected-seat {
     opacity: 50%;
+}
+
+.ticket-card,
+.order-card
+{
+    background-color: rgb(30, 30, 30);
+    border: 1px solid rgb(50, 50, 50);
+    border-radius: 10px;
+    padding: 1.5em;
+    margin: 1em auto;
+    width: 80%;
+    color: floralwhite;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.ticket-card:hover,
+.order-card:hover
+{
+    transform: scale(1.02);
+}
+
+.ticket-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    color: wheat;
+}
+
+.ticket-card p {
+    font-size: 1em;
+    margin: 0.3em 0;
+    color: rgb(200, 200, 200);
+}
+
+.ticket-card.ticket-used {
+    opacity: 50%;
+}
+
+.ticket-card .ticket-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-card .ticket-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: rgb(180, 180, 180);
+}
+
+.ticket-card .seat-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: rgb(240, 240, 240);
+}
+
+.ticket-card .room-name {
+    color: rgb(190, 150, 255);
+    font-style: italic;
+}
+
+.ticket-card .used-status,
+.order-card p.user-status,
+.used-status,
+.order-status {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    color: crimson;
+}
+
+.ticket-details {
+    background-color: rgb(30, 30, 30);
+    color: floralwhite;
+    border-radius: 10px;
+    padding: 2em;
+    margin: 2em auto;
+    width: 80%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.ticket-details h2 {
+    color: wheat;
+    text-align: center;
+}
+
+.ticket-details p {
+    margin: 0.5em 0;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-img-top {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1);
+    filter: brightness(50%);
+}
+
+.card .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-overlay {
+    opacity: 1;
+}
+
+.room-layout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.room-layout {
+    background: black;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
 }

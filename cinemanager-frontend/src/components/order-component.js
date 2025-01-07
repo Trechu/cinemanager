@@ -214,7 +214,7 @@ export default function Order() {
                 <div className="screen-mock"><span style={{ "color": "black", "margin-left": "45%", "opacity": "33%", "fontWeight": "500" }}>EKRAN</span></div>
                 {GenerateRows(screeningInfo).map((row, rowIndex) => {
                     return (
-                        <div className="row">
+                        <div className="rows">
                             <span className="row-identificator">
                                 {rowIndex}
                             </span>
