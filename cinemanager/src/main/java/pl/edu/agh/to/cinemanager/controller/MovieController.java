@@ -25,7 +25,11 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("")
-    public Page<ResponseMovieDto> getAllMovies(Pageable pageable) {
+    public Page<ResponseMovieDto> getAllMovies(Pageable pageable,
+                                               @RequestParam(value = "genre", required = false) String genre) {
+        if (genre != null && !genre.isEmpty()) {
+            return movieService.getAllMoviesByGenre(genre, pageable);
+        }
         return movieService.getAllMovies(pageable);
     }
 
