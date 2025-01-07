@@ -15,6 +15,7 @@ import { OrderList, OrderDetails} from "./components/order-list-component";
 import User from "./components/user-component";
 import { Movies, Movie } from "./components/movie-component";
 import CinemaRooms from "./components/cinema-room-component";
+import Employee from "./components/employee-component";
 
 
 function App() {
@@ -146,6 +147,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/manager" element={<Manager />} />
+          <Route path="/employee" element={<Employee />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/repertuar" element={<Screenings />} />
           <Route path="/order" element={<Order />} />

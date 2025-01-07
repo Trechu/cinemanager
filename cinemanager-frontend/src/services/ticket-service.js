@@ -23,3 +23,11 @@ export async function fetch_ticket(id) {
         return res.data;
     }).catch(err => console.warn(err))
 }
+
+export async function validate_ticket(id) {
+    return axios.post(API_URL + `/${id}/validate`, {}, {
+        headers: {
+            Authorization: "Bearer " + getCurrentUser()
+        }
+    })
+}
