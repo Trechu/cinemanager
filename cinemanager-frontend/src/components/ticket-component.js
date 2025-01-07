@@ -42,7 +42,7 @@ function Ticket({ ticket }) {
             <p>Rodzaj seansu: {screeningTypeName}</p>
             <p>{formattedDate}</p>
             <div className="seat-info">
-                <p>Rząd: {seatRow}, Miejsce: {seatPosition}</p>
+                <p>ID: {id}, Rząd: {seatRow}, Miejsce: {seatPosition}</p>
                 <p className="room-name">Sala: {roomName}</p>
             </div>
             {used && <p className="used-status">Bilet użyty</p>}
@@ -118,6 +118,7 @@ function TicketDetails() {
                         <p><strong>Czas trwania:</strong> {length} min</p>
                         <p><strong>Rodzaj seansu:</strong> {screeningTypeName}</p>
                         <p><strong>Data seansu:</strong> {formattedDate}</p>
+                        <p><strong>ID biletu:</strong> {id}</p>
                         <p><strong>Rząd:</strong> {seatRow}, <strong>Miejsce:</strong> {seatPosition}</p>
                         <p><strong>Sala:</strong> {cinemaRoomName}</p>
                         <p><strong>Bilet:</strong> {discounted ? "Ulgowy" : "Normalny"}</p>
@@ -133,7 +134,7 @@ function TicketDetails() {
 function Tickets() {
     const [tickets, setTickets] = useState([]);
     const [page, setPage] = useState(0);
-    const [past, setPast] = useState(true);
+    const [past, setPast] = useState(false);
     const [pageInfo, setPageInfo] = useState({ totalPages: 0, totalElements: 0 });
 
     async function getTickets() {
@@ -157,7 +158,7 @@ function Tickets() {
                     className="btn btn-secondary"
                     onClick={() => setPast(!past)}
                 >
-                    {past ? "Pokaż przyszłe bilety" : "Pokaż przeszłe bilety"}
+                    {past ? "Pokaż aktualne bilety" : "Pokaż wszystkie bilety"}
                 </button>
             </div>
             <div>

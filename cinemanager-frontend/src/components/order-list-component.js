@@ -80,7 +80,7 @@ function OrderDetails() {
                 <ul className="list-group">
                     {tickets.map(ticket => (
                         <li key={ticket.id} className="list-group-item bg-secondary text-light">
-                            <p><strong>{ticket.screening.movie.title}</strong> | {ticket.screening.screeningType.name} | {formattedDate(ticket.screening.startDate)} | Rząd: {ticket.seatRow} | Miejsce: {ticket.seatPosition} | {ticket.discounted ? "Ulgowy" : "Normalny"}</p>
+                            <p>{ticket.id} | <strong>{ticket.screening.movie.title}</strong> | {ticket.screening.screeningType.name} | {formattedDate(ticket.screening.startDate)} | Rząd: {ticket.seatRow} | Miejsce: {ticket.seatPosition} | {ticket.discounted ? "Ulgowy" : "Normalny"}</p>
                         </li>
                     ))}
                 </ul>
