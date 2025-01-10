@@ -35,6 +35,11 @@ public class MovieService {
                 .map(this::movieToResponseDto);
     }
 
+    public Page<ResponseMovieDto> getAllMoviesByGenre(String genre, Pageable pageable) {
+        return movieRepository.findAllByGenreName(genre, pageable)
+                .map(this::movieToResponseDto);
+    }
+
     public Optional<Movie> getMovieById(Long id) {
         return movieRepository.findById(id);
     }

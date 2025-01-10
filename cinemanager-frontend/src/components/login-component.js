@@ -50,7 +50,7 @@ export default function Login() {
             login(email, password).then(
                 () => {
                     alert("Zalogowano.");
-                    window.location.reload();
+                    window.history.back();
                 },
                 error => {
                     alert("Logowanie nie powiodło się");
@@ -62,7 +62,7 @@ export default function Login() {
     return (
         ( !getCurrentUser() ? 
         (<div className="col-md-12">
-            <div className="card card-container">
+            <div className="card card-container bg-dark">
                 <img
                     style={{ "alignSelf": "center" }}
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

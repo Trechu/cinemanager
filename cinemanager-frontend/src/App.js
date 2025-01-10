@@ -7,10 +7,16 @@ import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 import Manager from "./components/manager-component";
 import Admin from "./components/admin-component";
+import Screenings from "./components/screening-component";
+import "./styles/overall.css"
+import Order from "./components/order-component";
+import { Tickets, TicketDetails } from "./components/ticket-component";
+import { OrderList, OrderDetails} from "./components/order-list-component";
+import User from "./components/user-component";
+import { Movies, Movie } from "./components/movie-component";
+import CinemaRooms from "./components/cinema-room-component";
+import Employee from "./components/employee-component";
 
-function userHasRole(user){
-  return user.scope === "ROLE_ADMINISTRATOR";
-}
 
 function App() {
 
@@ -43,13 +49,13 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand navbar-dark">
         <Link to={"/"} className="navbar-brand">
-          CineManager
+          <span className="navbar-brand-text">CineManager</span>
         </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
+            <Link to={"/"} className="nav-link">
               Home
             </Link>
           </li>
@@ -117,12 +123,42 @@ function App() {
           </div>
         )}
       </nav>
-      <div className="container mt-3">
+      <nav className="navbar navbar-secondary navbar-expand navbar-dark">
+        <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/repertuar?page=0&size=5"} className="nav-link">
+              Repertuar
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/movies"} className="nav-link">
+              Filmy
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/cinema-rooms"} className="nav-link">
+              Sale kinowe
+            </Link>
+          </li>
+        </div>
+      </nav>
+      <div className="container-xl mt-3">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/manager" element={<Manager />} />
+          <Route path="/employee" element={<Employee />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/repertuar" element={<Screenings />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/ticket" element={<Tickets />} />
+          <Route path="/ticket/:id" element={<TicketDetails />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
+          <Route path="/orders" element={<OrderList />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:id" element={<Movie />} />
+          <Route path="/cinema-rooms" element={<CinemaRooms />} />
         </Routes>
       </div>
     </div>

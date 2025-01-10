@@ -5,7 +5,6 @@ import CheckButton from "react-validation/build/button";
 import { getCurrentUser, register } from "../services/authentication-service";
 
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 
 const required = value => {
@@ -59,7 +58,7 @@ export default function Register() {
             register(email, firstName, lastName, password, "CUSTOMER").then(
                 () => {
                     alert("Rejestracja powiodła się");
-                    window.location.reload();
+                    window.history.back()
                 },
                 error => {
                     alert("Rejestracja nie powiodła się");
@@ -71,7 +70,7 @@ export default function Register() {
     return (
         ( !getCurrentUser() ? 
         (<div className="col-md-12">
-            <div className="card card-container">
+            <div className="card card-container bg-dark">
                 <img
                     style={{ "alignSelf": "center" }}
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestOrderDto;
+import pl.edu.agh.to.cinemanager.dto.RequestOrderUpdateDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseOrderDto;
 import pl.edu.agh.to.cinemanager.model.Order;
 import pl.edu.agh.to.cinemanager.model.User;
@@ -83,5 +84,12 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePayment(@PathVariable("id") Order order) {
         orderService.updatePayment(order);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateOrder(@PathVariable("id") Order order, @RequestBody RequestOrderUpdateDto updatedOrderDto) {
+        orderService.updateOrder(order, updatedOrderDto);
     }
 }
