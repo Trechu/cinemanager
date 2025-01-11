@@ -819,3 +819,17 @@ Usuwa recenzję. Należy podać `movieId, rating, content`. Użytkownik, któreg
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### GET /api/screenings/highest-attendance
+##### Specyfikacja:
+Zwraca seanse na które został wykupiony choć jeden bilet wraz z procentem obłożenia sali
+
+##### Zwraca:
+200 OK - Dane postaci `screening, percentage`
+
+#### GET /api/movies/highest-rated
+##### Specyfikacja:
+Zwraca najwyżej oceniane filmy wraz z oceną
+
+##### Zwraca:
+200 OK - Dane postaci `movie, rating`
