@@ -92,8 +92,8 @@ function Movie() {
     }
 
     async function handleEditReview(reviewId, content, rating) {
-        let newContent = window.prompt("Enter new review text:", content);
-        let newRating = Number(window.prompt("Enter new rating (0.0 - 5.0):", rating));
+        let newContent = window.prompt("Podaj nową treść recenzji:", content);
+        let newRating = Number(window.prompt("Podaj nową ocenę (0.0 - 5.0):", rating));
 
         if (newContent !== null && newRating !== null) {
             update_review(reviewId, id, newContent, newRating)
