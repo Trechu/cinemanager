@@ -21,7 +21,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("")
-    public Page<ResponseReviewDto> getAllReviews(Pageable pageable, Authentication authentication,
+    public Page<ResponseReviewDto> getAllReviews(Pageable pageable,
                                                  @RequestParam(value = "movieId", required = false) Movie movie,
                                                  @RequestParam(value = "userId", required = false) User user) {
         Specification<Review> reviewSpecification = ReviewSpecification.movie(movie)

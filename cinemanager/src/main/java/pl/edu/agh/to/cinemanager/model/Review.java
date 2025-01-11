@@ -27,6 +27,7 @@ public class Review {
     private BigDecimal rating;
 
     @NotNull
+    @Column(length = 1024)
     private String content;
 
     @NotNull
