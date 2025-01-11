@@ -427,6 +427,18 @@ Pozwala na wylistowanie danych filmu.
 ##### Zwraca:
 200 OK - Film postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
 
+400 BAD REQUEST - Film o podanym id nie istnieje.
+
+#### GET /api/movies/{id}/rating
+##### Specyfikacja:
+Pozwala na uzyskanie oceny filmu na podstawie recenzji. Jest to liczba od `0.0` do `5.0`, z jednym miejscem po przecinku. 
+Recenzja jest zaokrąglana zgodnie z typowymi zasadami zaokrąglania. Jeżeli film nie posiada żadnych rezencji, zwraca `0`.
+
+##### Zwraca:
+200 OK - Ocena filmu od `0.0` do `5.0`.
+
+400 BAD REQUEST - Film o podanym id nie istnieje.
+
 #### POST /api/movies
 
 ##### Nagłówki:
@@ -737,3 +749,73 @@ gdzie `screening` jest w postaci analogicznej do endpointu dla seansu o danym id
 400 BAD REQUEST - Bilet nie istnieje lub użytkownik nie posiada uprawnień do jego wyświetlenia.
 
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+### Recenzje
+#### GET /api/reviews
+##### Specifykacja:
+Zwraca listę wszystkich recenzji. 
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=rating,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `movieId` - listuje tylko recenzje dla danego filmu,
+- `userId` - listuje tylko recenzje danego użytkownika.
+
+##### Zwraca:
+200 OK - Lista postaci `id, movieId, user (id, firstName), rating, content`, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
+
+#### GET /api/reviews/{id}
+##### Specifykacja:
+Zwraca dane recenzji o podanym id.
+
+##### Zwraca:
+200 OK - Dane recenzji postaci `id, movieId, user (id, firstName), rating, content`.
+
+400 BAD REQUEST - Recenzja nie istnieje.
+
+#### POST /api/reviews
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Dodaje recenzję, jako autora ustawiając właściciela podanego tokenu. Należy podać `movieId, rating, content`.
+`rating` musi być liczbą od `0.0` do `5.0`, z krokiem `0.5` (`0.0, 0.5, 1.0, 1.5, ..., 5.0`).
+
+##### Zwraca:
+201 CREATED - Dodanie recenzji powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/reviews/{id}` oraz w body znajduje się `id, movieId, user (id, firstName), rating, content`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### PUT /api/reviews
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Aktualizuje recenzję. Należy podać `movieId, rating, content`. Użytkownik, którego token został przesłany, musi być autorem recenzji lub co najmniej managerem.
+`rating` musi być liczbą od `0.0` do `5.0`, z krokiem `0.5` (`0.0, 0.5, 1.0, 1.5, ..., 5.0`).
+
+##### Zwraca:
+204 NO CONTENT - Aktualizacja recenzji powiodła się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### DELETE /api/reviews/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Usuwa recenzję. Należy podać `movieId, rating, content`. Użytkownik, którego token został przesłany, musi być autorem recenzji lub co najmniej managerem.
+
+##### Zwraca:
+204 NO CONTENT - Usunięcie recenzji powiodło się.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
