@@ -1,7 +1,9 @@
 package pl.edu.agh.to.cinemanager.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +15,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.edu.agh.to.cinemanager.dto.MovieRatingDto;
 import pl.edu.agh.to.cinemanager.dto.RequestMovieDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
+import pl.edu.agh.to.cinemanager.dto.ResponseMovieRatingDto;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.service.MovieService;
 import pl.edu.agh.to.cinemanager.service.ReviewService;
@@ -44,6 +48,19 @@ public class MovieController {
     @GetMapping("/{id}/rating")
     public BigDecimal getMovieRating(@PathVariable("id") Movie movie) {
         return reviewService.getRating(movie);
+    }
+
+    @GetMapping("/highest-rated")
+    public ResponseMovieRatingDto getHighestRatedMovies(){
+        List<Object[]> data = reviewService.getHighestRatedMovies();
+        List<MovieRatingDto> responseData = new ArrayList<>();
+        for (Object[] o : data){
+            Movie movie = (Movie) o[0];
+            Double rating = (Double) o[1];
+            BigDecimal formatted_rating = (BigDecimal.valueOf(rating)).setScale(1, RoundingMode.UP);
+            responseData.add(new MovieRatingDto(movieService.movieToResponseDto(movie), formatted_rating));
+        }
+        return new ResponseMovieRatingDto(responseData);
     }
 
     @PostMapping("")

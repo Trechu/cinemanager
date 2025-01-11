@@ -22,6 +22,7 @@ import pl.edu.agh.to.cinemanager.repository.ReviewRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -98,6 +99,10 @@ public class ReviewService {
         } else {
             return BigDecimal.valueOf(0.0);
         }
+    }
+
+    public List<Object[]> getHighestRatedMovies(){
+        return reviewRepository.getHighestRankingMovies();
     }
 
     private void validateAndSave(Review review) {
