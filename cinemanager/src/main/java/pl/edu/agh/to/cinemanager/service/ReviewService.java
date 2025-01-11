@@ -106,7 +106,7 @@ public class ReviewService {
         for (Object[] o : data){
             Movie movie = (Movie) o[0];
             Double rating = (Double) o[1];
-            BigDecimal formatted_rating = (BigDecimal.valueOf(rating)).setScale(1, RoundingMode.UP);
+            BigDecimal formatted_rating = (BigDecimal.valueOf(rating)).setScale(1, RoundingMode.HALF_UP);
             responseData.add(new MovieRatingDto(movieService.movieToResponseDto(movie), formatted_rating));
         }
         return new ResponseMovieRatingDto(responseData);
