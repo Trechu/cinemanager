@@ -32,4 +32,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Page<Ticket> findByOrderPaidTrueAndOrderCancelledFalseAndUser(User user, Pageable pageable);
 
     Optional<Ticket> findTicketByIdAndUser(long ticketId, User user);
+
+    @Query("SELECT t.screening, count(t) FROM Ticket t WHERE t.used = TRUE GROUP BY t.screening")
+    List<Object[]> getScreeningsWithNumberOfTicketsBought();
 }

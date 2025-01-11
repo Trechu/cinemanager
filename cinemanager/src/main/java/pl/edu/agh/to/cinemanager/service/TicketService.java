@@ -47,6 +47,10 @@ public class TicketService {
         ticketRepository.saveAll(tickets);
     }
 
+    public List<Object[]> getAmountOfTicketsBoughtPerScreening(){
+        return ticketRepository.getScreeningsWithNumberOfTicketsBought();
+    }
+
     public Page<ResponseTicketDto> getFutureTicketsForCustomer(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));

@@ -52,15 +52,7 @@ public class MovieController {
 
     @GetMapping("/highest-rated")
     public ResponseMovieRatingDto getHighestRatedMovies(){
-        List<Object[]> data = reviewService.getHighestRatedMovies();
-        List<MovieRatingDto> responseData = new ArrayList<>();
-        for (Object[] o : data){
-            Movie movie = (Movie) o[0];
-            Double rating = (Double) o[1];
-            BigDecimal formatted_rating = (BigDecimal.valueOf(rating)).setScale(1, RoundingMode.UP);
-            responseData.add(new MovieRatingDto(movieService.movieToResponseDto(movie), formatted_rating));
-        }
-        return new ResponseMovieRatingDto(responseData);
+        return reviewService.getHighestRatedMovies();
     }
 
     @PostMapping("")

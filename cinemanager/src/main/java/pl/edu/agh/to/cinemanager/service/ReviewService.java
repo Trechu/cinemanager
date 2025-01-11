@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import pl.edu.agh.to.cinemanager.dto.RequestReviewDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseReviewDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseReviewUserDto;
+import pl.edu.agh.to.cinemanager.dto.*;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.model.Review;
 import pl.edu.agh.to.cinemanager.model.User;
@@ -22,6 +20,7 @@ import pl.edu.agh.to.cinemanager.repository.ReviewRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -101,8 +100,16 @@ public class ReviewService {
         }
     }
 
-    public List<Object[]> getHighestRatedMovies(){
-        return reviewRepository.getHighestRankingMovies();
+    public ResponseMovieRatingDto getHighestRatedMovies(){
+        List<Object[]> data = reviewRepository.getHighestRankingMovies();
+        List<MovieRatingDto> responseData = new ArrayList<>();
+        for (Object[] o : data){
+            Movie movie = (Movie) o[0];
+            Double rating = (Double) o[1];
+            BigDecimal formatted_rating = (BigDecimal.valueOf(rating)).setScale(1, RoundingMode.UP);
+            responseData.add(new MovieRatingDto(movieService.movieToResponseDto(movie), formatted_rating));
+        }
+        return new ResponseMovieRatingDto(responseData);
     }
 
     private void validateAndSave(Review review) {
