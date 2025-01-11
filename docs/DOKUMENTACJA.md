@@ -177,7 +177,8 @@ Przykładowa zawartość tokenu:
   "sub": "jan@mail.com",
   "exp": 1733220945,
   "iat": 1733217345,
-  "scope": "ROLE_ADMINISTRATOR"
+  "scope": "ROLE_ADMINISTRATOR",
+  "userId": 1,
 }
 
 // Signature
