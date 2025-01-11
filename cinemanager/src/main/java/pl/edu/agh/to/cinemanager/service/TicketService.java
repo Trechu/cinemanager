@@ -75,8 +75,13 @@ public class TicketService {
     }
 
     public void validateTicket(Ticket ticket) {
-        if (ticket.isUsed()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket is already used");
+        if (!ticket.getOrder().isPaid()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order for this ticket has not been paid");
+        } else if (ticket.getOrder().isCancelled()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order for this ticket has been cancelled");
+        }
+        else if (ticket.isUsed()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket has already been used");
         } else {
             ticket.setUsed(true);
             ticketRepository.save(ticket);
