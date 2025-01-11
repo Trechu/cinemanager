@@ -1,5 +1,6 @@
 package pl.edu.agh.to.cinemanager.controller;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import pl.edu.agh.to.cinemanager.dto.RequestMovieDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.service.MovieService;
+import pl.edu.agh.to.cinemanager.service.ReviewService;
 
 @RestController
 @RequestMapping(path = "api/movies")
@@ -23,6 +25,7 @@ import pl.edu.agh.to.cinemanager.service.MovieService;
 public class MovieController {
 
     private final MovieService movieService;
+    private final ReviewService reviewService;
 
     @GetMapping("")
     public Page<ResponseMovieDto> getAllMovies(Pageable pageable,
@@ -36,6 +39,11 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseMovieDto getMovieById(@PathVariable("id") Movie movie) {
         return movieService.movieToResponseDto(movie);
+    }
+
+    @GetMapping("/{id}/rating")
+    public BigDecimal getMovieRating(@PathVariable("id") Movie movie) {
+        return reviewService.getRating(movie);
     }
 
     @PostMapping("")

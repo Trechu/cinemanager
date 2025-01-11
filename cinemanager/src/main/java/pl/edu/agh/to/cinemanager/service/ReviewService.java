@@ -21,6 +21,7 @@ import pl.edu.agh.to.cinemanager.model.UserRole;
 import pl.edu.agh.to.cinemanager.repository.ReviewRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 @AllArgsConstructor
@@ -87,6 +88,15 @@ public class ReviewService {
             reviewRepository.delete(review);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+    }
+
+    public BigDecimal getRating(Movie movie) {
+        BigDecimal rating = reviewRepository.getAverageRatingByMovie(movie);
+        if (rating != null) {
+            return rating.setScale(1, RoundingMode.HALF_UP);
+        } else {
+            return BigDecimal.valueOf(0.0);
         }
     }
 
