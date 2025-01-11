@@ -313,3 +313,17 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+.review-box {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.review-box:focus, .review-box:focus-visible {
+    background-color: #171b1e;
+    color: white;
+    padding: 0;
+}
