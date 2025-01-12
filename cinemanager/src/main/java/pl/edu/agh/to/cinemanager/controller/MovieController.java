@@ -50,6 +50,11 @@ public class MovieController {
         return reviewService.getRating(movie);
     }
 
+    @GetMapping("/popular")
+    public ResponseMoviesDto getPopularMoviesFromPreviousWeek(){
+        return movieService.getMostPopularMoviesFromPreviousWeek();
+    }
+
     @GetMapping("/highest-rated")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseMovieRatingDto getHighestRatedMovies(){

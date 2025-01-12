@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.agh.to.cinemanager.dto.RequestMovieDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
+import pl.edu.agh.to.cinemanager.dto.ResponseMoviesDto;
 import pl.edu.agh.to.cinemanager.model.Director;
 import pl.edu.agh.to.cinemanager.model.Genre;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.repository.MovieRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +45,12 @@ public class MovieService {
 
     public Optional<Movie> getMovieById(Long id) {
         return movieRepository.findById(id);
+    }
+
+    public ResponseMoviesDto getMostPopularMoviesFromPreviousWeek(){
+        LocalDateTime endDate = LocalDateTime.now();
+        List<Movie> resposeData = movieRepository.getPopularMoviesBetweenDates(endDate.minusWeeks(1), endDate);
+        return new ResponseMoviesDto(resposeData.stream().map(this::movieToResponseDto).toList());
     }
 
     public ResponseMovieDto createMovie(RequestMovieDto movieDto) {

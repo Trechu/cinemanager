@@ -20,6 +20,12 @@ export async function fetch_movies(page, size, genre){
     .catch(err => {console.warn(err)})
 }
 
+export async function fetch_popular_movies(){
+    return axios.get(API_URL + `/popular`, {}, {}).then((res) => {
+        return res.data.movies
+    })
+}
+
 export async function fetch_movie(id) {
     return axios.get(API_URL + `/${id}`, {
     }).then(res => {

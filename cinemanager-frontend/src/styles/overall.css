@@ -51,6 +51,7 @@ body {
 .img-thumbnail {
     width: 200px;
     height: 300px;
+    margin: auto;
 }
 
 .buy-btn {
@@ -354,4 +355,9 @@ body {
 
 .table-link, .table-link:hover {
     color: inherit;
+}
+
+.recommended {
+    display: flex;
+    background-color: inherit;
 }
