@@ -41,3 +41,13 @@ export async function fetchTicketsSold(after, before) {
         return res.data;
     }).catch(err => console.warn(err))
 }
+
+export async function fetchMostChosenSeats(cinemaRoomId) {
+    return axios.get(API_URL_BASE + `cinema-rooms/${cinemaRoomId}/most-chosen-seats`, {
+        headers: {
+            Authorization: "Bearer " + getCurrentUser()
+        }
+    }).then(res => {
+        return res.data;
+    }).catch(err => console.warn(err))
+}

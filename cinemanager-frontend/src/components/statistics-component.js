@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchHighestAttendanceScreenings, fetchHighestRatedMovies, fetchTicketsSold } from "../services/statistics-service";
+import { fetchHighestAttendanceScreenings, fetchHighestRatedMovies, fetchMostChosenSeats, fetchTicketsSold } from "../services/statistics-service";
 import { Link } from "react-router-dom";
 import { fetch_cinema_rooms } from "../services/cinema-room-service";
 
@@ -14,6 +14,8 @@ export default function Statistics() {
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(-1);
     const [selectedCinemaRoom, setSelectedCinemaRoom] = useState(null);
+    const [mostChosenSeats, setMostChosenSeats] = useState([]);
+    const [maxTickets, setMaxTickets] = useState(0);
     
     async function updateHighestRatedMovies() {
         setHighestRatedMovies(await fetchHighestRatedMovies())
@@ -31,6 +33,46 @@ export default function Statistics() {
         setOptions(await fetch_cinema_rooms());
     }
 
+    function getTicketsSold(row, seatPosition) {
+        const seat = mostChosenSeats.find(seat => seat.row === row && seat.position === seatPosition);
+        return seat ? seat.ticketsSold : 0;
+    }
+
+    function getSeatColor(row, seatPosition) {
+        const tickets = getTicketsSold(row, seatPosition);
+
+        const ratio = tickets / maxTickets;
+        
+        let red, green, blue;
+        if (ratio == 0) {
+            return '#808080';
+        }else if (ratio <= 0.5) {
+            // Transition from gray to yellow
+            const grayToYellowRatio = ratio / 0.5;
+            red = Math.floor(128 + (255 - 128) * grayToYellowRatio);
+            green = Math.floor(128 + (255 - 128) * grayToYellowRatio);
+            blue = 0;
+        } else {
+            // Transition from yellow to red
+            const yellowToRedRatio = (ratio - 0.5) / 0.5;
+            red = 255;
+            green = Math.floor(255 * (1 - yellowToRedRatio));
+            blue = 0;
+        }
+        
+        return `rgb(${red}, ${green}, ${blue})`;
+    }
+
+    async function updateMostChosenSeats() {
+        if (selectedCinemaRoom !== undefined && selectedCinemaRoom !== null) {
+            const fetchedMostChosenSeats = await fetchMostChosenSeats(selectedCinemaRoom.id)
+            setMaxTickets(fetchedMostChosenSeats.reduce((max, current) => {
+                return Math.max(max, current.ticketsSold)
+            }, 0))
+            setMostChosenSeats(fetchedMostChosenSeats)
+        }
+    }
+
     useEffect(() => {
         updateHighestRatedMovies();
         updateHighestAttendanceScreenings();
@@ -40,6 +82,10 @@ export default function Statistics() {
     useEffect(() => {
         updateTicketsSold(after, before);
     }, [after, before]);
+
+    useEffect(() => {
+        updateMostChosenSeats();
+    }, [selectedCinemaRoom])
 
     return (
         <div className="container mt-5">
@@ -199,9 +245,9 @@ export default function Statistics() {
                                         <div className="seat seat-icon" key={seatIndex}>
                                             <span className="seat-identificator">{seatIndex + 1}</span>
                                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id={"seat1;row" + rowIndex + ";position" + seatIndex}>
-                                                <g fill="white" stroke="gray" strokeWidth="5" >
-                                                    <rect id={"seat2;row" + rowIndex + ";position" + seatIndex} width="80" height="50" x="10" y="10" rx="10" ry="10" fill="gray" />
-                                                    <rect id={"seat3;row" + rowIndex + ";position" + seatIndex} width="60" height="20" x="20" y="70" rx="10" ry="10" fill="gray" />
+                                                <g fill="white" stroke={getSeatColor(rowIndex + 1, seatIndex + 1)} strokeWidth="5" >
+                                                    <rect id={"seat2;row" + rowIndex + ";position" + seatIndex} width="80" height="50" x="10" y="10" rx="10" ry="10" fill={getSeatColor(rowIndex + 1, seatIndex + 1)} />
+                                                    <rect id={"seat3;row" + rowIndex + ";position" + seatIndex} width="60" height="20" x="20" y="70" rx="10" ry="10" fill={getSeatColor(rowIndex + 1, seatIndex + 1)} />
                                                 </g>
                                             </svg>
                                         </div>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestCinemaRoomDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseCinemaRoomDto;
+import pl.edu.agh.to.cinemanager.dto.ResponseSeatStatisticsDto;
 import pl.edu.agh.to.cinemanager.model.CinemaRoom;
 import pl.edu.agh.to.cinemanager.service.CinemaRoomService;
 
@@ -29,6 +30,12 @@ public class CinemaRoomController {
     @GetMapping("/{id}")
     public ResponseCinemaRoomDto getCinemaRoomById(@PathVariable("id") CinemaRoom cinemaRoom) {
         return cinemaRoomService.cinemaRoomToCinemaRoomResponseDto(cinemaRoom);
+    }
+
+    @GetMapping("/{id}/most-chosen-seats")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    public List<ResponseSeatStatisticsDto> getMostChosenSeats(@PathVariable("id") CinemaRoom cinemaRoom) {
+        return cinemaRoomService.getMostChosenSeats(cinemaRoom);
     }
 
     @PostMapping("")

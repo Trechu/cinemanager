@@ -7,10 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.to.cinemanager.dto.ResponseMovieTicketsDto;
-import pl.edu.agh.to.cinemanager.model.Order;
-import pl.edu.agh.to.cinemanager.model.Screening;
-import pl.edu.agh.to.cinemanager.model.Ticket;
-import pl.edu.agh.to.cinemanager.model.User;
+import pl.edu.agh.to.cinemanager.model.*;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
@@ -49,4 +46,12 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "ORDER BY tickets DESC")
     List<Object[]> findTicketsSold(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
+    @Query("SELECT t.seatRow, t.seatPosition, COUNT(t.id) AS tickets " +
+            "FROM Ticket t " +
+            "INNER JOIN t.screening s " +
+            "INNER JOIN s.cinemaRoom cr " +
+            "INNER JOIN t.order o " +
+            "WHERE o.cancelled = false AND o.paid = true AND cr = :cinemaRoom " +
+            "GROUP BY t.seatRow, t.seatPosition")
+    List<Object[]> findMostChosenSeats(@Param("cinemaRoom") CinemaRoom cinemaRoom);
 }
