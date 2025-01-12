@@ -543,167 +543,50 @@ public class DataConfig {
 
                 List<Review> reviews = new ArrayList<>();
 
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna ekranizacja książki, choć momentami trochę za długa.", user3, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Film był dobry, ale momentami trochę nudny.", user5, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się adaptacja książki. Zbyt wiele zmian.", user6, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowita przygoda, wspaniałe efekty specjalne i niezapomniane postacie. Arcydzieło!", user2, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user7, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobra adaptacja, ale brakowało mi kilku szczegółów z książki.", user4, movie1));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Świetny film, bardzo wciągający!", user3, movie1, LocalDateTime.of(2024, 11, 18, 14, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale mogłoby być więcej akcji.", user4, movie2, LocalDateTime.of(2024, 11, 20, 10, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutnie fenomenalna produkcja! Polecam każdemu!", user5, movie3, LocalDateTime.of(2024, 11, 22, 16, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Film przeciętny, nie spełnił moich oczekiwań.", user6, movie4, LocalDateTime.of(2024, 11, 24, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Trochę nudnawy, ale ma swoje momenty.", user7, movie5, LocalDateTime.of(2024, 11, 26, 12, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(1.5), "Niestety, film bardzo słaby, nie polecam.", user8, movie6, LocalDateTime.of(2024, 11, 28, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Fenomenalna historia, świetna gra aktorska.", user9, movie7, LocalDateTime.of(2024, 11, 30, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Zdecydowanie lepszy niż się spodziewałem, ale coś było nie tak z tempem.", user10, movie8, LocalDateTime.of(2024, 12, 1, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zaskakująco dobry film, z wieloma emocjonalnymi momentami.", user11, movie9, LocalDateTime.of(2024, 12, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Dość przeciętny, momentami nudny.", user12, movie10, LocalDateTime.of(2024, 12, 5, 13, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Fantastyczne zakończenie! Cała seria wspaniała.", user3, movie11, LocalDateTime.of(2024, 12, 7, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.0), "Słaby film, bardzo się zawiodłem.", user4, movie12, LocalDateTime.of(2024, 12, 9, 16, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Dobra produkcja, choć mogła być krótsza.", user5, movie13, LocalDateTime.of(2024, 12, 11, 10, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Fajny film, ale trochę za mało akcji, za dużo wątków.", user6, movie14, LocalDateTime.of(2024, 12, 13, 11, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Genialna produkcja! Wciągnęła mnie od pierwszej minuty.", user7, movie15, LocalDateTime.of(2024, 12, 15, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Miejscami nudny, choć niektóre sceny były naprawdę dobre.", user8, movie16, LocalDateTime.of(2024, 12, 17, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(1.0), "Film jest okropny, zupełnie nie warte uwagi.", user9, movie17, LocalDateTime.of(2024, 12, 19, 18, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zaskakująco udana produkcja. Czuć klimat.", user10, movie18, LocalDateTime.of(2024, 12, 21, 14, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Mocno przeciętny, bez większego wow.", user11, movie19, LocalDateTime.of(2024, 12, 23, 12, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Cudowny film, pełen emocji. Na pewno go obejrzę jeszcze raz.", user12, movie20, LocalDateTime.of(2024, 12, 25, 19, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film dobry, ale historia nieco przewidywalna.", user3, movie2, LocalDateTime.of(2024, 12, 27, 16, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutnie niesamowity! Całkowicie zaskoczył mnie ten film.", user4, movie3, LocalDateTime.of(2024, 12, 29, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zdecydowanie dobry film, choć trochę za długi.", user5, movie4, LocalDateTime.of(2025, 1, 2, 11, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Zdecydowanie lepszy niż się spodziewałem, ale było kilka zbędnych scen.", user6, movie5, LocalDateTime.of(2025, 1, 4, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.0), "Film bardzo słaby. Nuda przez większość czasu.", user7, movie6, LocalDateTime.of(2025, 1, 6, 13, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Wciągająca fabuła, dobra gra aktorska, ale widać małe niedociągnięcia.", user8, movie7, LocalDateTime.of(2025, 1, 8, 15, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Perfekcyjna produkcja. Jeden z najlepszych filmów, jakie widziałem.", user9, movie8, LocalDateTime.of(2025, 1, 10, 17, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film ma swoje momenty, ale jest trochę za długi.", user10, movie9, LocalDateTime.of(2025, 1, 12, 10, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(1.5), "Totalna klapa. Nieznośnie nudny film.", user11, movie10, LocalDateTime.of(2025, 1, 14, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć zakończenie mogłoby być lepsze.", user12, movie11, LocalDateTime.of(2025, 1, 16, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Nie jest to film, który będę pamiętał na długo.", user3, movie12, LocalDateTime.of(2025, 1, 18, 12, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Film średni, ale nie najgorszy.", user4, movie13, LocalDateTime.of(2025, 1, 20, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutna perfekcja. Historia wciągnęła mnie od pierwszych minut.", user5, movie14, LocalDateTime.of(2025, 1, 22, 16, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Dobre tempo, świetne efekty specjalne, chociaż fabuła momentami zbyt przewidywalna.", user6, movie15, LocalDateTime.of(2025, 1, 23, 19, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Całkiem niezły film, ale mam zastrzeżenia co do zakończenia.", user7, movie16, LocalDateTime.of(2024, 11, 19, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Cudowny film. Niezapomniane wrażenia!", user8, movie17, LocalDateTime.of(2024, 12, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Przeciętny film, którego nie będę pamiętał długo.", user9, movie18, LocalDateTime.of(2024, 12, 7, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niezwykła produkcja. Zdecydowanie najlepszy film tego roku.", user10, movie19, LocalDateTime.of(2024, 12, 11, 21, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film ok, ale niczego nie wnosi nowego.", user11, movie20, LocalDateTime.of(2024, 12, 15, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Genialny film, pełen emocji.", user12, movie1, LocalDateTime.of(2024, 12, 18, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zdecydowanie dobry film, choć trochę za długi.", user3, movie2, LocalDateTime.of(2025, 1, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobre tempo, ale końcówka była przewidywalna.", user4, movie3, LocalDateTime.of(2025, 1, 5, 11, 0)));
 
-                reviews.add(new Review(BigDecimal.valueOf(2.5), "Historia była ciekawa, ale brakowało mi emocji.", user12, movie2));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale momentami trochę przewidywalny.", user10, movie2));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Wspaniała historia o nadziei i przyjaźni. Polecam każdemu.", user9, movie2));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale trochę za długi.", user11, movie2));
-                reviews.add(new Review(BigDecimal.valueOf(1.5), "Nie rozumiem, dlaczego ten film jest tak wysoko oceniany.", user2, movie2));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Najlepszy film, jaki kiedykolwiek widziałem. Wzruszający i inspirujący.", user8, movie2));
 
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt chaotyczna.", user7, movie3));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale niektóre sceny były zbyt długie.", user5, movie3));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Rewolucyjny film, który zmienił kino sci-fi na zawsze. Niesamowite efekty specjalne.", user3, movie3));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Film był interesujący, ale momentami zbyt skomplikowany.", user6, movie3));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user8, movie3));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i akcja, choć momentami trochę zbyt skomplikowana.", user4, movie3));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.5), "Nie podobała mi się fabuła. Zbyt skomplikowana.", user3, movie4));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Genialny film, który zmusza do myślenia. Niesamowita fabuła i efekty specjalne.", user9, movie4));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale wymaga pełnego skupienia.", user12, movie4));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trudno było nadążyć za fabułą.", user10, movie4));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale wymaga pełnego skupienia.", user11, movie4));
-                reviews.add(new Review(BigDecimal.valueOf(2.5), "Fabuła była ciekawa, ale momentami zbyt zagmatwana.", user2, movie4));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowita historia, wspaniała gra aktorska. Arcydzieło!", user4, movie5));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user7, movie5));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user8, movie5));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user6, movie5));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user5, movie5));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user9, movie5));
-                
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie6));
-
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie7));
-
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie8));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie8));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie8));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie8));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie8));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie9));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie9));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie9));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie9));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie9));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie9));
-
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie10));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie10));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie10));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie10));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie10));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie11));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie12));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie12));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie12));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie12));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie12));
-
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie13));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie14));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie14));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie14));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie14));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie14));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie15));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie15));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie15));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie15));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie15));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie15));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie16));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie16));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie16));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie16));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie16));
-
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie17));
-
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie18));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie18));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie18));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie18));
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie18));
-
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale momentami trochę nudny.", user10, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user11, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć momentami trochę za długi.", user8, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, ale brakowało mi kilku szczegółów.", user9, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Arcydzieło! Wspaniała gra aktorska i niesamowita fabuła.", user7, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Bardzo słaby film. Nie polecam.", user12, movie19));
-
-                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale brakowało mi kilku szczegółów.", user5, movie20));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Bardzo dobry film, choć momentami trochę przewidywalny.", user4, movie20));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetna fabuła i doskonała gra aktorska.", user3, movie20));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niesamowity film, pełen emocji i wspaniałej muzyki.", user2, movie20));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Nie podobała mi się fabuła. Zbyt przewidywalna.", user6, movie20));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Shrek to absolutnie genialny film animowany, który bawi zarówno dzieci, jak i dorosłych. Humor jest inteligentny, a postacie są niezwykle sympatyczne. Szczególnie podobała mi się relacja między Shrekiem a Osłem, która dostarczała mnóstwo śmiechu.", user2, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Shrek to film, który można oglądać wielokrotnie i za każdym razem odkrywać coś nowego. Postacie są świetnie napisane, a fabuła jest zarówno zabawna, jak i wzruszająca. To jeden z najlepszych filmów animowanych, jakie kiedykolwiek powstały.", user4, movie6));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Film Shrek to prawdziwa perełka wśród animacji. Historia jest pełna ciepła i humoru, a animacja jest na najwyższym poziomie. Muzyka również zasługuje na pochwałę, szczególnie piosenka 'I'm a Believer'.", user3, movie6));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Pulp Fiction to arcydzieło kina, które na zawsze zmieniło sposób opowiadania historii w filmach. Quentin Tarantino stworzył film pełen niezapomnianych dialogów i scen, które na długo pozostają w pamięci. Każda postać jest wyjątkowa i wnosi coś unikalnego do fabuły.", user5, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Pulp Fiction to film, który zaskakuje na każdym kroku. Tarantino mistrzowsko łączy różne wątki, tworząc spójną i fascynującą całość. Muzyka w filmie jest również doskonale dobrana i dodaje klimatu każdej scenie.", user7, movie7));
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Film Pulp Fiction to prawdziwa uczta dla miłośników kina. Niezwykła struktura narracyjna, genialne dialogi i świetna gra aktorska sprawiają, że jest to film, który trzeba zobaczyć. Szczególnie podobała mi się rola Samuela L. Jacksona.", user6, movie7));
-
-                reviews.add(new Review(BigDecimal.valueOf(5.0), "Interstellar to niesamowity film, który łączy w sobie naukę, emocje i wizualne piękno. Christopher Nolan stworzył epicką opowieść o podróży przez kosmos, która jest zarówno wzruszająca, jak i inspirująca. Efekty specjalne są oszałamiające, a muzyka Hansa Zimmera dodaje filmowi głębi.", user8, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(4.0), "Interstellar to film, który zmusza do myślenia i pozostawia widza z wieloma pytaniami. Fabuła jest skomplikowana, ale niezwykle satysfakcjonująca. Wizualnie film jest oszałamiający, a sceny w kosmosie zapierają dech w piersiach.", user10, movie11));
-                reviews.add(new Review(BigDecimal.valueOf(4.5), "Film Interstellar to prawdziwe arcydzieło. Historia jest pełna napięcia i emocji, a gra aktorska jest na najwyższym poziomie. Matthew McConaughey w roli Coopera jest fenomenalny, a jego relacja z córką jest niezwykle poruszająca.", user9, movie11));
-            
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt długi i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user3, movie1));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Mimo że 'Władca Pierścieni: Drużyna Pierścienia' jest uznawany za klasykę, uważam, że film jest zbyt rozwleczony. Sceny są przeciągane, a tempo narracji jest nierówne. Choć efekty specjalne są imponujące, fabuła momentami traci na dynamice, co sprawia, że film staje się nużący.", user2, movie1));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt długi i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user5, movie8));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Choć 'Titanic' jest uznawany za jeden z najlepszych filmów wszech czasów, dla mnie był to film pełen klisz i przewidywalnych momentów. Historia miłosna między Jackiem a Rose jest zbyt melodramatyczna, a niektóre sceny są przesadnie sentymentalne. Efekty specjalne są dobre, ale nie ratują filmu.", user4, movie8));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt mroczny i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user7, movie10));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Choć 'Joker' zdobył wiele nagród, uważam, że film jest zbyt mroczny i depresyjny. Historia Arthura Flecka jest przygnębiająca, a tempo filmu jest zbyt wolne. Choć Joaquin Phoenix zagrał świetnie, film jako całość nie spełnił moich oczekiwań.", user6, movie10));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt dziecinny i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user9, movie13));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Mimo że 'Toy Story' jest uznawany za klasykę animacji, uważam, że film jest przereklamowany. Fabuła jest zbyt prosta, a postacie są jednowymiarowe. Choć animacja była rewolucyjna w swoim czasie, dzisiaj nie robi już takiego wrażenia. Film jest bardziej odpowiedni dla dzieci niż dla dorosłych.", user8, movie13));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt chaotyczny i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user11, movie17));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Choć 'Piraci z Karaibów: Klątwa Czarnej Perły' jest uznawany za świetny film przygodowy, uważam, że fabuła jest zbyt chaotyczna i momentami trudna do śledzenia. Postać Jacka Sparrowa jest interesująca, ale nie ratuje filmu przed przeciągającymi się scenami i przewidywalnymi zwrotami akcji.", user10, movie17));
-
-                reviews.add(new Review(BigDecimal.valueOf(1.0), "Nie podobał mi się ten film. Zbyt przereklamowany i nudny. Nie rozumiem, dlaczego wszyscy go tak chwalą.", user2, movie19));
-                reviews.add(new Review(BigDecimal.valueOf(2.0), "Mimo że 'Kraina Lodu' zdobyła ogromną popularność, uważam, że film jest przereklamowany. Piosenka 'Let It Go' jest wszędzie, co staje się irytujące. Fabuła jest przewidywalna, a postacie są zbyt jednowymiarowe. Animacja jest piękna, ale to nie wystarcza, aby uratować film.", user12, movie19));
 
                 reviewRepository.saveAll(reviews);
             }

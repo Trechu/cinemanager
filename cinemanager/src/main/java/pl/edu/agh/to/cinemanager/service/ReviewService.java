@@ -20,6 +20,7 @@ import pl.edu.agh.to.cinemanager.repository.ReviewRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,7 @@ public class ReviewService {
         Movie movie = movieService.getMovieById(requestReviewDto.movieId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This movie does not exist")
         );
-
-        Review review = new Review(requestReviewDto.rating(), requestReviewDto.content(), user, movie);
+        Review review = new Review(requestReviewDto.rating(), requestReviewDto.content(), user, movie, LocalDateTime.now());
 
         validateAndSave(review);
 
