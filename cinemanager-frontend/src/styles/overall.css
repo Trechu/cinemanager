@@ -327,3 +327,31 @@ body {
     color: white;
     padding: 0;
 }
+
+.card-stats {
+    cursor: default;
+}
+
+.card {
+    background-color: #171b1e;
+}
+
+.card-header {
+    background-color: #252c31;
+}
+
+.card-title {
+    margin: 0;
+}
+
+.stats-table {
+    color: #ffffff;
+}
+
+.stats-table th {
+    background-color: #252c31;
+}
+
+.table-link, .table-link:hover {
+    color: inherit;
+}

@@ -45,6 +45,7 @@ public class ScreeningController {
     }
 
     @GetMapping("/highest-attendance")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseScreeningAttendanceDto getScreeningsWithHighestAttendance(@RequestParam(value = "amount", required = false, defaultValue = "10") int amount){
         return screeningService.getScreeningsWithHighestAttendance(amount);
     }

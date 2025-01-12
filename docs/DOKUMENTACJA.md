@@ -474,6 +474,37 @@ Pozwala uaktualnić film. W body należy podać pola `title, descrption, directo
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
+#### GET /api/movies/highest-rated
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca najwyżej oceniane filmy wraz z oceną. Wymaga rangi co najmniej managera.
+
+##### Zwraca:
+200 OK - Dane postaci `movie, rating`
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### GET /api/movies/tickets-sold
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca filmy oraz liczbę biletów sprzedanych (z zamówień zapłaconych, nieanulowanych) na seansy. Wymaga rangi co najmniej managera.
+Pozwala filtrować po seansach przed (`before`) lub po (`after`) danej dacie. Dane są posortowane malejąco po liczbie biletów.
+
+##### Zwraca:
+200 OK - Lista postaci `movie, ticketsSold`. Film zwracany anlogicznie do endpointu dla filmu po id.
+
+400 BAD REQUEST - Filtry są niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
 ### Sale kinowe
 #### GET /api/cinema-rooms
 ##### Specyfikacja:
@@ -643,6 +674,20 @@ Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
 200 OK - Lista zajętych siedzeń na dany seans postaci: `row, position`
 
 400 BAD REQUEST - Podany seans nie istnieje.
+
+#### GET /api/screenings/highest-attendance
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca seanse na które został wykupiony choć jeden bilet wraz z procentem obłożenia sali. Wymaga rangi co najmniej managera.
+
+##### Zwraca:
+200 OK - Dane postaci `screening, percentage`
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
 ### Zamówienia
 #### GET /api/orders
@@ -820,17 +865,3 @@ Usuwa recenzję. Należy podać `movieId, rating, content`. Użytkownik, któreg
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
-
-#### GET /api/screenings/highest-attendance
-##### Specyfikacja:
-Zwraca seanse na które został wykupiony choć jeden bilet wraz z procentem obłożenia sali
-
-##### Zwraca:
-200 OK - Dane postaci `screening, percentage`
-
-#### GET /api/movies/highest-rated
-##### Specyfikacja:
-Zwraca najwyżej oceniane filmy wraz z oceną
-
-##### Zwraca:
-200 OK - Dane postaci `movie, rating`

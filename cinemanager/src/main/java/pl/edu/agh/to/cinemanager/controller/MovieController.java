@@ -3,6 +3,7 @@ package pl.edu.agh.to.cinemanager.controller;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +16,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.edu.agh.to.cinemanager.dto.MovieRatingDto;
-import pl.edu.agh.to.cinemanager.dto.RequestMovieDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseMovieDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseMovieRatingDto;
+import pl.edu.agh.to.cinemanager.dto.*;
 import pl.edu.agh.to.cinemanager.model.Movie;
 import pl.edu.agh.to.cinemanager.service.MovieService;
 import pl.edu.agh.to.cinemanager.service.ReviewService;
+import pl.edu.agh.to.cinemanager.service.TicketService;
 
 @RestController
 @RequestMapping(path = "api/movies")
@@ -30,6 +29,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
+    private final TicketService ticketService;
 
     @GetMapping("")
     public Page<ResponseMovieDto> getAllMovies(Pageable pageable,
@@ -51,8 +51,16 @@ public class MovieController {
     }
 
     @GetMapping("/highest-rated")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseMovieRatingDto getHighestRatedMovies(){
         return reviewService.getHighestRatedMovies();
+    }
+
+    @GetMapping("/tickets-sold")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    public List<ResponseMovieTicketsDto> getTicketsSold(@RequestParam(value = "after", required = false) LocalDateTime after,
+                                                        @RequestParam(value = "before", required = false) LocalDateTime before) {
+        return ticketService.getTicketsSold(after, before);
     }
 
     @PostMapping("")

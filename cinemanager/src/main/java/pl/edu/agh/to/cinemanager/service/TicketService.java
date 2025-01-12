@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import pl.edu.agh.to.cinemanager.dto.ResponseMovieTicketsDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
 import pl.edu.agh.to.cinemanager.dto.TicketDto;
 import pl.edu.agh.to.cinemanager.model.*;
@@ -26,6 +27,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final ScreeningService screeningService;
     private final UserRepository userRepository;
+    private final MovieService movieService;
 
     @Transactional
     public void createTicketsFromOrderInformation(List<TicketDto> ticketDtos, Order order, Screening screening, User user){
@@ -67,6 +69,12 @@ public class TicketService {
 
         return ticketRepository.findByOrderPaidTrueAndOrderCancelledFalseAndUser(user, pageable)
                 .map(this::ticketToResponseDto);
+    }
+
+    public List<ResponseMovieTicketsDto> getTicketsSold(LocalDateTime after, LocalDateTime before) {
+        return ticketRepository.findTicketsSold(after, before)
+                .stream().map(data -> new ResponseMovieTicketsDto(
+                        movieService.movieToResponseDto((Movie)data[0]), (long)data[1])).toList();
     }
 
     public ResponseTicketDto getTicketByIdForCustomer(String email, Ticket ticket) {

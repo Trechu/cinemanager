@@ -86,7 +86,7 @@ public class ScreeningService {
             double roomSize = (double) screening.getCinemaRoom().getRows() * screening.getCinemaRoom().getSeatsPerRow();
             responseData.add( new ScreeningAttendanceDto(screeningToScreeningDto(screening), BigDecimal.valueOf(amount/roomSize).setScale(3, RoundingMode.HALF_UP)));
         }
-        responseData.sort(Comparator.comparing(ScreeningAttendanceDto::attendancePercentage));
+        responseData.sort(Comparator.comparing(ScreeningAttendanceDto::attendancePercentage).reversed());
         return new ResponseScreeningAttendanceDto(responseData.subList(0, no_entries));
     }
 

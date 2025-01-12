@@ -16,6 +16,7 @@ import User from "./components/user-component";
 import { Movies, Movie } from "./components/movie-component";
 import CinemaRooms from "./components/cinema-room-component";
 import Employee from "./components/employee-component";
+import Statistics from "./components/statistics-component";
 
 
 function App() {
@@ -68,11 +69,18 @@ function App() {
             </li>
           )}
 
+          {currentUser && userHasRole("MANAGER") && (
+            <li className="nav-item">
+              <Link to={"/statistics"} className="nav-link">
+                Statistics
+              </Link>
+            </li>
+          )}
 
           {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
-              <Link to={"/manager"} className="nav-link">
-                Manager Board
+              <Link to={"/user-manager"} className="nav-link">
+                User Management
               </Link>
             </li>
           )}
@@ -146,7 +154,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/manager" element={<Manager />} />
+          <Route path="/user-manager" element={<Manager />} />
+          <Route path="/statistics" element={<Statistics />} />
           <Route path="/employee" element={<Employee />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/repertuar" element={<Screenings />} />
