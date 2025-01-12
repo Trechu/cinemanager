@@ -522,6 +522,23 @@ Pozwala na wylistowanie danych konkretnej sali kinowej
 
 400 BAD REQUEST - Podana sala nie istnieje.
 
+#### GET /api/cinema-rooms/{id}/most-chosen-seats
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca najczęściej wybierane siedzenia w sali o podanym id. Wymaga rangi co najmniej managera.
+Zwraca jedynie siedzenia, które zostały zakupione (z zamówienia zapłaconego, nieanulowanego) co najmniej raz. 
+
+##### Zwraca:
+200 OK - Lista postaci `row, position, ticketsSold`
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
 #### POST /api/cinema-rooms
 ##### Nagłówki:
 Authorization: 'Bearer ' + Token
