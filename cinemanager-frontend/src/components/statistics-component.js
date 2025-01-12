@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchHighestAttendanceScreenings, fetchHighestRatedMovies, fetchTicketsSold } from "../services/statistics-service";
 import { Link } from "react-router-dom";
+import { fetch_cinema_rooms } from "../services/cinema-room-service";
 
 export default function Statistics() {
     const [highestRatedMovies, setHighestRatedMovies] = useState([]);
@@ -10,6 +11,10 @@ export default function Statistics() {
     const [before, setBefore] = useState(null);
     const [ticketsSold, setTicketsSold] = useState([]);
 
+    const [options, setOptions] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(-1);
+    const [selectedCinemaRoom, setSelectedCinemaRoom] = useState(null);
+    
     async function updateHighestRatedMovies() {
         setHighestRatedMovies(await fetchHighestRatedMovies())
     }
@@ -22,9 +27,14 @@ export default function Statistics() {
         setTicketsSold(await fetchTicketsSold(after, before))
     }
 
+    async function updateOptions() {
+        setOptions(await fetch_cinema_rooms());
+    }
+
     useEffect(() => {
         updateHighestRatedMovies();
         updateHighestAttendanceScreenings();
+        updateOptions()
     }, []);
 
     useEffect(() => {
@@ -34,7 +44,7 @@ export default function Statistics() {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-4 mb-4">
+                <div className="col-md-6 mb-4">
                     <div className="card-stats card">
                         <div className="card-header">
                             <h5 className="card-title">Najwyżej oceniane filmy</h5>
@@ -61,61 +71,7 @@ export default function Statistics() {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-8 mb-4">
-                    <div className="card-stats card">
-                        <div className="card-header">
-                            <h5 className="card-title">Seanse z największym obłożeniem sali</h5>
-                        </div>
-                        <div className="card-body">
-                            {highestAttendanceScreenings ? 
-                                <table className="table stats-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Tytuł</th>
-                                            <th scope="col">Data</th>
-                                            <th scope="col">Rodzaj</th>
-                                            <th scope="col">Obłożenie</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {highestAttendanceScreenings.map((screening, index) => (
-                                            <tr key={index}>
-                                                <td><Link className="table-link" to={`/movies/${screening.screening.movie.id}`}>{screening.screening.movie.title}</Link></td>
-                                                <td>
-                                                    <Link className="table-link" to={`/order?screening=${screening.screening.id}`}>
-                                                    {
-                                                        new Date(screening.screening.startDate).toLocaleDateString("pl-PL", {
-                                                            weekday: "short",
-                                                            year: "numeric",
-                                                            month: "2-digit",
-                                                            day: "2-digit",
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        })
-                                                    }
-                                                    </Link>
-                                                </td>
-                                                <td>{screening.screening.screeningType.name}</td>
-                                                <td>{parseFloat(screening.attendancePercentage * 100).toFixed(1)} %</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            : <></>}
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-7 mb-4">
-                    <div className="card-stats card">
-                        <div className="card-header">
-                            <h5 className="card-title">Najczęściej wybierane siedzenia</h5>
-                        </div>
-                        <div className="card-body">
-                            <p className="card-text">todo</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-5 mb-4">
+                <div className="col-md-6 mb-4">
                     <div className="card-stats card">
                         <div className="card-header">
                             <h5 className="card-title">Liczba biletów na film</h5>
@@ -167,6 +123,91 @@ export default function Statistics() {
                                     </tbody>
                                 </table>
                             : <></>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-12 mb-4">
+                    <div className="card-stats card">
+                        <div className="card-header">
+                            <h5 className="card-title">Seanse z największym obłożeniem sali</h5>
+                        </div>
+                        <div className="card-body">
+                            {highestAttendanceScreenings ? 
+                                <table className="table stats-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Tytuł</th>
+                                            <th scope="col">Data</th>
+                                            <th scope="col">Rodzaj</th>
+                                            <th scope="col">Obłożenie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {highestAttendanceScreenings.map((screening, index) => (
+                                            <tr key={index}>
+                                                <td><Link className="table-link" to={`/movies/${screening.screening.movie.id}`}>{screening.screening.movie.title}</Link></td>
+                                                <td>
+                                                    <Link className="table-link" to={`/order?screening=${screening.screening.id}`}>
+                                                    {
+                                                        new Date(screening.screening.startDate).toLocaleDateString("pl-PL", {
+                                                            weekday: "short",
+                                                            year: "numeric",
+                                                            month: "2-digit",
+                                                            day: "2-digit",
+                                                            hour: "2-digit",
+                                                            minute: "2-digit",
+                                                        })
+                                                    }
+                                                    </Link>
+                                                </td>
+                                                <td>{screening.screening.screeningType.name}</td>
+                                                <td>{parseFloat(screening.attendancePercentage * 100).toFixed(1)} %</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            : <></>}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-12 mb-4">
+                    <div className="card-stats card">
+                        <div className="card-header">
+                            <h5 className="card-title">Najczęściej wybierane siedzenia</h5>
+                        </div>
+                        <div className="card-body">
+                            <div className="mb-3">
+                                <select
+                                    id="selectOption"
+                                    className="form-select"
+                                    value={selectedOption}
+                                    onChange={(e) => {
+                                        setSelectedOption(e.target.value)
+                                        setSelectedCinemaRoom(e.target.value !== -1 ? options[e.target.value] : null)
+                                    }}
+                                >
+                                    <option value={-1}>Wybierz salę</option>
+                                    {options.map((option, index) => (
+                                        <option key={index} value={index}>{option.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            {selectedCinemaRoom ? Array.from({ length: selectedCinemaRoom.rows }).map((_, rowIndex) => (
+                                <div className="rows" key={rowIndex}>
+                                    <span className="row-identificator">{rowIndex + 1}</span>
+                                    {Array.from({ length: selectedCinemaRoom.seatsPerRow }).map((_, seatIndex) => (
+                                        <div className="seat seat-icon" key={seatIndex}>
+                                            <span className="seat-identificator">{seatIndex + 1}</span>
+                                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id={"seat1;row" + rowIndex + ";position" + seatIndex}>
+                                                <g fill="white" stroke="gray" strokeWidth="5" >
+                                                    <rect id={"seat2;row" + rowIndex + ";position" + seatIndex} width="80" height="50" x="10" y="10" rx="10" ry="10" fill="gray" />
+                                                    <rect id={"seat3;row" + rowIndex + ";position" + seatIndex} width="60" height="20" x="20" y="70" rx="10" ry="10" fill="gray" />
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    ))}
+                                </div>
+                            )) : <></>}
                         </div>
                     </div>
                 </div>
