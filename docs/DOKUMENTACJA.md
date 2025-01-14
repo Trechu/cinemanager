@@ -2,7 +2,7 @@
 
 ## Model bazodanowy
 ### Schemat
-![](./img/Database3.png)
+![](./img/Database4.png)
 
 ### Tabele
 - `Users` - dane o użytkownikach
@@ -32,6 +32,7 @@
     - `movie_id` - klucz obcy do tabeli `Movies`, oceniany film
     - `rating` - wystawiona ocena
     - `content` - treść recenzji filmu
+    - `review_date` - data i godzina wystawienia recenzji
 
 - `CinemaRooms` - dane o salach kinowych
   - `name` - nazwa sali
@@ -829,7 +830,7 @@ Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapyta
 - `userId` - listuje tylko recenzje danego użytkownika.
 
 ##### Zwraca:
-200 OK - Lista postaci `id, movieId, user (id, firstName), rating, content`, znajdujące się pod kluczem `content`. 
+200 OK - Lista postaci `id, movieId, user (id, firstName), rating, content, reviewDate`, znajdujące się pod kluczem `content`. 
 Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
 
 400 BAD REQUEST - Podane filtry są niepoprawne.
@@ -839,7 +840,7 @@ Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalEleme
 Zwraca dane recenzji o podanym id.
 
 ##### Zwraca:
-200 OK - Dane recenzji postaci `id, movieId, user (id, firstName), rating, content`.
+200 OK - Dane recenzji postaci `id, movieId, user (id, firstName), rating, content, reviewDate`.
 
 400 BAD REQUEST - Recenzja nie istnieje.
 

@@ -146,7 +146,8 @@ public class ReviewService {
                 review.getMovie().getId(),
                 userToResponseReviewDto(review.getUser()),
                 review.getRating(),
-                review.getContent()
+                review.getContent(),
+                review.getReviewDate()
         );
     }
 
