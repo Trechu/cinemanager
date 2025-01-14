@@ -59,14 +59,22 @@ function App() {
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/"} className="nav-link">
-              Home
+              Strona główna
             </Link>
           </li>
+
+          {currentUser && (
+            <li className="nav-item">
+              <Link to={"/user"} className="nav-link">
+                Bilety i zamówienia
+              </Link>
+            </li>
+          )}
 
           {currentUser && userHasRole("EMPLOYEE") && (
             <li className="nav-item">
               <Link to={"/employee"} className="nav-link">
-                Employee Board
+                Kasowanie biletów
               </Link>
             </li>
           )}
@@ -74,7 +82,7 @@ function App() {
           {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
               <Link to={"/statistics"} className="nav-link">
-                Statistics
+                Statystyki
               </Link>
             </li>
           )}
@@ -82,7 +90,7 @@ function App() {
           {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
               <Link to={"/user-manager"} className="nav-link">
-                User Management
+                Użytkownicy
               </Link>
             </li>
           )}
@@ -90,15 +98,7 @@ function App() {
           {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
               <Link to={"/cinema-management"} className="nav-link">
-                Cinema Management
-              </Link>
-            </li>
-          )}
-
-          {currentUser && !userHasRole("MANAGER") && (
-            <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
+                Kino
               </Link>
             </li>
           )}
@@ -113,7 +113,7 @@ function App() {
             </li>
             <li className="nav-item">
               <a href="/login" className="nav-link" onClick={logout}>
-                LogOut
+                Wyloguj się
               </a>
             </li>
           </div>
@@ -121,13 +121,13 @@ function App() {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/login"} className="nav-link">
-                Login
+                Zaloguj się
               </Link>
             </li>
 
             <li className="nav-item">
               <Link to={"/register"} className="nav-link">
-                Sign Up
+                Zarejestruj się
               </Link>
             </li>
           </div>
