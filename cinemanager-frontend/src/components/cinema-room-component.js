@@ -4,7 +4,7 @@ import { fetch_cinema_rooms } from "../services/cinema-room-service";
 function RoomLayout({ rows, seatsPerRow, onClose }) {
     return (
         <div className="room-layout-overlay">
-            <div className="room-layout">
+            <div className="room-layout" style={{overflowX: "auto"}}>
                 <button className="btn btn-close" onClick={onClose}>&times;</button>
                 <div className="screen-mock">
                     <span style={{ color: "black", marginLeft: "45%", opacity: "33%", fontWeight: "500" }}>

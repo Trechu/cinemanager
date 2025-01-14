@@ -4,11 +4,13 @@ import { getCurrentUser } from "./authentication-service";
 
 const API_URL = API_URL_BASE + 'movies'
 
-export async function fetch_movies(page, size, genre){
+export async function fetch_movies(page, size, genre, title, minRating){
     const params = {
         page: page,
         size: size,
-        genre: genre
+        genre: genre,
+        title: title,
+        minRating: minRating,
     }
 
     const queryString = new URLSearchParams(params).toString()
@@ -86,4 +88,32 @@ export async function update_review(reviewId, movieId, content, rating) {
             Authorization: "Bearer " + getCurrentUser()
         }
     })
+}
+
+export async function create_movie(title, description, length, genreId, directorId, poster) {
+    const formData = new FormData();
+
+    formData.append(
+        "movie",
+        JSON.stringify({
+            title: title,
+            description: description,
+            length: length,
+            genreId: genreId,
+            directorId: directorId,
+            posterUrl: ""
+        })
+    );
+
+    formData.append("poster", poster);
+
+    return axios.post(API_URL, formData , {
+        headers: {
+            Authorization: "Bearer " + getCurrentUser(),
+        }
+    })
+    .then(res => {
+        return res
+    })
+    .catch(err => console.warn(err))
 }

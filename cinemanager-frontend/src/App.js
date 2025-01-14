@@ -94,7 +94,7 @@ function App() {
             </li>
           )}
 
-          {currentUser && (
+          {currentUser && !userHasRole("MANAGER") && (
             <li className="nav-item">
               <Link to={"/user"} className="nav-link">
                 User

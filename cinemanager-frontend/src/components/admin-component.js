@@ -1,7 +1,14 @@
-import { admin_func } from "../services/admin-service"
+import { AddCinemaRoom, AddScreeningType, AddMovie, AddDirector, AddGenre, AddScreening } from "./admin-add-component";
 
 export default function Admin(){
     return (
-        <h1></h1>
+        <div className="container">
+            <AddScreening />
+            <AddMovie />
+            <AddGenre />
+            <AddDirector />
+            <AddScreeningType />
+            <AddCinemaRoom />
+        </div>
     )
 }

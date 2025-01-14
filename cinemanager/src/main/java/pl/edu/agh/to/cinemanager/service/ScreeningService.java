@@ -39,7 +39,7 @@ public class ScreeningService {
                         PageRequest.of(
                                 pageable.getPageNumber(),
                                 pageable.getPageSize(),
-                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id")))
+                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "startDate")))
                 )
                 .map(this::screeningToScreeningDto);
     }
