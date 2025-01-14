@@ -6,7 +6,7 @@ import { useState } from "react";
 import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 import Manager from "./components/manager-component";
-import Admin from "./components/admin-component";
+import CinemaManagement from "./components/cinema-management-component";
 import Screenings from "./components/screening-component";
 import "./styles/overall.css"
 import Order from "./components/order-component";
@@ -86,10 +86,10 @@ function App() {
             </li>
           )}
 
-          {currentUser && userHasRole("ADMIN") && (
+          {currentUser && userHasRole("MANAGER") && (
             <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
+              <Link to={"/cinema-management"} className="nav-link">
+                Cinema Management
               </Link>
             </li>
           )}
@@ -159,7 +159,7 @@ function App() {
           <Route path="/user-manager" element={<Manager />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/employee" element={<Employee />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/cinema-management" element={<CinemaManagement />} />
           <Route path="/repertuar" element={<Screenings />} />
           <Route path="/order" element={<Order />} />
           <Route path="/user" element={<User />} />

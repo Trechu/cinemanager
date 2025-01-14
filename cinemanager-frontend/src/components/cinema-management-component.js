@@ -1,6 +1,6 @@
-import { AddCinemaRoom, AddScreeningType, AddMovie, AddDirector, AddGenre, AddScreening } from "./admin-add-component";
+import { AddCinemaRoom, AddScreeningType, AddMovie, AddDirector, AddGenre, AddScreening } from "./cinema-management-add-component";
 
-export default function Admin(){
+export default function CinemaManagement(){
     return (
         <div className="container">
             <AddScreening />
