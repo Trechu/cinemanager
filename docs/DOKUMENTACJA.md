@@ -415,6 +415,10 @@ Pozwala uaktualnić dane reżysera. W body należy podać pola `firstName`, `las
 
 ##### Specyfikacja:
 Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=length,desc`).
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `title` - listuje filmy o tytule zawierającej podaną frazę,
+- `genre` - listuje filmy o gatunku o podanej nazwie,
+- `minRating` - listuje filmy o ocenie co najmniej takiej, jak podana.
 
 ##### Zwraca:
 200 OK - Lista filmów postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
@@ -446,7 +450,9 @@ Recenzja jest zaokrąglana zgodnie z typowymi zasadami zaokrąglania. Jeżeli fi
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala dodać film. Należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+Pozwala dodać film. 
+Należy podać pola `movie(title, descrption, directorId, length, genreId), poster`, gdzie `poster` to plik plakatu.
+Wymaga uprawnień co najmniej managera.
 
 ##### Zwraca:
 201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` 
