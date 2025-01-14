@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import pl.edu.agh.to.cinemanager.dto.RequestUserDetailsChangeDto;
 import pl.edu.agh.to.cinemanager.dto.RequestUserDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseUserDto;
 import pl.edu.agh.to.cinemanager.model.User;
@@ -85,5 +86,24 @@ public class UserService {
         }
 
         userRepository.delete(user);
+    }
+
+    public void updateUserDetails(User user, RequestUserDetailsChangeDto userDto, Authentication authentication){
+        if (!user.getEmail().equals(authentication.getName())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        user.setFirstName(userDto.firstName());
+        user.setLastName(userDto.lastName());
+
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            if (e.getCause().getCause() instanceof ConstraintViolationException) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ import CinemaRooms from "./components/cinema-room-component";
 import Employee from "./components/employee-component";
 import Statistics from "./components/statistics-component";
 import Home from "./components/home-component";
+import Profile from "./components/profile-component";
 
 
 function App() {
@@ -153,7 +154,7 @@ function App() {
       </nav>
       <div className="container-xl mt-3">
         <Routes>
-          <Route path="/" element={< Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/user-manager" element={<Manager />} />
@@ -170,6 +171,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:id" element={<Movie />} />
           <Route path="/cinema-rooms" element={<CinemaRooms />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>

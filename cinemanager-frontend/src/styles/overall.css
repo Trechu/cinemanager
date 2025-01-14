@@ -362,3 +362,11 @@ body {
     display: flex;
     background-color: inherit;
 }
+
+.profile-form {
+    margin: auto;
+    float: right;
+    width: 15em;
+    resize: none;
+    float: right;
+}

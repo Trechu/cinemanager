@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.to.cinemanager.dto.RequestUserDetailsChangeDto;
+import pl.edu.agh.to.cinemanager.dto.RequestUserDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseUserDto;
 import pl.edu.agh.to.cinemanager.model.User;
 import pl.edu.agh.to.cinemanager.service.UserService;
@@ -35,5 +37,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") User user, Authentication authentication) {
         userService.deleteUser(user, authentication);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void editUser(@PathVariable("id") User user, @RequestBody RequestUserDetailsChangeDto userDto, Authentication authentication){
+        userService.updateUserDetails(user, userDto, authentication);
     }
 }
