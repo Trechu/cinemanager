@@ -51,6 +51,7 @@ body {
 .img-thumbnail {
     width: 200px;
     height: 300px;
+    margin: auto;
 }
 
 .buy-btn {
@@ -87,6 +88,7 @@ body {
     border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
+    overflow-x: auto;
 }
 
 .ticket-types {
@@ -312,4 +314,92 @@ body {
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+.review-box {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.review-box:focus, .review-box:focus-visible {
+    background-color: #171b1e;
+    color: white;
+    padding: 0;
+}
+
+.card-stats {
+    cursor: default;
+}
+
+.card {
+    background-color: #171b1e;
+}
+
+.card-header {
+    background-color: #252c31;
+}
+
+.card-title {
+    margin: 0;
+}
+
+.stats-table {
+    color: #ffffff;
+}
+
+.stats-table th {
+    background-color: #252c31;
+}
+
+.table-link, .table-link:hover {
+    color: inherit;
+}
+
+.recommended {
+    display: flex;
+    background-color: inherit;
+}
+
+.profile-form {
+    margin: auto;
+    float: right;
+    width: 15em;
+    resize: none;
+    float: right;
+}
+
+.login-card {
+    background-color: inherit;
+    border-color: #ffffff;
+    padding: 2.5em;
+    gap: 1em;
+    width: 70%;
+    margin: auto;
+}
+
+.login-btn {
+    margin: auto;
+    width: 55%;
+    font-weight: 700;
+}
+
+.login-form-group {
+    margin: auto;
+    margin-bottom: 1em;
+    width: 50%;
+}
+
+.users-group {
+    display: flex;
+    flex-direction: column;
+    background-color: inherit;
+    border-color: #ffffff;
+    padding: 2.5em;
+    gap: 1em;
+    width: 90%;
+    margin: auto;
+    gap: 1em;
 }

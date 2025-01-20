@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import pl.edu.agh.to.cinemanager.dto.ResponseMovieTicketsDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseTicketDto;
 import pl.edu.agh.to.cinemanager.dto.TicketDto;
 import pl.edu.agh.to.cinemanager.model.*;
@@ -26,6 +27,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final ScreeningService screeningService;
     private final UserRepository userRepository;
+    private final MovieService movieService;
 
     @Transactional
     public void createTicketsFromOrderInformation(List<TicketDto> ticketDtos, Order order, Screening screening, User user){
@@ -47,6 +49,10 @@ public class TicketService {
         ticketRepository.saveAll(tickets);
     }
 
+    public List<Object[]> getAmountOfTicketsBoughtPerScreening(){
+        return ticketRepository.getScreeningsWithNumberOfTicketsBought();
+    }
+
     public Page<ResponseTicketDto> getFutureTicketsForCustomer(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exist"));
@@ -65,6 +71,12 @@ public class TicketService {
                 .map(this::ticketToResponseDto);
     }
 
+    public List<ResponseMovieTicketsDto> getTicketsSold(LocalDateTime after, LocalDateTime before) {
+        return ticketRepository.findTicketsSold(after, before)
+                .stream().map(data -> new ResponseMovieTicketsDto(
+                        movieService.movieToResponseDto((Movie)data[0]), (long)data[1])).toList();
+    }
+
     public ResponseTicketDto getTicketByIdForCustomer(String email, Ticket ticket) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user does not exit"));
@@ -75,8 +87,13 @@ public class TicketService {
     }
 
     public void validateTicket(Ticket ticket) {
-        if (ticket.isUsed()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket is already used");
+        if (!ticket.getOrder().isPaid()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order for this ticket has not been paid");
+        } else if (ticket.getOrder().isCancelled()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order for this ticket has been cancelled");
+        }
+        else if (ticket.isUsed()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket has already been used");
         } else {
             ticket.setUsed(true);
             ticketRepository.save(ticket);

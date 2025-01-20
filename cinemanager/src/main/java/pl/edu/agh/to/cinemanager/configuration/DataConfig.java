@@ -9,6 +9,7 @@ import pl.edu.agh.to.cinemanager.repository.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -27,7 +28,7 @@ public class DataConfig {
                                         MovieRepository movieRepository, GenreRepository genreRepository,
                                         ScreeningTypeRepository screeningTypeRepository,
                                         ScreeningRepository screeningRepository,
-                                        CinemaRoomRepository cinemaRoomRepository, OrderRepository orderRepository, TicketRepository ticketRepository, DirectorRepository directorRepository) {
+                                        CinemaRoomRepository cinemaRoomRepository, OrderRepository orderRepository, TicketRepository ticketRepository, DirectorRepository directorRepository, ReviewRepository reviewRepository) {
         return args -> {
             if (userRepository.count() == 0) {
                 User user1 = new User("Jan", "Kowalski", "jan@mail.com",
@@ -403,16 +404,16 @@ public class DataConfig {
 
                 screeningRepository.saveAll(screenings);
 
-                User user3 = new User("User3FirstName", "User3LastName", "user3@mail.com", passwordEncoder.encode("password3"), UserRole.CUSTOMER);
-                User user4 = new User("User4FirstName", "User4LastName", "user4@mail.com", passwordEncoder.encode("password4"), UserRole.CUSTOMER);
-                User user5 = new User("User5FirstName", "User5LastName", "user5@mail.com", passwordEncoder.encode("password5"), UserRole.CUSTOMER);
-                User user6 = new User("User6FirstName", "User6LastName", "user6@mail.com", passwordEncoder.encode("password6"), UserRole.CUSTOMER);
-                User user7 = new User("User7FirstName", "User7LastName", "user7@mail.com", passwordEncoder.encode("password7"), UserRole.CUSTOMER);
-                User user8 = new User("User8FirstName", "User8LastName", "user8@mail.com", passwordEncoder.encode("password8"), UserRole.CUSTOMER);
-                User user9 = new User("User9FirstName", "User9LastName", "user9@mail.com", passwordEncoder.encode("password9"), UserRole.CUSTOMER);
-                User user10 = new User("User10FirstName", "User10LastName", "user10@mail.com", passwordEncoder.encode("password10"), UserRole.CUSTOMER);
-                User user11 = new User("User11FirstName", "User11LastName", "user11@mail.com", passwordEncoder.encode("password11"), UserRole.CUSTOMER);
-                User user12 = new User("User12FirstName", "User12LastName", "user12@mail.com", passwordEncoder.encode("password12"), UserRole.CUSTOMER);
+                User user3 = new User("Jan", "Kowalski", "user3@mail.com", passwordEncoder.encode("password3"), UserRole.CUSTOMER);
+                User user4 = new User("Anna", "Nowak", "user4@mail.com", passwordEncoder.encode("password4"), UserRole.CUSTOMER);
+                User user5 = new User("Piotr", "Wiśniewski", "user5@mail.com", passwordEncoder.encode("password5"), UserRole.CUSTOMER);
+                User user6 = new User("Katarzyna", "Wójcik", "user6@mail.com", passwordEncoder.encode("password6"), UserRole.CUSTOMER);
+                User user7 = new User("Tomasz", "Kowalczyk", "user7@mail.com", passwordEncoder.encode("password7"), UserRole.CUSTOMER);
+                User user8 = new User("Agnieszka", "Kamińska", "user8@mail.com", passwordEncoder.encode("password8"), UserRole.CUSTOMER);
+                User user9 = new User("Marek", "Lewandowski", "user9@mail.com", passwordEncoder.encode("password9"), UserRole.CUSTOMER);
+                User user10 = new User("Ewa", "Zielińska", "user10@mail.com", passwordEncoder.encode("password10"), UserRole.CUSTOMER);
+                User user11 = new User("Paweł", "Szymański", "user11@mail.com", passwordEncoder.encode("password11"), UserRole.CUSTOMER);
+                User user12 = new User("Magdalena", "Woźniak", "user12@mail.com", passwordEncoder.encode("password12"), UserRole.CUSTOMER);
                 userRepository.saveAll(List.of(user3, user4, user5, user6, user7, user8, user9, user10, user11, user12));
 
                 Order order1 = new Order(LocalDateTime.of(2024, 11, 15, 10, 0), BigDecimal.ZERO, user3);
@@ -539,6 +540,55 @@ public class DataConfig {
                 ticketRepository.saveAll(tickets18);
                 ticketRepository.saveAll(tickets19);
                 ticketRepository.saveAll(tickets20);
+
+                List<Review> reviews = new ArrayList<>();
+
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Świetny film, bardzo wciągający!", user3, movie1, LocalDateTime.of(2024, 11, 18, 14, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobry film, ale mogłoby być więcej akcji.", user4, movie2, LocalDateTime.of(2024, 11, 20, 10, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutnie fenomenalna produkcja! Polecam każdemu!", user5, movie3, LocalDateTime.of(2024, 11, 22, 16, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Film przeciętny, nie spełnił moich oczekiwań.", user6, movie4, LocalDateTime.of(2024, 11, 24, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Trochę nudnawy, ale ma swoje momenty.", user7, movie5, LocalDateTime.of(2024, 11, 26, 12, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(1.5), "Niestety, film bardzo słaby, nie polecam.", user8, movie6, LocalDateTime.of(2024, 11, 28, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Fenomenalna historia, świetna gra aktorska.", user9, movie7, LocalDateTime.of(2024, 11, 30, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Zdecydowanie lepszy niż się spodziewałem, ale coś było nie tak z tempem.", user10, movie8, LocalDateTime.of(2024, 12, 1, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zaskakująco dobry film, z wieloma emocjonalnymi momentami.", user11, movie9, LocalDateTime.of(2024, 12, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Dość przeciętny, momentami nudny.", user12, movie10, LocalDateTime.of(2024, 12, 5, 13, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Fantastyczne zakończenie! Cała seria wspaniała.", user3, movie11, LocalDateTime.of(2024, 12, 7, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.0), "Słaby film, bardzo się zawiodłem.", user4, movie12, LocalDateTime.of(2024, 12, 9, 16, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Dobra produkcja, choć mogła być krótsza.", user5, movie13, LocalDateTime.of(2024, 12, 11, 10, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Fajny film, ale trochę za mało akcji, za dużo wątków.", user6, movie14, LocalDateTime.of(2024, 12, 13, 11, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Genialna produkcja! Wciągnęła mnie od pierwszej minuty.", user7, movie15, LocalDateTime.of(2024, 12, 15, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Miejscami nudny, choć niektóre sceny były naprawdę dobre.", user8, movie16, LocalDateTime.of(2024, 12, 17, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(1.0), "Film jest okropny, zupełnie nie warte uwagi.", user9, movie17, LocalDateTime.of(2024, 12, 19, 18, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zaskakująco udana produkcja. Czuć klimat.", user10, movie18, LocalDateTime.of(2024, 12, 21, 14, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Mocno przeciętny, bez większego wow.", user11, movie19, LocalDateTime.of(2024, 12, 23, 12, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Cudowny film, pełen emocji. Na pewno go obejrzę jeszcze raz.", user12, movie20, LocalDateTime.of(2024, 12, 25, 19, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film dobry, ale historia nieco przewidywalna.", user3, movie2, LocalDateTime.of(2024, 12, 27, 16, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutnie niesamowity! Całkowicie zaskoczył mnie ten film.", user4, movie3, LocalDateTime.of(2024, 12, 29, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zdecydowanie dobry film, choć trochę za długi.", user5, movie4, LocalDateTime.of(2025, 1, 2, 11, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Zdecydowanie lepszy niż się spodziewałem, ale było kilka zbędnych scen.", user6, movie5, LocalDateTime.of(2025, 1, 4, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.0), "Film bardzo słaby. Nuda przez większość czasu.", user7, movie6, LocalDateTime.of(2025, 1, 6, 13, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Wciągająca fabuła, dobra gra aktorska, ale widać małe niedociągnięcia.", user8, movie7, LocalDateTime.of(2025, 1, 8, 15, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Perfekcyjna produkcja. Jeden z najlepszych filmów, jakie widziałem.", user9, movie8, LocalDateTime.of(2025, 1, 10, 17, 45)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film ma swoje momenty, ale jest trochę za długi.", user10, movie9, LocalDateTime.of(2025, 1, 12, 10, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(1.5), "Totalna klapa. Nieznośnie nudny film.", user11, movie10, LocalDateTime.of(2025, 1, 14, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Świetny film, choć zakończenie mogłoby być lepsze.", user12, movie11, LocalDateTime.of(2025, 1, 16, 22, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Nie jest to film, który będę pamiętał na długo.", user3, movie12, LocalDateTime.of(2025, 1, 18, 12, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Film średni, ale nie najgorszy.", user4, movie13, LocalDateTime.of(2025, 1, 20, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Absolutna perfekcja. Historia wciągnęła mnie od pierwszych minut.", user5, movie14, LocalDateTime.of(2025, 1, 22, 16, 15)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Dobre tempo, świetne efekty specjalne, chociaż fabuła momentami zbyt przewidywalna.", user6, movie15, LocalDateTime.of(2025, 1, 23, 19, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Całkiem niezły film, ale mam zastrzeżenia co do zakończenia.", user7, movie16, LocalDateTime.of(2024, 11, 19, 20, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Cudowny film. Niezapomniane wrażenia!", user8, movie17, LocalDateTime.of(2024, 12, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(2.5), "Przeciętny film, którego nie będę pamiętał długo.", user9, movie18, LocalDateTime.of(2024, 12, 7, 18, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(5.0), "Niezwykła produkcja. Zdecydowanie najlepszy film tego roku.", user10, movie19, LocalDateTime.of(2024, 12, 11, 21, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.0), "Film ok, ale niczego nie wnosi nowego.", user11, movie20, LocalDateTime.of(2024, 12, 15, 19, 30)));
+                reviews.add(new Review(BigDecimal.valueOf(4.5), "Genialny film, pełen emocji.", user12, movie1, LocalDateTime.of(2024, 12, 18, 14, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(4.0), "Zdecydowanie dobry film, choć trochę za długi.", user3, movie2, LocalDateTime.of(2025, 1, 3, 17, 0)));
+                reviews.add(new Review(BigDecimal.valueOf(3.5), "Dobre tempo, ale końcówka była przewidywalna.", user4, movie3, LocalDateTime.of(2025, 1, 5, 11, 0)));
+
+
+
+                reviewRepository.saveAll(reviews);
             }
         };
     }

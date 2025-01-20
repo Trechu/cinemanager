@@ -2,7 +2,7 @@
 
 ## Model bazodanowy
 ### Schemat
-![](./img/Database3.png)
+![](./img/Database4.png)
 
 ### Tabele
 - `Users` - dane o użytkownikach
@@ -32,6 +32,7 @@
     - `movie_id` - klucz obcy do tabeli `Movies`, oceniany film
     - `rating` - wystawiona ocena
     - `content` - treść recenzji filmu
+    - `review_date` - data i godzina wystawienia recenzji
 
 - `CinemaRooms` - dane o salach kinowych
   - `name` - nazwa sali
@@ -177,7 +178,8 @@ Przykładowa zawartość tokenu:
   "sub": "jan@mail.com",
   "exp": 1733220945,
   "iat": 1733217345,
-  "scope": "ROLE_ADMINISTRATOR"
+  "scope": "ROLE_ADMINISTRATOR",
+  "userId": 1,
 }
 
 // Signature
@@ -414,6 +416,10 @@ Pozwala uaktualnić dane reżysera. W body należy podać pola `firstName`, `las
 
 ##### Specyfikacja:
 Pozwala na wylistowanie wszystkich filmów w bazie kina. Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=length,desc`).
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `title` - listuje filmy o tytule zawierającej podaną frazę,
+- `genre` - listuje filmy o gatunku o podanej nazwie,
+- `minRating` - listuje filmy o ocenie co najmniej takiej, jak podana.
 
 ##### Zwraca:
 200 OK - Lista filmów postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`, znajdujące się pod kluczem `content`. 
@@ -427,13 +433,27 @@ Pozwala na wylistowanie danych filmu.
 ##### Zwraca:
 200 OK - Film postaci `id, title, descrption, director (id, firstName, lastName), posterUrl, length, genre (id, name)`.
 
+400 BAD REQUEST - Film o podanym id nie istnieje.
+
+#### GET /api/movies/{id}/rating
+##### Specyfikacja:
+Pozwala na uzyskanie oceny filmu na podstawie recenzji. Jest to liczba od `0.0` do `5.0`, z jednym miejscem po przecinku. 
+Recenzja jest zaokrąglana zgodnie z typowymi zasadami zaokrąglania. Jeżeli film nie posiada żadnych rezencji, zwraca `0`.
+
+##### Zwraca:
+200 OK - Ocena filmu od `0.0` do `5.0`.
+
+400 BAD REQUEST - Film o podanym id nie istnieje.
+
 #### POST /api/movies
 
 ##### Nagłówki:
 Authorization: 'Bearer ' + Token
 
 ##### Specyfikacja:
-Pozwala dodać film. Należy podać pola `title, descrption, directorId, posterUrl, length, genreId`. Wymaga uprawnień co najmniej managera.
+Pozwala dodać film. 
+Należy podać pola `movie(title, descrption, directorId, length, genreId), poster`, gdzie `poster` to plik plakatu.
+Wymaga uprawnień co najmniej managera.
 
 ##### Zwraca:
 201 CREATED - Dodanie filmu powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/movies/{id}` 
@@ -461,6 +481,37 @@ Pozwala uaktualnić film. W body należy podać pola `title, descrption, directo
 
 403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
+#### GET /api/movies/highest-rated
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca najwyżej oceniane filmy wraz z oceną. Wymaga rangi co najmniej managera.
+
+##### Zwraca:
+200 OK - Dane postaci `movie, rating`
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### GET /api/movies/tickets-sold
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca filmy oraz liczbę biletów sprzedanych (z zamówień zapłaconych, nieanulowanych) na seansy. Wymaga rangi co najmniej managera.
+Pozwala filtrować po seansach przed (`before`) lub po (`after`) danej dacie. Dane są posortowane malejąco po liczbie biletów.
+
+##### Zwraca:
+200 OK - Lista postaci `movie, ticketsSold`. Film zwracany anlogicznie do endpointu dla filmu po id.
+
+400 BAD REQUEST - Filtry są niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
 ### Sale kinowe
 #### GET /api/cinema-rooms
 ##### Specyfikacja:
@@ -477,6 +528,23 @@ Pozwala na wylistowanie danych konkretnej sali kinowej
 200 OK - Dane w postaci `id, name, rows, seatsPerRow`.
 
 400 BAD REQUEST - Podana sala nie istnieje.
+
+#### GET /api/cinema-rooms/{id}/most-chosen-seats
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca najczęściej wybierane siedzenia w sali o podanym id. Wymaga rangi co najmniej managera.
+Zwraca jedynie siedzenia, które zostały zakupione (z zamówienia zapłaconego, nieanulowanego) co najmniej raz. 
+
+##### Zwraca:
+200 OK - Lista postaci `row, position, ticketsSold`
+
+400 BAD REQUEST - Podana sala nie istnieje.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
 
 #### POST /api/cinema-rooms
 ##### Nagłówki:
@@ -631,6 +699,20 @@ Zwraca listę zajętych siedzeń na dany seans postaci: `row, position`.
 
 400 BAD REQUEST - Podany seans nie istnieje.
 
+#### GET /api/screenings/highest-attendance
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Zwraca seanse na które został wykupiony choć jeden bilet wraz z procentem obłożenia sali. Wymaga rangi co najmniej managera.
+
+##### Zwraca:
+200 OK - Dane postaci `screening, percentage`
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
 ### Zamówienia
 #### GET /api/orders
 ##### Nagłówki:
@@ -737,3 +819,73 @@ gdzie `screening` jest w postaci analogicznej do endpointu dla seansu o danym id
 400 BAD REQUEST - Bilet nie istnieje lub użytkownik nie posiada uprawnień do jego wyświetlenia.
 
 401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+### Recenzje
+#### GET /api/reviews
+##### Specifykacja:
+Zwraca listę wszystkich recenzji. 
+Wspiera paginację oraz sortowanie (np. `?page=0&size=10&sort=rating,desc`). 
+Dodatkowo, można filtrować listę, podając odpowiedni(e) parametr(y) w zapytaniu:
+- `movieId` - listuje tylko recenzje dla danego filmu,
+- `userId` - listuje tylko recenzje danego użytkownika.
+
+##### Zwraca:
+200 OK - Lista postaci `id, movieId, user (id, firstName), rating, content, reviewDate`, znajdujące się pod kluczem `content`. 
+Dodatkowo dostępne są dane strony w `page` takie jak `number, size, totalElements, totalPages`.
+
+400 BAD REQUEST - Podane filtry są niepoprawne.
+
+#### GET /api/reviews/{id}
+##### Specifykacja:
+Zwraca dane recenzji o podanym id.
+
+##### Zwraca:
+200 OK - Dane recenzji postaci `id, movieId, user (id, firstName), rating, content, reviewDate`.
+
+400 BAD REQUEST - Recenzja nie istnieje.
+
+#### POST /api/reviews
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Dodaje recenzję, jako autora ustawiając właściciela podanego tokenu. Należy podać `movieId, rating, content`.
+`rating` musi być liczbą od `0.0` do `5.0`, z krokiem `0.5` (`0.0, 0.5, 1.0, 1.5, ..., 5.0`).
+
+##### Zwraca:
+201 CREATED - Dodanie recenzji powiodło się. Dodatkowo w odpowiedzi jest header `Location` z URL `/api/reviews/{id}` oraz w body znajduje się `id, movieId, user (id, firstName), rating, content`.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+#### PUT /api/reviews
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Aktualizuje recenzję. Należy podać `movieId, rating, content`. Użytkownik, którego token został przesłany, musi być autorem recenzji lub co najmniej managerem.
+`rating` musi być liczbą od `0.0` do `5.0`, z krokiem `0.5` (`0.0, 0.5, 1.0, 1.5, ..., 5.0`).
+
+##### Zwraca:
+204 NO CONTENT - Aktualizacja recenzji powiodła się.
+
+400 BAD REQUEST - Nie podano wszystkich wymaganych pól w body lub są one niepoprawne.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.
+
+#### DELETE /api/reviews/{id}
+##### Nagłówki:
+Authorization: 'Bearer ' + Token
+
+##### Specyfikacja:
+Usuwa recenzję. Należy podać `movieId, rating, content`. Użytkownik, którego token został przesłany, musi być autorem recenzji lub co najmniej managerem.
+
+##### Zwraca:
+204 NO CONTENT - Usunięcie recenzji powiodło się.
+
+401 UNAUTHORIZED - Nagłówek `Authorization` nie został podany w zapytaniu.
+
+403 FORBIDDEN - Brak uprawnień do wykonania akcji.

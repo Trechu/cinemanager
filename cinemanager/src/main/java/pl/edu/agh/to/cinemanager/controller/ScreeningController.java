@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.to.cinemanager.dto.RequestScreeningDto;
+import pl.edu.agh.to.cinemanager.dto.ResponseScreeningAttendanceDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseScreeningDto;
 import pl.edu.agh.to.cinemanager.dto.ResponseTakenSeatDto;
 import pl.edu.agh.to.cinemanager.model.Movie;
@@ -41,6 +42,12 @@ public class ScreeningController {
     @GetMapping("{id}")
     public ResponseScreeningDto getScreeningById(@PathVariable("id") Screening screening) {
         return screeningService.screeningToScreeningDto(screening);
+    }
+
+    @GetMapping("/highest-attendance")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    public ResponseScreeningAttendanceDto getScreeningsWithHighestAttendance(@RequestParam(value = "amount", required = false, defaultValue = "10") int amount){
+        return screeningService.getScreeningsWithHighestAttendance(amount);
     }
 
     @PostMapping("")

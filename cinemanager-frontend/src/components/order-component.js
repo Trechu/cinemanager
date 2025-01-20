@@ -135,7 +135,7 @@ export default function Order() {
                 Rząd: {row} | Miejsce: {position}
                 <br />
                 <div class="dropdown">
-                    <button class="btn btn-secondary" type="button" onClick={() => {changeSeatType(row, position)}}>
+                    <button class="btn btn-light" type="button" onClick={() => {changeSeatType(row, position)}}>
                         Zmień rodzaj biletu
                     </button>   
                 </div>
@@ -168,7 +168,7 @@ export default function Order() {
                 <br/>
                 <b>Razem: {total_price}zł</b>
                 <br/>
-                <button class="btn btn-secondary cnf-btn" type="button" onClick={() => {
+                <button class="btn btn-light cnf-btn" type="button" onClick={() => {
                         place_order(selectedSeats, screeningInfo.id)
                     }}>
                         Potwierdź zamówienie
@@ -244,8 +244,8 @@ export default function Order() {
             )}
 
             <div className="btn-holder">
-                {orderStep != Steps.SEAT_SELECTION && (<button type="button" className="btn btn-primary page-btn" onClick={() => changeStep(false)}>Wróć</button>)}
-                {orderStep != Steps.ORDER_CONFIRMATION && (<button type="button" className="btn btn-primary page-btn" onClick={() => changeStep(true)}>Dalej</button>)}
+                {orderStep != Steps.SEAT_SELECTION && (<button type="button" className="btn btn-light page-btn" onClick={() => changeStep(false)}>Wróć</button>)}
+                {orderStep != Steps.ORDER_CONFIRMATION && (<button type="button" className="btn btn-light page-btn" onClick={() => changeStep(true)}>Dalej</button>)}
             </div>
 
         </div>

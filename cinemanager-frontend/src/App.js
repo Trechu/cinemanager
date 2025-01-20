@@ -6,7 +6,7 @@ import { useState } from "react";
 import { getCurrentUser } from "./services/authentication-service";
 import Register from "./components/register-component";
 import Manager from "./components/manager-component";
-import Admin from "./components/admin-component";
+import CinemaManagement from "./components/cinema-management-component";
 import Screenings from "./components/screening-component";
 import "./styles/overall.css"
 import Order from "./components/order-component";
@@ -16,6 +16,9 @@ import User from "./components/user-component";
 import { Movies, Movie } from "./components/movie-component";
 import CinemaRooms from "./components/cinema-room-component";
 import Employee from "./components/employee-component";
+import Statistics from "./components/statistics-component";
+import Home from "./components/home-component";
+import Profile from "./components/profile-component";
 
 
 function App() {
@@ -56,39 +59,46 @@ function App() {
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/"} className="nav-link">
-              Home
+              Strona główna
             </Link>
           </li>
-
-          {currentUser && userHasRole("EMPLOYEE") && (
-            <li className="nav-item">
-              <Link to={"/employee"} className="nav-link">
-                Employee Board
-              </Link>
-            </li>
-          )}
-
-
-          {currentUser && userHasRole("MANAGER") && (
-            <li className="nav-item">
-              <Link to={"/manager"} className="nav-link">
-                Manager Board
-              </Link>
-            </li>
-          )}
-
-          {currentUser && userHasRole("ADMIN") && (
-            <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
-              </Link>
-            </li>
-          )}
 
           {currentUser && (
             <li className="nav-item">
               <Link to={"/user"} className="nav-link">
-                User
+                Bilety i zamówienia
+              </Link>
+            </li>
+          )}
+
+          {currentUser && userHasRole("EMPLOYEE") && (
+            <li className="nav-item">
+              <Link to={"/employee"} className="nav-link">
+                Kasowanie biletów
+              </Link>
+            </li>
+          )}
+
+          {currentUser && userHasRole("MANAGER") && (
+            <li className="nav-item">
+              <Link to={"/statistics"} className="nav-link">
+                Statystyki
+              </Link>
+            </li>
+          )}
+
+          {currentUser && userHasRole("MANAGER") && (
+            <li className="nav-item">
+              <Link to={"/user-manager"} className="nav-link">
+                Użytkownicy
+              </Link>
+            </li>
+          )}
+
+          {currentUser && userHasRole("MANAGER") && (
+            <li className="nav-item">
+              <Link to={"/cinema-management"} className="nav-link">
+                Kino
               </Link>
             </li>
           )}
@@ -103,7 +113,7 @@ function App() {
             </li>
             <li className="nav-item">
               <a href="/login" className="nav-link" onClick={logout}>
-                LogOut
+                Wyloguj się
               </a>
             </li>
           </div>
@@ -111,13 +121,13 @@ function App() {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/login"} className="nav-link">
-                Login
+                Zaloguj się
               </Link>
             </li>
 
             <li className="nav-item">
               <Link to={"/register"} className="nav-link">
-                Sign Up
+                Zarejestruj się
               </Link>
             </li>
           </div>
@@ -144,11 +154,13 @@ function App() {
       </nav>
       <div className="container-xl mt-3">
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/manager" element={<Manager />} />
+          <Route path="/user-manager" element={<Manager />} />
+          <Route path="/statistics" element={<Statistics />} />
           <Route path="/employee" element={<Employee />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/cinema-management" element={<CinemaManagement />} />
           <Route path="/repertuar" element={<Screenings />} />
           <Route path="/order" element={<Order />} />
           <Route path="/user" element={<User />} />
@@ -159,6 +171,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:id" element={<Movie />} />
           <Route path="/cinema-rooms" element={<CinemaRooms />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>

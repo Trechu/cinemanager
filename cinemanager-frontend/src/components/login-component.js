@@ -62,15 +62,9 @@ export default function Login() {
     return (
         ( !getCurrentUser() ? 
         (<div className="col-md-12">
-            <div className="card card-container bg-dark">
-                <img
-                    style={{ "alignSelf": "center" }}
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                    width="300"
-                    height="300"
-                />
+            <div className="card card-container login-card">
+
+                <h1 style={{"margin":"auto"}}>Zaloguj się</h1>
 
                 <Form
                     onSubmit={handleLogin}
@@ -78,8 +72,7 @@ export default function Login() {
                         setForm(c);
                     }}
                 >
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
+                    <div className="form-group login-form-group">
                         <Input
                             type="text"
                             className="form-control"
@@ -87,11 +80,11 @@ export default function Login() {
                             value={email}
                             onChange={onChangeEmail}
                             validations={[required, email_valid]}
+                            placeholder="Email"
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password">Hasło</label>
+                    <div className="form-group login-form-group">
                         <Input
                             type="password"
                             className="form-control"
@@ -99,12 +92,13 @@ export default function Login() {
                             value={password}
                             onChange={onChangePassword}
                             validations={[required]}
+                            placeholder="Hasło"
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group login-form-group">
                         <button
-                            className="btn btn-primary btn-block"
+                            className="btn btn-light btn-block login-btn"
                         >
                             <span>Zaloguj</span>
                         </button>

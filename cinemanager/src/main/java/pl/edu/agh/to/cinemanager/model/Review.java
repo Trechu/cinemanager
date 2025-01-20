@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
@@ -27,6 +28,7 @@ public class Review {
     private BigDecimal rating;
 
     @NotNull
+    @Column(length = 1024)
     private String content;
 
     @NotNull
@@ -37,10 +39,14 @@ public class Review {
     @ManyToOne(optional = false)
     private Movie movie;
 
-    public Review(BigDecimal rating, String content, User user, Movie movie) {
+    @NotNull
+    private LocalDateTime reviewDate;
+
+    public Review(BigDecimal rating, String content, User user, Movie movie, LocalDateTime reviewDate) {
         this.rating = rating;
         this.content = content;
         this.user = user;
         this.movie = movie;
+        this.reviewDate = reviewDate;
     }
 }

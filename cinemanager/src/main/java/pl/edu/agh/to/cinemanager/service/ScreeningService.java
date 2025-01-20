@@ -10,14 +10,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import pl.edu.agh.to.cinemanager.dto.RequestScreeningDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseScreeningDto;
-import pl.edu.agh.to.cinemanager.dto.ResponseTakenSeatDto;
+import pl.edu.agh.to.cinemanager.dto.*;
 import pl.edu.agh.to.cinemanager.model.*;
 import pl.edu.agh.to.cinemanager.repository.ScreeningRepository;
 import pl.edu.agh.to.cinemanager.repository.TicketRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,7 @@ public class ScreeningService {
                         PageRequest.of(
                                 pageable.getPageNumber(),
                                 pageable.getPageSize(),
-                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id")))
+                                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "startDate")))
                 )
                 .map(this::screeningToScreeningDto);
     }
@@ -73,6 +75,19 @@ public class ScreeningService {
         return ticketRepository.findAllByScreeningAndOrderCancelledFalse(screening).stream()
                 .map(this::getTakenSeatDtoFromTicket)
                 .toList();
+    }
+
+    public ResponseScreeningAttendanceDto getScreeningsWithHighestAttendance(Integer no_entries){
+        List<Object[]> data = ticketRepository.getScreeningsWithNumberOfTicketsBought();
+        List<ScreeningAttendanceDto> responseData = new ArrayList<>();
+        for(Object[] o : data){
+            Screening screening = (Screening) o[0];
+            double amount = (double) ((long) o[1]);
+            double roomSize = (double) screening.getCinemaRoom().getRows() * screening.getCinemaRoom().getSeatsPerRow();
+            responseData.add( new ScreeningAttendanceDto(screeningToScreeningDto(screening), BigDecimal.valueOf(amount/roomSize).setScale(3, RoundingMode.HALF_UP)));
+        }
+        responseData.sort(Comparator.comparing(ScreeningAttendanceDto::attendancePercentage).reversed());
+        return new ResponseScreeningAttendanceDto(responseData.subList(0, no_entries));
     }
 
     public Optional<Screening> getScreeningById(Long id){

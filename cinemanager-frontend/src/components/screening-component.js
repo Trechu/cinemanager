@@ -79,8 +79,8 @@ export default function Screenings(){
                     ))
             }
             <div className="btn-holder">
-                <button type="button" className="btn btn-primary page-btn" onClick={() => ChangePage(false)}>Poprzednia strona</button>
-                <button type="button" className="btn btn-primary page-btn" onClick={() => ChangePage(true)}>Kolejna strona</button>
+                <button type="button" className="btn btn-light page-btn" onClick={() => ChangePage(false)}>Poprzednia strona</button>
+                <button type="button" className="btn btn-light page-btn" onClick={() => ChangePage(true)}>Kolejna strona</button>
             </div>
         </div>
     )

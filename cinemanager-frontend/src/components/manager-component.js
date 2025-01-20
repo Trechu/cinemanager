@@ -107,15 +107,9 @@ export default function Manager() {
             (
                 <div>
                     <div className="col-md-12">
-                        <div className="card card-container bg-dark">
-                            <img
-                                style={{ "alignSelf": "center" }}
-                                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                                alt="profile-img"
-                                className="profile-img-card"
-                                width="300"
-                                height="300"
-                            />
+                        <div className="card card-container login-card">
+
+                            <h1 style={{"margin":"auto"}}>Dodaj użytkownika</h1>
 
                             <Form
                                 onSubmit={handleAddUser}
@@ -125,8 +119,7 @@ export default function Manager() {
                             >
                                 <div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="email">Email</label>
+                                    <div className="form-group login-form-group">
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -134,11 +127,11 @@ export default function Manager() {
                                             value={email}
                                             onChange={onChangeEmail}
                                             validations={[required, email_valid]}
+                                            placeholder="Email"
                                         />
                                     </div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="firstname">Imię</label>
+                                    <div className="form-group login-form-group">
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -146,11 +139,11 @@ export default function Manager() {
                                             value={firstName}
                                             onChange={onChangeFirstName}
                                             validations={[required]}
+                                            placeholder="Imię"
                                         />
                                     </div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="lastname">Nazwisko</label>
+                                    <div className="form-group login-form-group">
                                         <Input
                                             type="text"
                                             className="form-control"
@@ -158,11 +151,11 @@ export default function Manager() {
                                             value={lastName}
                                             onChange={onChangeLastName}
                                             validations={[required]}
+                                            placeholder="Nazwisko"
                                         />
                                     </div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="password">Hasło</label>
+                                    <div className="form-group login-form-group">
                                         <Input
                                             type="password"
                                             className="form-control"
@@ -170,11 +163,12 @@ export default function Manager() {
                                             value={password}
                                             onChange={onChangePassword}
                                             validations={[required]}
+                                            placeholder="Hasło"
                                         />
                                     </div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="Role">Rola</label>
+                                    <div className="form-group login-form-group" style={{"display":"flex", "justifyContent":"center", "gap":"2em"}}>
+                                        <label htmlFor="Role" style={{"fontWeight":"600"}}>Nadaj rolę</label>
                                         <select id="roleSelect" defaultValue="CUSTOMER" onChange={onChangeRole}>
                                             <option value="CUSTOMER">Klient</option>
                                             <option value="EMPLOYEE">Pracownik</option>
@@ -183,8 +177,8 @@ export default function Manager() {
                                         </select>
                                     </div>
 
-                                    <div className="form-group">
-                                        <button className="btn btn-primary btn-block">Dodaj użytkownika</button>
+                                    <div className="form-group login-form-group">
+                                        <button className="btn btn-light btn-block login-btn">Dodaj użytkownika</button>
                                     </div>
                                 </div>
 
@@ -197,28 +191,31 @@ export default function Manager() {
                             </Form>
                         </div>
                     </div>
-                    <h1>USERS</h1>
-                    {content.map((user) => (
-                        <h3 key={user.id}>{"User id: " + user.id + " user email: " + user.email + " user role: " + user.role}</h3>
-                    ))}
+                    <div className="users-group" style={{"marginTop":"1em"}}>
+                        <h1 style={{"margin":"auto"}}>Użytkownicy systemu</h1>
+                        {content.map((user) => (
+                            <h4 key={user.id} style={{"margin":"auto"}}>{"ID użytkownika: " + user.id + " | Email: " + user.email + " | Rola: " + user.role}</h4>
+                        ))}
+
+                    </div>
 
                     <Form
                         onSubmit={handleRemoveUser}
                     >
                         <div>
-                            <div className="form-group">
-                                <label htmlFor="id">ID użytkownika</label>
+                            <div className="form-group login-form-group">
                                 <Input
                                     type="text"
                                     className="form-control"
                                     name="id"
                                     value={id}
                                     onChange={onChangeId}
+                                    placeholder="ID użytkownika"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <button className="btn btn-primary btn-block">Usuń użytkownika</button>
+                            <div className="form-group login-form-group">
+                                <button className="btn btn-light btn-block login-btn">Usuń użytkownika</button>
                             </div>
                         </div>
 
