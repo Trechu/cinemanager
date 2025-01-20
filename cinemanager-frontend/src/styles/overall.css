@@ -370,3 +370,36 @@ body {
     resize: none;
     float: right;
 }
+
+.login-card {
+    background-color: inherit;
+    border-color: #ffffff;
+    padding: 2.5em;
+    gap: 1em;
+    width: 70%;
+    margin: auto;
+}
+
+.login-btn {
+    margin: auto;
+    width: 55%;
+    font-weight: 700;
+}
+
+.login-form-group {
+    margin: auto;
+    margin-bottom: 1em;
+    width: 50%;
+}
+
+.users-group {
+    display: flex;
+    flex-direction: column;
+    background-color: inherit;
+    border-color: #ffffff;
+    padding: 2.5em;
+    gap: 1em;
+    width: 90%;
+    margin: auto;
+    gap: 1em;
+}

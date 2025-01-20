@@ -142,7 +142,7 @@ function AddScreening() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj seans
                 </button>
             </form>
@@ -302,7 +302,7 @@ function AddMovie() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj film
                 </button>
             </form>
@@ -347,7 +347,7 @@ function AddGenre() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj gatunek
                 </button>
             </form>
@@ -407,7 +407,7 @@ function AddDirector() {
                         maxLength={64}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj reżysera
                 </button>
             </form>
@@ -481,7 +481,7 @@ function AddScreeningType() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj typ seansu
                 </button>
             </form>
@@ -555,7 +555,7 @@ function AddCinemaRoom() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-light">
                     Dodaj salę
                 </button>
             </form>

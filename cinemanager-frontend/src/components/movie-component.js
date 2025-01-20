@@ -428,7 +428,7 @@ function Movies() {
                 {canGoBack && (
                     <button
                         type="button"
-                        className="btn btn-secondary mr-1"
+                        className="btn btn-light mr-1"
                         onClick={() => setPage((prev) => Math.max(0, prev - 1))}
                     >
                         Poprzednia strona
@@ -437,7 +437,7 @@ function Movies() {
                 {canGoForward && (
                     <button
                         type="button"
-                        className="btn btn-secondary mr-1"
+                        className="btn btn-light mr-1"
                         onClick={() => setPage((prev) => prev + 1)}
                     >
                         Kolejna strona

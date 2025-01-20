@@ -70,15 +70,9 @@ export default function Register() {
     return (
         ( !getCurrentUser() ? 
         (<div className="col-md-12">
-            <div className="card card-container bg-dark">
-                <img
-                    style={{ "alignSelf": "center" }}
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                    width="300"
-                    height="300"
-                />
+            <div className="card card-container login-card">
+
+                <h1 style={{"margin":"auto"}}>Zarejestruj się</h1>
 
                 <Form
                     onSubmit={handleRegister}
@@ -88,8 +82,7 @@ export default function Register() {
                 >
                     <div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                        <div className="form-group login-form-group">
                             <Input
                                 type="text"
                                 className="form-control"
@@ -97,11 +90,11 @@ export default function Register() {
                                 value={email}
                                 onChange={onChangeEmail}
                                 validations={[required, email_valid]}
+                                placeholder="Email"
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="firstname">Imię</label>
+                        <div className="form-group login-form-group">
                             <Input
                                 type="text"
                                 className="form-control"
@@ -109,11 +102,11 @@ export default function Register() {
                                 value={firstName}
                                 onChange={onChangeFirstName}
                                 validations={[required]}
+                                placeholder="Imię"
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="lastname">Nazwisko</label>
+                        <div className="form-group login-form-group">
                             <Input
                                 type="text"
                                 className="form-control"
@@ -121,11 +114,11 @@ export default function Register() {
                                 value={lastName}
                                 onChange={onChangeLastName}
                                 validations={[required]}
+                                placeholder="Nazwisko"
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="password">Hasło</label>
+                        <div className="form-group login-form-group">
                             <Input
                                 type="password"
                                 className="form-control"
@@ -133,11 +126,12 @@ export default function Register() {
                                 value={password}
                                 onChange={onChangePassword}
                                 validations={[required]}
+                                placeholder="Hasło"
                             />
                         </div>
 
-                        <div className="form-group">
-                            <button className="btn btn-primary btn-block">Rejestracja</button>
+                        <div className="form-group login-form-group">
+                            <button className="btn btn-light btn-block login-btn">Rejestracja</button>
                         </div>
                     </div>
 

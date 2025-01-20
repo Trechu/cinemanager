@@ -64,6 +64,10 @@ export function add_user(email, firstName, lastName, password, role){
 }
 
 export function getCurrentUser(){
-    // GET USER INFO FROM LOCALSTORAGE FIELD
-    return JSON.parse(localStorage.getItem("user"));
+    let token = JSON.parse(localStorage.getItem("user"));
+    if(token != null && Date.now() >= JSON.parse(atob(token.split('.')[1])).exp *1000){
+        localStorage.removeItem("user")
+        return null;
+    }
+    return token;
 }
