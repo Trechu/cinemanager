@@ -61,7 +61,7 @@ function Movie() {
 
     const user = getCurrentUser();
     const [currentUser, setCurrentUser] = useState(user ? JSON.parse(atob(user.split('.')[1])) : null);
-    const hasAccess = (currentUser.scope == "ROLE_MANAGER" || currentUser.scope == "ROLE_ADMINISTRATOR");
+    const hasAccess = currentUser && (currentUser.scope == "ROLE_MANAGER" || currentUser.scope == "ROLE_ADMINISTRATOR");
 
     const [reviewPage, setReviewPage] = useState(0);
     const [reviewPageInfo, setReviewPageInfo] = useState({ totalPages: 0, totalElements: 0 });
@@ -244,21 +244,26 @@ function Movie() {
                     <div className="col-md-8">
                         <div className="list-group mb-3" style={{gap: 10}}>
                             <div className="list-group-item" style={{backgroundColor: "#212529", color: "white"}}>
-                            <textarea className="form-control mt-2 review-box" rows="3" placeholder="Wpisz swoją recenzję..." onChange={(e) => setUserReview(e.target.value)} value={userReview}></textarea>
-                            <div className="d-flex justify-content-between mt-2">
-                                <div className="d-flex align-items-center">
-                                    <div style={{marginTop: -3}}>
-                                        <Rating
-                                            fullSymbol={<FilledStar size={20} />}
-                                            emptySymbol={<EmptyStar size={20} />}
-                                            fractions={2}
-                                            initialRating={userReviewRating}
-                                            onChange={setUserReviewRating}
-                                        />
-                                    </div>
-                                </div>
-                                <button className="btn btn-sm btn-primary" onClick={handleSubmitReview}>Opublikuj</button>
-                            </div>
+                                {currentUser 
+                                    ? <>
+                                        <textarea className="form-control mt-2 review-box" rows="3" placeholder="Wpisz swoją recenzję..." onChange={(e) => setUserReview(e.target.value)} value={userReview}></textarea>
+                                        <div className="d-flex justify-content-between mt-2">
+                                            <div className="d-flex align-items-center">
+                                                <div style={{marginTop: -3}}>
+                                                    <Rating
+                                                        fullSymbol={<FilledStar size={20} />}
+                                                        emptySymbol={<EmptyStar size={20} />}
+                                                        fractions={2}
+                                                        initialRating={userReviewRating}
+                                                        onChange={setUserReviewRating}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <button className="btn btn-sm btn-primary" onClick={handleSubmitReview}>Opublikuj</button>
+                                        </div>
+                                    </> 
+                                    : <p className="m-0">Zaloguj się, aby napisać recenzję.</p>
+                            }
                         </div>
                             {
                                 reviews.map(review => 
@@ -278,7 +283,7 @@ function Movie() {
                                                 <h5 className="mb-0">{review.user.firstName}</h5>
                                             </div>
                                             <div className="d-flex align-items-center" style={{gap: 5, minHeight: 40}}>
-                                                {currentUser.userId === review.user.id || hasAccess ? 
+                                                {currentUser && currentUser.userId === review.user.id || hasAccess ? 
                                                     <>
                                                         <button className="btn btn-sm btn-warning me-2" onClick={() => handleEditReview(review.id, review.content, review.rating)}>Edytuj</button>
                                                         <button className="btn btn-sm btn-danger" onClick={() => handleDeleteReview(review.id)}>Usuń</button>
