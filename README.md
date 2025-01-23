@@ -1,2 +1,2 @@
 # CineManager
-System do obsługi multipleksu kinowego
+Sidenote: this repo was cloned from gitlab so it is missing a lot of commit history
